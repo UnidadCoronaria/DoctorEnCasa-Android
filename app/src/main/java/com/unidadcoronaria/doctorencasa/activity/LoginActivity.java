@@ -13,6 +13,7 @@ import com.unidadcoronaria.doctorencasa.fragment.LoginFragment;
  */
 
 public class LoginActivity extends BaseActivity {
+
     @Override
     protected int getLayout() {
         return R.layout.activity_login;
@@ -27,4 +28,6 @@ public class LoginActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
+
+
 }

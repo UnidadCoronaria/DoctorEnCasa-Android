@@ -45,12 +45,8 @@ public class ProviderRepository {
     public LiveData<List<Provider>> getProviderList() {
         //TODO Add validation to verify is data is updated in DB to avoid request
         mAsyncRunner.executeAsynchronous(() -> {
-            Response<List<Provider>> response = null;
             try {
-                response = mProviderService.get().execute();
-                for (Provider provider : response.body()) {
-                    mProviderDAO.save(provider);
-                }
+                mProviderDAO.save(mProviderService.get().execute().body());
             } catch (IOException e) {
                 e.printStackTrace();
             }

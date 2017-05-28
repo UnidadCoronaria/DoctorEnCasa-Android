@@ -26,7 +26,7 @@ public class ApplicationModule {
     @Singleton
     DoctorEnCasaDB provideDB(){
         return Room.databaseBuilder(App.getInstance(),
-                DoctorEnCasaDB.class, "database-name").build();
+                DoctorEnCasaDB.class, DoctorEnCasaDB.DATABASE_NAME).build();
     }
 
     @Provides

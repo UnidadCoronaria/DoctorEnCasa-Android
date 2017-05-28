@@ -23,5 +23,5 @@ public interface ProviderDAO {
     LiveData<List<Provider>> loadAll();
 
     @Insert(onConflict = REPLACE)
-    void save(Provider provider);
+    void save(List<Provider> provider);
 }

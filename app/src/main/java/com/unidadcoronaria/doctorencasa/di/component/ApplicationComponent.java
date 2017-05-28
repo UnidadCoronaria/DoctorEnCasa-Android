@@ -31,7 +31,7 @@ public interface ApplicationComponent {
 
     Gson getGson();
 
-    AsyncRunner provideAsyncRunner(Executor executor);
+    AsyncRunner getAsyncRunner();
 
-    Executor provideThreadExecutor();
+    Executor getThreadExecutor();
 }
