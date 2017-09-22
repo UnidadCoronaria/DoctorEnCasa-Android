@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1064299642219",
+    "firebase_url": "https://doctorencasa-cf61a.firebaseio.com",
+    "project_id": "doctorencasa-cf61a",
+    "storage_bucket": "doctorencasa-cf61a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1064299642219:android:1c2369213112a123",
+        "android_client_info": {
+          "package_name": "com.unidadcoronaria.doctorencasa"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1064299642219-v4ttjlbt514mec2fmkjq1ole4i29sded.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.unidadcoronaria.doctorencasa",
+            "certificate_hash": "59f7dec6a4e8e340d5308e0595ddbe8e9aafebe4"
+          }
+        },
+        {
+          "client_id": "1064299642219-ivm1p216ck7tbccgmlj2h8fk0ihm2bmf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBlB9DUYnTyZjCVDQi2p8ZjMR0mhj1fmzo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1064299642219-ivm1p216ck7tbccgmlj2h8fk0ihm2bmf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
