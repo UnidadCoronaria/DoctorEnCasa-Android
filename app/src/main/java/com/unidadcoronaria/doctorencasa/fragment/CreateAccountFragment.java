@@ -1,26 +1,23 @@
 package com.unidadcoronaria.doctorencasa.fragment;
 
-import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.view.View;
-import android.widget.TextView;
 
+import com.unidadcoronaria.doctorencasa.App;
+import com.unidadcoronaria.doctorencasa.CreateAccountView;
 import com.unidadcoronaria.doctorencasa.R;
-import com.unidadcoronaria.doctorencasa.viewmodel.CreateAccountViewModel;
+import com.unidadcoronaria.doctorencasa.di.component.DaggerCreateAccountComponent;
+import com.unidadcoronaria.doctorencasa.presenter.CreateAccountPresenter;
 
-import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * Created by AGUSTIN.BALA on 5/21/2017.
  */
 
-public class CreateAccountFragment extends BaseFragment {
+public class CreateAccountFragment extends BaseFragment<CreateAccountPresenter> implements CreateAccountView {
 
     public static final String TAG = "CreateAccountFragment";
-
-    @BindView(R.id.fragment_create_message)
-    protected TextView vMessage;
 
     @Override
     protected int makeContentViewResourceId() {
@@ -33,17 +30,35 @@ public class CreateAccountFragment extends BaseFragment {
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        final CreateAccountViewModel mViewModel = ViewModelProviders.of(this).get(CreateAccountViewModel.class);
-        mViewModel.getProviderList().observe(this, list -> {
-            if (list == null) {
-                vMessage.setVisibility(View.GONE);
-            } else {
-                vMessage.setVisibility(View.VISIBLE);
-                vMessage.setText(list.get(0).getName());
-            }
-        });
+    protected void inject() {
+        DaggerCreateAccountComponent.builder().applicationComponent(App.getInstance().getApplicationComponent()).build().inject(this);
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        mPresenter.setView(this);
+        mPresenter.onStart();
+    }
+
+    @OnClick(R.id.fragment_create_account_type_affiliate)
+    public void onAffiliateButtonClick(){
+        mPresenter.onAffiliateClick();
+    }
+
+    @OnClick(R.id.fragment_create_account_type_non_affiliate)
+    public void onNonAffiliateButtonClick(){
+        mPresenter.onNonAffiliateClick();
+    }
+
+    @Override
+    public void onAffiliateClick() {
+        this.callback.replaceFragment(new CreateAffiliateAccountFragment());
+    }
+
+    @Override
+    public void onNonAffiliateClick() {
+        this.callback.replaceFragment(new CreateNonAffiliateAccountFragment());
+    }
 }
+

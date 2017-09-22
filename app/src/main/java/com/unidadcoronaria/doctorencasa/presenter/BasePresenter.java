@@ -10,12 +10,15 @@ import com.unidadcoronaria.doctorencasa.BaseView;
  */
 public class BasePresenter<V extends BaseView> {
 
-    protected final V view;
+    protected V view;
 
-    public BasePresenter(V view) {
-        this.view = view;
+    public V getView() {
+        return view;
     }
 
+    public void setView(V view) {
+        this.view = view;
+    }
 
     @CallSuper
     public void onStart() {

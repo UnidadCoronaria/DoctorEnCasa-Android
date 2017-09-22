@@ -1,15 +1,11 @@
 package com.unidadcoronaria.doctorencasa.di.component;
 
 import com.google.gson.Gson;
-import com.unidadcoronaria.doctorencasa.App;
-import com.unidadcoronaria.doctorencasa.activity.LoginActivity;
 import com.unidadcoronaria.doctorencasa.database.DoctorEnCasaDB;
 import com.unidadcoronaria.doctorencasa.di.module.ApplicationModule;
 import com.unidadcoronaria.doctorencasa.di.module.HTTPModule;
-import com.unidadcoronaria.doctorencasa.di.module.LoginModule;
-import com.unidadcoronaria.doctorencasa.fragment.LoginFragment;
-import com.unidadcoronaria.doctorencasa.threading.AsyncRunner;
-import com.unidadcoronaria.doctorencasa.viewmodel.LoginViewModel;
+import com.unidadcoronaria.doctorencasa.usecase.executor.PostExecutionThread;
+import com.unidadcoronaria.doctorencasa.usecase.executor.ThreadExecutor;
 
 import java.util.concurrent.Executor;
 
@@ -31,7 +27,7 @@ public interface ApplicationComponent {
 
     Gson getGson();
 
-    AsyncRunner getAsyncRunner();
+    ThreadExecutor getThreadExecutor();
 
-    Executor getThreadExecutor();
+    PostExecutionThread postExecutionThread();
 }

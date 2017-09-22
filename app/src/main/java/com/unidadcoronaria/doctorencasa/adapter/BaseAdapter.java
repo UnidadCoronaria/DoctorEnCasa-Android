@@ -1,10 +1,5 @@
 package com.unidadcoronaria.doctorencasa.adapter;
 
-import android.support.v7.util.DiffUtil;
-
-import java.util.List;
-import java.util.Objects;
-
 /**
  * Created by AGUSTIN.BALA on 5/28/2017.
  */

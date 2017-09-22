@@ -25,4 +25,26 @@
         <item name="android:visibility">visible</item>
     </style>
 
+    <!-- Form elements -->
+
+    <!--Etiqueta flotante de Text Input-->
+    <style name="AppTheme.FloatingLabel" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textSize">18dp</item>
+    </style>
+
+    <!--Campo de texto-->
+    <style name="FormEditText" parent="AppTheme">
+        <!-- cursor y línea normal-->
+        <item name="colorControlNormal">@color/colorPrimary</item>
+        <!-- cursor y línea con foco-->
+        <item name="colorControlActivated">@color/colorAccent</item>
+    </style>
+
+    <!-- mensaje de error debajo del EditText-->
+    <style name="AppTheme.EditTextError" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
 </resources>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+        <item
+            android:id="@+id/nav_home"
+            android:checked="true"
+            android:enabled="true"
+            android:icon="@drawable/ic_home"
+            android:title="@string/nav_bar_home" />
+        <item
+            android:id="@+id/nav_gift"
+            android:enabled="true"
+            android:icon="@drawable/ic_card_giftcard"
+            android:title="@string/nav_bar_gift" />
+        <item
+            android:id="@+id/nav_videocall"
+            android:enabled="true"
+            android:icon="@drawable/ic_videocam"
+            android:title="@string/nav_bar_videocall" />
+</menu>

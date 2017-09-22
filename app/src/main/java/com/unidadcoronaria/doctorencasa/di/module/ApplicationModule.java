@@ -3,12 +3,11 @@ package com.unidadcoronaria.doctorencasa.di.module;
 import android.arch.persistence.room.Room;
 
 import com.unidadcoronaria.doctorencasa.App;
-import com.unidadcoronaria.doctorencasa.dao.UserDAO;
 import com.unidadcoronaria.doctorencasa.database.DoctorEnCasaDB;
-import com.unidadcoronaria.doctorencasa.threading.AsyncRunner;
-import com.unidadcoronaria.doctorencasa.threading.JobExecutor;
-
-import java.util.concurrent.Executor;
+import com.unidadcoronaria.doctorencasa.usecase.executor.JobExecutor;
+import com.unidadcoronaria.doctorencasa.usecase.executor.PostExecutionThread;
+import com.unidadcoronaria.doctorencasa.usecase.executor.ThreadExecutor;
+import com.unidadcoronaria.doctorencasa.usecase.executor.UIThread;
 
 import javax.inject.Singleton;
 
@@ -31,13 +30,14 @@ public class ApplicationModule {
 
     @Provides
     @Singleton
-    Executor provideThreadExecutor(){
-        return new JobExecutor();
+    ThreadExecutor provideThreadExecutor(JobExecutor jobExecutor) {
+        return jobExecutor;
     }
 
     @Provides
     @Singleton
-    AsyncRunner provideAsyncRunner(Executor executor){
-        return new AsyncRunner(executor);
+    PostExecutionThread providePostExecutionThread(UIThread uiThread) {
+        return uiThread;
     }
+
 }

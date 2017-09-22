@@ -1,4 +1,22 @@
 <resources>
     <string name="app_name">Doctor En Casa</string>
     <string name="title_activity_main">MainActivity</string>
+    <string name="i_am_affiliated">Soy Afiliado</string>
+    <string name="i_am_not_affiliate">No soy Afiliado</string>
+    <string name="choose_provider">Selecciona la empresa a la que se encuentra afiliado</string>
+    <string name="affiliate_number">Numero de socio</string>
+    <string name="document_number">Numero de documento</string>
+    <string name="search_affiliate">Buscar Afiliado</string>
+    <string name="create_account">Crear cuenta</string>
+    <string name="continue_to_next_screen">Continuar</string>
+    <string name="nav_bar_home">Inicio</string>
+    <string name="nav_bar_gift">Promociones</string>
+    <string name="nav_bar_videocall">Llamadas</string>
+    <string name="username">Nombre de usuario</string>
+    <string name="password">Contraseña</string>
+    <string name="login">Ingresar</string>
+    <string name="not_account_yet">¿Todavía no tenés cuenta?</string>
+    <string name="forgot_password">¿Olvidaste tu contraseña?</string>
+    <string name="can_be_empty">No puede ser vacio</string>
+    <string name="credential_error">El nombre de usuario o la contraseña son incorrectos</string>
 </resources>

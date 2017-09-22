@@ -1,15 +1,20 @@
 package com.unidadcoronaria.doctorencasa.repository;
 
-import android.arch.lifecycle.LiveData;
 
-import com.unidadcoronaria.doctorencasa.dao.UserDAO;
+import com.unidadcoronaria.doctorencasa.dao.AffiliateDAO;
+import com.unidadcoronaria.doctorencasa.domain.Affiliate;
+import com.unidadcoronaria.doctorencasa.domain.Credential;
 import com.unidadcoronaria.doctorencasa.domain.User;
-import com.unidadcoronaria.doctorencasa.network.rest.ProviderService;
+import com.unidadcoronaria.doctorencasa.domain.UserInfo;
+import com.unidadcoronaria.doctorencasa.network.rest.UserService;
+
+
+import java.util.List;
 
 import javax.inject.Inject;
 
-import io.reactivex.Observable;
-import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.Completable;
+import io.reactivex.Single;
 
 /**
  * Created by AGUSTIN.BALA on 5/25/2017.
@@ -17,19 +22,24 @@ import io.reactivex.ObservableOnSubscribe;
 
 public class UserRepository {
 
-    private final UserDAO mUserDAO;
+    private final UserService mUserService;
+
 
     @Inject
-    public UserRepository(UserDAO mUserDAO) {
-        this.mUserDAO = mUserDAO;
+    public UserRepository(UserService mUserService) {
+        this.mUserService = mUserService;
     }
 
 
-    public LiveData<User> getUser(int id) {
-        return mUserDAO.load(id);
+    public Single<UserInfo> login(Credential credential) {
+        return Single.fromCallable(() -> mUserService.login(credential).execute().body());
     }
 
-    public void insert(User user) {
-        mUserDAO.save(user);
+    public Completable logout() {
+        return Completable.fromAction(() -> mUserService.logout().execute());
+    }
+
+    public Single<UserInfo> createUser(Credential credential) {
+        return Single.fromCallable(() ->  mUserService.createUser(credential).execute().body());
     }
 }

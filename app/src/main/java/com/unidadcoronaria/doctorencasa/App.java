@@ -2,13 +2,9 @@ package com.unidadcoronaria.doctorencasa;
 
 import android.app.Application;
 
+import com.facebook.stetho.Stetho;
 import com.unidadcoronaria.doctorencasa.di.component.ApplicationComponent;
 import com.unidadcoronaria.doctorencasa.di.component.DaggerApplicationComponent;
-import com.unidadcoronaria.doctorencasa.di.component.DaggerLoginComponent;
-import com.unidadcoronaria.doctorencasa.di.component.LoginComponent;
-import com.unidadcoronaria.doctorencasa.di.module.ApplicationModule;
-import com.unidadcoronaria.doctorencasa.di.module.HTTPModule;
-import com.unidadcoronaria.doctorencasa.di.module.LoginModule;
 
 /**
  * @author Agustin.Bala
@@ -30,6 +26,9 @@ public class App extends Application {
         super.onCreate();
         INSTANCE = this;
         applicationComponent = DaggerApplicationComponent.builder().build();
+        if(BuildConfig.DEBUG) {
+            Stetho.initializeWithDefaults(this);
+        }
     }
 
     public ApplicationComponent getApplicationComponent() {

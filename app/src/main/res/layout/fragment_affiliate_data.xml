@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+        <EditText
+            android:id="@+id/fragment_affiliate_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:enabled="false"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/fragment_affiliate_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:enabled="false"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/fragment_affiliate_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:enabled="false"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/fragment_affiliate_birthdate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:enabled="false"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/fragment_affiliate_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:textSize="16sp" />
+
+
+        <EditText
+            android:id="@+id/fragment_affiliate_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:textSize="16sp" />
+
+
+    <Button
+        android:id="@+id/fragment_affiliate_create"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="30dp"
+        android:visibility="gone"
+        android:text="@string/create_account" />
+
+
+</LinearLayout>

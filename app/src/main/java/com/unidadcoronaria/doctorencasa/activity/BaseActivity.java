@@ -13,6 +13,7 @@ import com.unidadcoronaria.doctorencasa.R;
 import com.unidadcoronaria.doctorencasa.fragment.BaseFragment;
 import com.unidadcoronaria.doctorencasa.util.FragmentNavigationUtil;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -24,6 +25,7 @@ import butterknife.ButterKnife;
 public abstract class BaseActivity extends AppCompatActivity {
 
     @Nullable
+    @BindView(R.id.toolbar)
     Toolbar vToolbar;
 
     //region Lifecycle implementation
@@ -32,6 +34,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayout());
+        ButterKnife.bind(this);
         configureToolbar(savedInstanceState);
         if (savedInstanceState == null && getFragment() != null) {
             FragmentNavigationUtil.addFragment(getSupportFragmentManager(), R.id.activity_base_fragment, getFragment());
@@ -59,6 +62,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         setSupportActionBar(vToolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
+            actionBar.setTitle("");
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setHomeButtonEnabled(true);
         }
@@ -85,7 +89,11 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     //region Public Implementation
     public void replaceFragment(BaseFragment fragment){
-        FragmentNavigationUtil.replaceFragment(getSupportFragmentManager(), R.id.activity_base_fragment, fragment);
+        FragmentNavigationUtil.replaceFragmentWithBackStack(getSupportFragmentManager(), R.id.activity_base_fragment, fragment);
+    }
+
+    public void showAndHideFragment(String hideTag, BaseFragment baseFragment){
+        FragmentNavigationUtil.addAndHideFragment(hideTag, getSupportFragmentManager(), R.id.activity_base_fragment, baseFragment);
     }
     //endregion
 

@@ -1,65 +1,61 @@
 package com.unidadcoronaria.doctorencasa.domain;
 
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.PrimaryKey;
+import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Created by AGUSTIN.BALA on 5/23/2017.
  */
 
-@Entity
-public class User {
+public class User extends Affiliate implements Serializable {
 
-    @PrimaryKey
-    private int id;
     private String username;
-    private String password;
-    private String name;
-    private String lastName;
+    private Boolean enabled;
+    private Date lastPasswordResetDate;
 
-    public User(int id, String name, String lastName) {
-        this.id = id;
-        this.name = name;
-        this.lastName = lastName;
-    }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    private User(Builder builder) {
+        this.username = builder.username;
+        this.enabled = builder.enabled;
+        this.lastPasswordResetDate = builder.lastPasswordResetDate;
     }
 
     public String getUsername() {
         return username;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public Boolean getEnabled() {
+        return enabled;
     }
 
-    public String getPassword() {
-        return password;
+    public Date getLastPasswordResetDate() {
+        return lastPasswordResetDate;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+
+    public static class Builder {
+
+        private String username;
+        private Boolean enabled;
+        private Date lastPasswordResetDate;
+
+        public Builder(String username) {
+            this.username = username;
+        }
+
+        public Builder setEnabled(Boolean enabled){
+            this.enabled = enabled;
+            return this;
+        }
+
+        public Builder setLastPasswordResetDate(Date lastPasswordResetDate){
+            this.lastPasswordResetDate = lastPasswordResetDate;
+            return this;
+        }
+
+        public User build(){
+            return new User(this);
+        }
+
     }
 }

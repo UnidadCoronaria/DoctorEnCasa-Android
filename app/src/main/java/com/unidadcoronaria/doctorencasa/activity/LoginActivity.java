@@ -1,9 +1,9 @@
 package com.unidadcoronaria.doctorencasa.activity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.CallSuper;
 
-import com.unidadcoronaria.doctorencasa.App;
 import com.unidadcoronaria.doctorencasa.R;
 import com.unidadcoronaria.doctorencasa.fragment.BaseFragment;
 import com.unidadcoronaria.doctorencasa.fragment.LoginFragment;
@@ -13,6 +13,10 @@ import com.unidadcoronaria.doctorencasa.fragment.LoginFragment;
  */
 
 public class LoginActivity extends BaseActivity {
+
+    public static Intent getStartIntent(Context context){
+        return new Intent(context, LoginActivity.class);
+    }
 
     @Override
     protected int getLayout() {

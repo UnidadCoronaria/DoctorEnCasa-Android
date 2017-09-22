@@ -18,6 +18,14 @@ public class FragmentNavigationUtil {
                 .add(fragmentContainer, fragment, fragment.getFragmentTag()).commit();
     }
 
+    public static void addAndHideFragment(String hideTag, FragmentManager fragmentManager, int fragmentContainer, BaseFragment fragment){
+        if(fragmentManager.findFragmentByTag(hideTag) != null){
+            fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag(hideTag));
+        }
+        fragmentManager.beginTransaction()
+                .add(fragmentContainer, fragment, fragment.getFragmentTag()).commit();
+    }
+
     public static void replaceFragmentWithBackStack(FragmentManager fragmentManager, int fragmentContainer, BaseFragment fragment){
        fragmentManager
                 .beginTransaction()
