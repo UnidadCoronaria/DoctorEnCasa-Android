@@ -56,7 +56,7 @@ public class AffiliateRepository {
         );
     }
 
-    public Single<List<Affiliate>> getAffiliateData(String affiliateNumber, String mProviderId) {
+    public Single<List<Affiliate>> getAffiliateData(String affiliateNumber, int mProviderId) {
         return Single.fromCallable(() -> mAffiliateService.getAffiliateData(mProviderId, affiliateNumber).execute().body());
     }
 

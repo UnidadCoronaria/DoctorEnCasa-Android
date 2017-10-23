@@ -48,13 +48,6 @@ public class VideoCallFragment extends BaseFragment<VideoCallPresenter> implemen
 
     }
 
-
-    @Override
-    public void onStop(){
-        super.onStop();
-        mPresenter.onStop();
-    }
-
     public static VideoCallFragment newInstance() {
         return new VideoCallFragment();
     }

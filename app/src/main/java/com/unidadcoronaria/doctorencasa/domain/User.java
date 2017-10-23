@@ -11,6 +11,7 @@ public class User extends Affiliate implements Serializable {
 
     private String username;
     private Boolean enabled;
+    private Boolean passwordExpired;
     private Date lastPasswordResetDate;
 
 
@@ -18,6 +19,7 @@ public class User extends Affiliate implements Serializable {
         this.username = builder.username;
         this.enabled = builder.enabled;
         this.lastPasswordResetDate = builder.lastPasswordResetDate;
+        this.passwordExpired = builder.passwordExpired;
     }
 
     public String getUsername() {
@@ -32,11 +34,15 @@ public class User extends Affiliate implements Serializable {
         return lastPasswordResetDate;
     }
 
+    public Boolean getPasswordExpired() {
+        return passwordExpired;
+    }
 
     public static class Builder {
 
         private String username;
         private Boolean enabled;
+        private Boolean passwordExpired;
         private Date lastPasswordResetDate;
 
         public Builder(String username) {
@@ -50,6 +56,11 @@ public class User extends Affiliate implements Serializable {
 
         public Builder setLastPasswordResetDate(Date lastPasswordResetDate){
             this.lastPasswordResetDate = lastPasswordResetDate;
+            return this;
+        }
+
+        public Builder setPasswordExpiredDate(Boolean passwordExpired){
+            this.passwordExpired = passwordExpired;
             return this;
         }
 

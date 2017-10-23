@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.unidadcoronaria.doctorencasa.App;
 import com.unidadcoronaria.doctorencasa.LoginView;
@@ -63,7 +64,6 @@ public class LoginFragment extends BaseFragment<LoginPresenter> implements Login
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mPresenter.setView(this);
-        mPresenter.getAffiliate();
     }
 
     @OnClick(R.id.fragment_login_button)
@@ -77,32 +77,30 @@ public class LoginFragment extends BaseFragment<LoginPresenter> implements Login
         startActivity(CreateAccountActivity.getStartIntent(getActivity()));
     }
 
-
-    @Override
-    public void onAffiliateRetrieved() {
-        startActivity(MainActivity.getStartIntent(getActivity()));
-        getActivity().finish();
-    }
-
     @Override
     public void onEmptyUsername() {
+        vProgress.setVisibility(View.GONE);
+        vUsernameLayout.requestFocus();
         vUsernameLayout.setError(getString(R.string.can_be_empty));
         vUsernameLayout.setErrorEnabled(true);
-        vProgress.setVisibility(View.GONE);
+        vPasswordLayout.setError(null);
+        vPasswordLayout.setErrorEnabled(false);
     }
 
     @Override
     public void onEmptyPassword() {
+        vProgress.setVisibility(View.GONE);
+        vPasswordLayout.requestFocus();
         vUsernameLayout.setError(null);
         vUsernameLayout.setErrorEnabled(false);
         vPasswordLayout.setError(getString(R.string.can_be_empty));
         vPasswordLayout.setErrorEnabled(true);
-        vProgress.setVisibility(View.GONE);
     }
 
     @Override
     public void onLoginError() {
         vProgress.setVisibility(View.GONE);
+        vUsernameLayout.requestFocus();
         vUsernameLayout.setError(getString(R.string.credential_error));
         vUsernameLayout.setErrorEnabled(true);
         vPasswordLayout.setError(null);
@@ -118,11 +116,27 @@ public class LoginFragment extends BaseFragment<LoginPresenter> implements Login
     @Override
     public void onSaveAffiliateError() {
         vProgress.setVisibility(View.GONE);
+        Toast.makeText(getActivity(), "Hubo un error guardando la información del usuario. Por favor, intentelo nuevamente.", Toast.LENGTH_LONG).show();
     }
 
     @Override
-    public void onStop(){
-        super.onStop();
-        mPresenter.onStop();
+    public void invalidPasswordFormat() {
+        vProgress.setVisibility(View.GONE);
+        vPasswordLayout.requestFocus();
+        vUsernameLayout.setError(null);
+        vUsernameLayout.setErrorEnabled(false);
+        vPasswordLayout.setError(getString(R.string.error_invalid_password_format));
+        vPasswordLayout.setErrorEnabled(true);
     }
+
+    @Override
+    public void invalidUsernameFormat() {
+        vProgress.setVisibility(View.GONE);
+        vUsernameLayout.requestFocus();
+        vUsernameLayout.setError(getString(R.string.error_invalid_username_format));
+        vUsernameLayout.setErrorEnabled(true);
+        vPasswordLayout.setError(null);
+        vPasswordLayout.setErrorEnabled(false);
+    }
+
 }

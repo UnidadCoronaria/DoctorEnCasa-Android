@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/fragment_select_affiliate_search_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="10dp">
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/fragment_create_affiliate_account_affiliate_number_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/fragment_create_affiliate_account_provider_list"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/fragment_create_affiliate_account_affiliate_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/affiliate_number"
+                android:imeOptions="actionDone"
+                android:maxLines="1" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <ImageView
+            android:id="@+id/fragment_create_affiliate_account_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/selector_search_button"
+            android:baselineAlignBottom="true"
+            android:src="@drawable/ic_search" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/fragment_select_affiliate_main_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/fragment_select_affiliate_search_container"
+        android:orientation="vertical">
+
+        <include
+            layout="@layout/view_progress_completly_transparent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+             />
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/fragment_create_affiliate_account_affiliate_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp" />
+
+
+    </LinearLayout>
+
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fragment_create_affiliate_account_back"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_above="@+id/fragment_select_affiliate_search_container"
+        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/ic_keyboard_arrow_left" />
+
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fragment_create_affiliate_account_continue"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_above="@+id/fragment_select_affiliate_search_container"
+        android:layout_marginBottom="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/ic_keyboard_arrow_right" />
+
+
+</RelativeLayout>

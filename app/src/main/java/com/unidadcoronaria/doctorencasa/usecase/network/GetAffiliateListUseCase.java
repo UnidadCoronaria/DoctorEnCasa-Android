@@ -23,7 +23,7 @@ public class GetAffiliateListUseCase extends SingleItemUseCase {
 
     private final AffiliateRepository mAffiliateRepository;
     private String mAffiliateNumber;
-    private String mProviderId;
+    private int mProviderId;
 
     @Inject
     public GetAffiliateListUseCase(AffiliateRepository mAffiliateRepository, ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread) {
@@ -36,7 +36,7 @@ public class GetAffiliateListUseCase extends SingleItemUseCase {
         return this.mAffiliateRepository.getAffiliateData(this.mAffiliateNumber, this.mProviderId);
     }
 
-    public void setData(String affiliateNumber, String mProviderId){
+    public void setData(String affiliateNumber, int mProviderId){
         this.mAffiliateNumber = affiliateNumber;
         this.mProviderId = mProviderId;
     }

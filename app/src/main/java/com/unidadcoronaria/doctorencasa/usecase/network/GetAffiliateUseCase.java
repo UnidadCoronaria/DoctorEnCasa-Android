@@ -1,12 +1,12 @@
 package com.unidadcoronaria.doctorencasa.usecase.network;
 
 import com.unidadcoronaria.doctorencasa.domain.Affiliate;
-import com.unidadcoronaria.doctorencasa.domain.User;
 import com.unidadcoronaria.doctorencasa.repository.AffiliateRepository;
-import com.unidadcoronaria.doctorencasa.repository.UserRepository;
 import com.unidadcoronaria.doctorencasa.usecase.SingleItemUseCase;
 import com.unidadcoronaria.doctorencasa.usecase.executor.PostExecutionThread;
 import com.unidadcoronaria.doctorencasa.usecase.executor.ThreadExecutor;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -20,6 +20,8 @@ import io.reactivex.Single;
 public class GetAffiliateUseCase extends SingleItemUseCase {
 
     private final AffiliateRepository mAffiliateRepository;
+    private String mAffiliateNumber;
+    private int mProviderId;
 
     @Inject
     public GetAffiliateUseCase(AffiliateRepository mAffiliateRepository, ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread) {
@@ -28,8 +30,14 @@ public class GetAffiliateUseCase extends SingleItemUseCase {
     }
 
     @Override
-    public Single<Affiliate> buildUseCaseObservable() {
-        return this.mAffiliateRepository.getUser();
+    public Single<List<Affiliate>> buildUseCaseObservable() {
+        return this.mAffiliateRepository.getAffiliateData(this.mAffiliateNumber, this.mProviderId);
     }
+
+    public void setData(String affiliateNumber, int mProviderId){
+        this.mAffiliateNumber = affiliateNumber;
+        this.mProviderId = mProviderId;
+    }
+
 
 }

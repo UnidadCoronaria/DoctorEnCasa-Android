@@ -1,11 +1,15 @@
 package com.unidadcoronaria.doctorencasa.adapter;
 
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckedTextView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.unidadcoronaria.doctorencasa.App;
 import com.unidadcoronaria.doctorencasa.R;
 import com.unidadcoronaria.doctorencasa.domain.Provider;
 
@@ -23,9 +27,11 @@ public class ProviderAdapter extends RecyclerView.Adapter<ProviderAdapter.Provid
 
     private Provider mSelectedProvider;
     private List<Provider> mList = new ArrayList<>();
+    private Callback mCallback;
 
-    public ProviderAdapter(List<Provider> mList) {
+    public ProviderAdapter(List<Provider> mList, Callback callback) {
         this.mList = mList;
+        this.mCallback = callback;
     }
 
     @Override
@@ -37,7 +43,15 @@ public class ProviderAdapter extends RecyclerView.Adapter<ProviderAdapter.Provid
     public void onBindViewHolder(ProviderHolder holder, int position) {
         Provider mProvider = mList.get(position);
         holder.vName.setText(mProvider.getName());
-        holder.vContainer.setOnClickListener(v -> mSelectedProvider = mList.get(position));
+        holder.vName.setOnClickListener(v -> selectItem(position));
+        holder.vCheck.setOnClickListener(v -> selectItem(position));
+        holder.vCheck.setSelected(mSelectedProvider != null && mSelectedProvider.equals(mProvider));
+    }
+
+    private void selectItem(int position) {
+        mSelectedProvider = mList.get(position);
+        notifyDataSetChanged();
+        mCallback.onItemSelected();
     }
 
     @Override
@@ -49,10 +63,17 @@ public class ProviderAdapter extends RecyclerView.Adapter<ProviderAdapter.Provid
         return mSelectedProvider;
     }
 
+    public interface Callback {
+       void onItemSelected();
+    }
+
     static class ProviderHolder extends RecyclerView.ViewHolder{
 
         @BindView(R.id.item_provider_name)
         TextView vName;
+
+        @BindView(R.id.item_provider_check)
+        ImageView vCheck;
 
         @BindView(R.id.item_provider_container)
         ViewGroup vContainer;

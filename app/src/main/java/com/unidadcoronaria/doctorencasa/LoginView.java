@@ -8,8 +8,6 @@ import com.unidadcoronaria.doctorencasa.domain.User;
 
 public interface LoginView extends BaseView {
 
-    void onAffiliateRetrieved();
-
     void onEmptyUsername();
 
     void onEmptyPassword();
@@ -19,4 +17,8 @@ public interface LoginView extends BaseView {
     void onSaveAffiliateSuccess();
 
     void onSaveAffiliateError();
+
+    void invalidPasswordFormat();
+
+    void invalidUsernameFormat();
 }

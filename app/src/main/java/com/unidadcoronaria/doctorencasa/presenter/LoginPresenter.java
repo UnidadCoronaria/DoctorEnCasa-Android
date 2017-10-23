@@ -14,36 +14,46 @@ import com.unidadcoronaria.doctorencasa.util.SessionUtil;
 
 import javax.inject.Inject;
 
+import static com.unidadcoronaria.doctorencasa.util.ValidationUtil.validEmailFormat;
+import static com.unidadcoronaria.doctorencasa.util.ValidationUtil.validPasswordFormat;
+import static com.unidadcoronaria.doctorencasa.util.ValidationUtil.validUsernameFormat;
+
 /**
  * Created by AGUSTIN.BALA on 5/21/2017.
  */
 
 public class LoginPresenter extends BasePresenter<LoginView> {
 
-    private LoadAffiliateUseCase mLoadAffiliateUseCase;
     private LoginUseCase mLoginUseCase;
     private SaveAffiliateUseCase mSaveUserUseCase;
 
     @Inject
-    public LoginPresenter(LoadAffiliateUseCase mLoadAffiliateUseCase, LoginUseCase mLoginUseCase, SaveAffiliateUseCase mSaveUserUseCase) {
-        this.mLoadAffiliateUseCase = mLoadAffiliateUseCase;
+    public LoginPresenter(LoginUseCase mLoginUseCase, SaveAffiliateUseCase mSaveUserUseCase) {
         this.mLoginUseCase = mLoginUseCase;
         this.mSaveUserUseCase = mSaveUserUseCase;
     }
 
-    public void getAffiliate() {
-        mLoadAffiliateUseCase.execute(o -> onLoadAffiliateSuccess((Affiliate) o));
-    }
-
     public void login(String username, String password) {
-        if (username == null || username.isEmpty()) {
+
+        if (username.isEmpty()) {
             view.onEmptyUsername();
             return;
         }
-        if (password == null || password.isEmpty()) {
+        if (password.isEmpty()) {
             view.onEmptyPassword();
             return;
         }
+
+        if(!validUsernameFormat(username)){
+            view.invalidUsernameFormat();
+            return;
+        }
+
+        if(!validPasswordFormat(password)){
+            view.invalidPasswordFormat();
+            return;
+        }
+
         mLoginUseCase.setData(new Credential.Builder(username, password).build());
         mLoginUseCase.execute(userInfo -> {
             onLoginSuccess((UserInfo) userInfo);
@@ -54,27 +64,21 @@ public class LoginPresenter extends BasePresenter<LoginView> {
     }
 
 
-    private void onLoadAffiliateSuccess(Affiliate affiliate) {
-        if (SessionUtil.getToken() != null && !SessionUtil.getToken().isEmpty() && affiliate != null) {
-            view.onAffiliateRetrieved();
-        }
-    }
-
     private void onLoginSuccess(UserInfo userInfo) {
-        SessionUtil.saveToken(userInfo.getToken());
-        SessionUtil.saveUsername(userInfo.getUser().getUsername());
-        saveAffiliate(userInfo.getUser());
+        saveAffiliate(userInfo);
     }
 
-    private void saveAffiliate(Affiliate affiliate) {
-        mSaveUserUseCase.setAffiliate(affiliate);
-        mSaveUserUseCase.execute(o -> view.onSaveAffiliateSuccess(), throwable -> view.onSaveAffiliateError());
+    private void saveAffiliate(UserInfo userInfo) {
+        mSaveUserUseCase.setAffiliate(userInfo.getUser());
+        mSaveUserUseCase.execute(o -> {
+            SessionUtil.saveToken(userInfo.getToken());
+            SessionUtil.saveUsername(userInfo.getUser().getUsername());
+            view.onSaveAffiliateSuccess(); }, throwable -> view.onSaveAffiliateError());
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        mLoadAffiliateUseCase.unsubscribe();
         mLoginUseCase.unsubscribe();
         mSaveUserUseCase.unsubscribe();
     }

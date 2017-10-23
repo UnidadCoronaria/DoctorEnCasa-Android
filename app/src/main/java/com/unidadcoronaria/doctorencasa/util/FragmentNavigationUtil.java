@@ -2,6 +2,7 @@ package com.unidadcoronaria.doctorencasa.util;
 
 
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 
 import com.unidadcoronaria.doctorencasa.R;
 import com.unidadcoronaria.doctorencasa.fragment.BaseFragment;
@@ -19,11 +20,12 @@ public class FragmentNavigationUtil {
     }
 
     public static void addAndHideFragment(String hideTag, FragmentManager fragmentManager, int fragmentContainer, BaseFragment fragment){
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         if(fragmentManager.findFragmentByTag(hideTag) != null){
-            fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag(hideTag));
+            fragmentTransaction.hide(fragmentManager.findFragmentByTag(hideTag));
         }
-        fragmentManager.beginTransaction()
-                .add(fragmentContainer, fragment, fragment.getFragmentTag()).commit();
+        fragmentTransaction
+                .add(fragmentContainer, fragment, fragment.getFragmentTag()).addToBackStack(fragment.getFragmentTag()).commit();
     }
 
     public static void replaceFragmentWithBackStack(FragmentManager fragmentManager, int fragmentContainer, BaseFragment fragment){

@@ -1,22 +1,22 @@
 package com.unidadcoronaria.doctorencasa.domain;
 
-import java.util.Date;
-
 /**
  * Created by AGUSTIN.BALA on 5/21/2017.
  */
 public class Credential {
 
-    private String username;
+    private String userName;
     private String password;
     private Integer affiliateId;
     private Integer providerId;
+    private String email;
 
     private Credential(Credential.Builder builder) {
-        this.username = builder.username;
+        this.userName = builder.username;
         this.password = builder.password;
         this.affiliateId = builder.affiliateId;
         this.providerId = builder.providerId;
+        this.email = builder.email;
     }
 
     public Integer getAffiliateId() {
@@ -36,19 +36,27 @@ public class Credential {
     }
 
     public String getUsername() {
-        return username;
+        return userName;
     }
 
     public void setUsername(String username) {
-        this.username = username;
+        this.userName = username;
     }
 
     public String getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
+    public void setPassword(String password){
         this.password = password;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public static class Builder {
@@ -57,6 +65,7 @@ public class Credential {
         private String password;
         private Integer affiliateId;
         private Integer providerId;
+        private String email;
 
         public Builder(String username, String password) {
             this.username = username;
@@ -70,6 +79,11 @@ public class Credential {
 
         public Builder setProviderId(Integer providerId){
             this.providerId = providerId;
+            return this;
+        }
+
+        public Builder setEmail(String email){
+            this.email = email;
             return this;
         }
 

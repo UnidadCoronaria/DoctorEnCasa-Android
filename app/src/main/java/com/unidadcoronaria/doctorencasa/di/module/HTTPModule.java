@@ -6,6 +6,7 @@ import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.unidadcoronaria.doctorencasa.BuildConfig;
+import com.unidadcoronaria.doctorencasa.util.SessionUtil;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -20,6 +21,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
@@ -37,6 +39,9 @@ public class HTTPModule {
 
             Request.Builder builder = originalRequest.newBuilder().header("Content-Type",
                     "application/json");
+            if(SessionUtil.isAuthenticated()){
+               builder.header("Authorization", "Bearer "+SessionUtil.getToken());
+            }
             Log.d("Retrofit", "Making request to "+originalRequest.url().toString());
             Request newRequest = builder.build();
             Response response = chain.proceed(newRequest);
@@ -45,6 +50,7 @@ public class HTTPModule {
         }).addNetworkInterceptor(new StethoInterceptor()).build();
         return new Retrofit.Builder().client(okHttpClient)
                 .baseUrl(BuildConfig.BASE_URL)
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
     }

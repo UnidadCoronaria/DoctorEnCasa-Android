@@ -4,7 +4,6 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * @author AGUSTIN.BALA
@@ -18,23 +17,29 @@ public class Affiliate implements Serializable {
     private Integer id;
     private Integer affiliateId;
     private Integer providerId;
-    private String firstname;
-    private String lastname;
+    private String firstName;
+    private String lastName;
+    private String documentNumber;
+    private String documentType;
     private String email;
     private String cellphone;
     private Long birthDate;
+    private boolean isUser;
 
     public Affiliate() {
     }
 
     private Affiliate(Builder builder) {
-        this.firstname = builder.firstname;
-        this.lastname = builder.lastname;
+        this.firstName = builder.firstName;
+        this.lastName = builder.lastName;
         this.email = builder.email;
+        this.documentNumber = builder.documentNumber;
+        this.documentType = builder.documentType;
         this.cellphone = builder.cellphone;
         this.birthDate = builder.birthDate;
         this.affiliateId = builder.affiliateId;
         this.providerId = builder.providerId;
+        this.isUser = builder.isUser;
     }
 
     public Integer getId() {
@@ -49,12 +54,12 @@ public class Affiliate implements Serializable {
         return providerId;
     }
 
-    public String getFirstname() {
-        return firstname;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public String getLastname() {
-        return lastname;
+    public String getLastName() {
+        return lastName;
     }
 
     public String getEmail() {
@@ -77,12 +82,12 @@ public class Affiliate implements Serializable {
         this.providerId = providerId;
     }
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public void setEmail(String email) {
@@ -101,26 +106,57 @@ public class Affiliate implements Serializable {
         this.id = id;
     }
 
+    public String getDocumentNumber() {
+        return documentNumber;
+    }
+
+    public void setDocumentNumber(String documentNumber) {
+        this.documentNumber = documentNumber;
+    }
+
+    public String getDocumentType() {
+        return documentType;
+    }
+
+    public void setDocumentType(String documentType) {
+        this.documentType = documentType;
+    }
+
+    public boolean isUser() {
+        return isUser;
+    }
+
+    public void setUser(boolean user) {
+        isUser = user;
+    }
+
     public static class Builder {
 
         private Integer affiliateId;
         private Integer providerId;
-        private String firstname;
-        private String lastname;
+        private String firstName;
+        private String lastName;
+        private String documentNumber;
+        private String documentType;
         private String email;
         private String cellphone;
         private Long birthDate;
+        private boolean isUser;
 
-        public Builder(String firstname, String lastname, String email,
+        public Builder(String firstName, String lastName, String email,
+                       String documentNumber, String documentType,
                        String cellphone, Long birthDate,
-                       Integer affiliateId, Integer providerId) {
-            this.firstname = firstname;
-            this.lastname = lastname;
+                       Integer affiliateId, Integer providerId, boolean isUser) {
+            this.firstName = firstName;
+            this.lastName = lastName;
             this.email = email;
+            this.documentNumber = documentNumber;
+            this.documentType = documentType;
             this.cellphone = cellphone;
             this.birthDate = birthDate;
             this.affiliateId = affiliateId;
             this.providerId = providerId;
+            this.isUser = isUser;
         }
 
         public Affiliate build(){

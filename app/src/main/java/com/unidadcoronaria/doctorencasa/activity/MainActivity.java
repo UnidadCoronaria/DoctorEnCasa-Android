@@ -29,6 +29,11 @@ public class MainActivity extends BaseNavActivity {
     }
 
     @Override
+    protected boolean showToolbar() {
+        return true;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }

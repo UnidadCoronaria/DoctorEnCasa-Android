@@ -49,7 +49,7 @@ public class HomeFragment extends BaseFragment<MainPresenter> implements MainVie
     }
 
     public void onAffiliateRetrieved(Affiliate user){
-        vText.setText(user.getFirstname()+" "+user.getLastname());
+        vText.setText(user.getFirstName()+" "+user.getLastName());
     }
 
     @Override
@@ -68,11 +68,6 @@ public class HomeFragment extends BaseFragment<MainPresenter> implements MainVie
 
     }
 
-    @Override
-    public void onStop(){
-        super.onStop();
-        mPresenter.onStop();
-    }
 
     @OnClick(R.id.fragment_main_logout)
     public void onLogoutClick(){

@@ -1,6 +1,5 @@
 package com.unidadcoronaria.doctorencasa.fragment;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.widget.Toast;
@@ -8,7 +7,6 @@ import android.widget.Toast;
 import com.unidadcoronaria.doctorencasa.App;
 import com.unidadcoronaria.doctorencasa.R;
 import com.unidadcoronaria.doctorencasa.SplashView;
-import com.unidadcoronaria.doctorencasa.activity.BaseActivity;
 import com.unidadcoronaria.doctorencasa.activity.LoginActivity;
 import com.unidadcoronaria.doctorencasa.activity.MainActivity;
 import com.unidadcoronaria.doctorencasa.di.component.DaggerSplashComponent;
@@ -42,14 +40,6 @@ public class SplashFragment extends BaseFragment<SplashPresenter> implements Spl
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mPresenter.setView(this);
-        mPresenter.onStart();
-    }
-
-
-    @Override
-    public void onStop(){
-        super.onStop();
-        mPresenter.onStop();
     }
 
     @Override

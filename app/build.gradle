@@ -16,6 +16,7 @@ apply plugin: 'io.fabric'
 repositories {
     maven { url 'https://maven.fabric.io/public' }
     maven { url 'https://maven.google.com' }
+
 }
 
 
@@ -42,7 +43,12 @@ android {
         buildConfigField "String", "BASE_URL", "\"http://dec.ucmq.com:60630/doctorencasaapi/\""
         jackOptions {
             enabled true
+            additionalParameters('jack.incremental': 'true')
         }
+    }
+
+    dexOptions {
+        javaMaxHeapSize '4096m'
     }
 
    compileOptions {
@@ -87,6 +93,7 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
+    compile "com.squareup.retrofit2:adapter-rxjava2:2.3.0"
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
     compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {

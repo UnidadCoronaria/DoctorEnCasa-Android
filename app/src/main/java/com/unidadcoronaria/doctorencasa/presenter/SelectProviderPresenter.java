@@ -1,6 +1,6 @@
 package com.unidadcoronaria.doctorencasa.presenter;
 
-import com.unidadcoronaria.doctorencasa.CreateAffiliateAccountView;
+import com.unidadcoronaria.doctorencasa.SelectProviderView;
 import com.unidadcoronaria.doctorencasa.domain.Affiliate;
 import com.unidadcoronaria.doctorencasa.domain.Provider;
 import com.unidadcoronaria.doctorencasa.usecase.network.GetAffiliateListUseCase;
@@ -14,14 +14,12 @@ import javax.inject.Inject;
  * Created by AGUSTIN.BALA on 6/4/2017.
  */
 
-public class CreateAffiliateAccountPresenter extends BasePresenter<CreateAffiliateAccountView> {
+public class SelectProviderPresenter extends BasePresenter<SelectProviderView> {
 
     private GetProviderListUseCase mGetProviderListUseCase;
-    private GetAffiliateListUseCase mGetAffiliateUseCase;
 
     @Inject
-    public CreateAffiliateAccountPresenter(GetAffiliateListUseCase mGetAffiliateUseCase, GetProviderListUseCase mGetProviderListUseCase) {
-        this.mGetAffiliateUseCase = mGetAffiliateUseCase;
+    public SelectProviderPresenter(GetProviderListUseCase mGetProviderListUseCase) {
         this.mGetProviderListUseCase = mGetProviderListUseCase;
     }
 
@@ -34,16 +32,7 @@ public class CreateAffiliateAccountPresenter extends BasePresenter<CreateAffilia
     @Override
     public void onStop(){
         super.onStop();
-        this.mGetAffiliateUseCase.unsubscribe();
         this.mGetProviderListUseCase.unsubscribe();
-    }
-
-    public void getAffiliateData(String affiliateNumber, Provider provider) {
-        if(affiliateNumber != null && ! affiliateNumber.isEmpty() && provider != null){
-            mGetAffiliateUseCase.setData(affiliateNumber, provider.getId());
-            mGetAffiliateUseCase.execute(o -> view.onAffiliateListRetrieved((List<Affiliate>) o), throwable -> view.onGetAffiliateListError());
-        }
-        view.onEmptyAffiliateNumber();
     }
 
 }

@@ -9,7 +9,7 @@ import com.unidadcoronaria.doctorencasa.presenter.LoginPresenter;
 import com.unidadcoronaria.doctorencasa.presenter.SplashPresenter;
 import com.unidadcoronaria.doctorencasa.repository.UserRepository;
 import com.unidadcoronaria.doctorencasa.usecase.database.LoadAffiliateUseCase;
-import com.unidadcoronaria.doctorencasa.usecase.network.GetAffiliateUseCase;
+import com.unidadcoronaria.doctorencasa.usecase.network.GeUserUseCase;
 import com.unidadcoronaria.doctorencasa.usecase.network.LoginUseCase;
 import com.unidadcoronaria.doctorencasa.usecase.database.SaveAffiliateUseCase;
 
@@ -51,13 +51,13 @@ public class UserModule {
 
     @Provides
     @PerActivity
-    LoginPresenter provideLoginPresenter(LoadAffiliateUseCase mGetUserUseCase, LoginUseCase mLoginUseCase, SaveAffiliateUseCase mSaveUserUseCase){
-        return new LoginPresenter(mGetUserUseCase, mLoginUseCase, mSaveUserUseCase);
+    LoginPresenter provideLoginPresenter(LoginUseCase mLoginUseCase, SaveAffiliateUseCase mSaveUserUseCase){
+        return new LoginPresenter(mLoginUseCase, mSaveUserUseCase);
     }
 
     @Provides
     @PerActivity
-    SplashPresenter provideSplashPresenter(GetAffiliateUseCase mLoadAffiliateUseCase, SaveAffiliateUseCase mSaveUserUseCase){
+    SplashPresenter provideSplashPresenter(GeUserUseCase mLoadAffiliateUseCase, SaveAffiliateUseCase mSaveUserUseCase){
         return new SplashPresenter(mLoadAffiliateUseCase, mSaveUserUseCase);
     }
 }

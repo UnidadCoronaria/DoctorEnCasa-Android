@@ -31,7 +31,7 @@ public abstract class BaseFragment<T extends BasePresenter> extends LifecycleFra
     @Inject
     protected T mPresenter;
 
-    protected FragmentContainer callback;
+    protected FragmentContainer mFragmentContainerCallback;
 
     //region Fragment Implementation
     @Override
@@ -47,7 +47,7 @@ public abstract class BaseFragment<T extends BasePresenter> extends LifecycleFra
     public void onAttach(Context context){
         super.onAttach(context);
         if(context instanceof FragmentContainer){
-            this.callback = (FragmentContainer) context;
+            this.mFragmentContainerCallback = (FragmentContainer) context;
         }
     }
 
@@ -56,7 +56,7 @@ public abstract class BaseFragment<T extends BasePresenter> extends LifecycleFra
     public void onAttach(Activity context){
         super.onAttach(context);
         if(context instanceof FragmentContainer){
-            this.callback = (FragmentContainer) context;
+            this.mFragmentContainerCallback = (FragmentContainer) context;
         }
     }
 

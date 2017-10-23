@@ -35,7 +35,11 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(getLayout());
         ButterKnife.bind(this);
-        configureToolbar(savedInstanceState);
+        if(showToolbar()) {
+            configureToolbar(savedInstanceState);
+        } else {
+            hideToolbar();
+        }
         if (savedInstanceState == null && getFragment() != null) {
             FragmentNavigationUtil.addFragment(getSupportFragmentManager(), R.id.activity_base_fragment, getFragment());
         }
@@ -62,7 +66,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         setSupportActionBar(vToolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setTitle("");
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setHomeButtonEnabled(true);
         }
@@ -72,6 +75,14 @@ public abstract class BaseActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.hide();
+        }
+    }
+
+    protected void setBackVisibilityInToolbar(boolean isBackVisible) {
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(isBackVisible);
+            actionBar.setHomeButtonEnabled(isBackVisible);
         }
     }
 
@@ -95,12 +106,20 @@ public abstract class BaseActivity extends AppCompatActivity {
     public void showAndHideFragment(String hideTag, BaseFragment baseFragment){
         FragmentNavigationUtil.addAndHideFragment(hideTag, getSupportFragmentManager(), R.id.activity_base_fragment, baseFragment);
     }
+
+    public void setToolbarTitle(String toolbarTitle){
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setTitle(toolbarTitle);
+        }
+    }
     //endregion
 
     //region Abstract methods
-    protected abstract @LayoutRes
-    int getLayout();
+    protected abstract @LayoutRes  int getLayout();
 
     protected abstract BaseFragment getFragment();
+
+    protected abstract boolean showToolbar();
     //endregion
 }

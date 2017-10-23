@@ -38,13 +38,24 @@
         <!-- cursor y línea normal-->
         <item name="colorControlNormal">@color/colorPrimary</item>
         <!-- cursor y línea con foco-->
-        <item name="colorControlActivated">@color/colorAccent</item>
+        <item name="colorControlActivated">@color/colorPrimary</item>
+        <item name="android:textSize">16sp</item>
     </style>
 
     <!-- mensaje de error debajo del EditText-->
     <style name="AppTheme.EditTextError" parent="@android:style/TextAppearance">
-        <item name="android:textColor">@color/colorAccent</item>
-        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@android:color/holo_red_light</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <!--boton de formularios-->
+    <style name="FormButton" parent="AppTheme">
+        <item name="android:layout_width">150dp</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:background">@drawable/selector_button</item>
+        <item name="android:textSize">18dp</item>
     </style>
 
 </resources>

@@ -40,13 +40,6 @@ public class PromotionFragment extends BaseFragment<PromotionPresenter> implemen
         mPresenter.setView(this);
     }
 
-
-    @Override
-    public void onStop(){
-        super.onStop();
-        mPresenter.onStop();
-    }
-
     public static PromotionFragment newInstance() {
         return new PromotionFragment();
     }

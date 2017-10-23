@@ -16,7 +16,7 @@ import retrofit2.http.Path;
 public interface AffiliateService {
 
     @GET("provider/{providerId}/affiliate/{affiliateNumber}")
-    Call<List<Affiliate>> getAffiliateData(@Path("providerId") String providerId, @Path("affiliateNumber") String affiliateNumber);
+    Call<List<Affiliate>> getAffiliateData(@Path("providerId") int providerId, @Path("affiliateNumber") String affiliateNumber);
 
     @GET("user")
     Call<Affiliate> getAffiliate();

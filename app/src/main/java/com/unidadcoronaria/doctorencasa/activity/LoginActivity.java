@@ -29,6 +29,11 @@ public class LoginActivity extends BaseActivity {
     }
 
     @Override
+    protected boolean showToolbar() {
+        return false;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }

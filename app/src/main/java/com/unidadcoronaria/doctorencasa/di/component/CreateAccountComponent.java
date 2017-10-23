@@ -3,10 +3,9 @@ package com.unidadcoronaria.doctorencasa.di.component;
 import com.unidadcoronaria.doctorencasa.di.PerActivity;
 import com.unidadcoronaria.doctorencasa.di.module.ProviderModule;
 import com.unidadcoronaria.doctorencasa.di.module.UserModule;
-import com.unidadcoronaria.doctorencasa.fragment.CreateAccountFragment;
-import com.unidadcoronaria.doctorencasa.fragment.CreateAffiliateAccountFragment;
-import com.unidadcoronaria.doctorencasa.fragment.CreateNonAffiliateAccountFragment;
-import com.unidadcoronaria.doctorencasa.fragment.AffiliateDataFragment;
+import com.unidadcoronaria.doctorencasa.fragment.SelectAffiliateFragment;
+import com.unidadcoronaria.doctorencasa.fragment.SelectProviderFragment;
+import com.unidadcoronaria.doctorencasa.fragment.CreateUserFragment;
 
 import dagger.Component;
 
@@ -17,11 +16,9 @@ import dagger.Component;
 @PerActivity
 @Component(modules = {UserModule.class, ProviderModule.class}, dependencies = ApplicationComponent.class)
 public interface CreateAccountComponent {
-    void inject(CreateAccountFragment fragment);
+    void inject(SelectProviderFragment fragment);
 
-    void inject(CreateAffiliateAccountFragment fragment);
+    void inject(CreateUserFragment userDataFragment);
 
-    void inject(CreateNonAffiliateAccountFragment fragment);
-
-    void inject(AffiliateDataFragment userDataFragment);
+    void inject(SelectAffiliateFragment selectAffiliateFragment);
 }

@@ -13,7 +13,7 @@ import com.unidadcoronaria.doctorencasa.domain.User;
  * Created by AGUSTIN.BALA on 5/23/2017.
  */
 
-@Database(entities = {Affiliate.class}, version = 9, exportSchema = false)
+@Database(entities = {Affiliate.class}, version = 10, exportSchema = false)
 @TypeConverters(DateConverter.class)
 public abstract class DoctorEnCasaDB extends RoomDatabase {
 
