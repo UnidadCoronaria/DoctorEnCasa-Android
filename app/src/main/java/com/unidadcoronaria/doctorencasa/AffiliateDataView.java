@@ -24,4 +24,10 @@ public interface AffiliateDataView extends BaseView {
 
     void invalidEmailFormat();
 
+    void onSaveAffiliateSuccess();
+
+    void onSaveAffiliateError();
+
+    void onCreateUserStart();
+
 }

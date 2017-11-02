@@ -37,7 +37,6 @@ public class AffiliateRepository {
 
 
     public Single<Affiliate> fetchAffiliate() {
-     //  return Single.fromObservable(io.reactivex.Observable.just(mAffiliateDAO.load()));
          return Single.fromCallable(() -> {
             Affiliate mAffiliate = mAffiliateDAO.load();
             if(mAffiliate != null){
@@ -57,7 +56,7 @@ public class AffiliateRepository {
     }
 
     public Single<List<Affiliate>> getAffiliateData(String affiliateNumber, int mProviderId) {
-        return Single.fromCallable(() -> mAffiliateService.getAffiliateData(mProviderId, affiliateNumber).execute().body());
+        return mAffiliateService.getAffiliateData(mProviderId, affiliateNumber);
     }
 
     public Completable delete() {
@@ -65,7 +64,7 @@ public class AffiliateRepository {
             mAffiliateDAO.delete(mAffiliateDAO.load()));
     }
 
-    public Single<Affiliate> getUser() {
-        return Single.fromCallable(() ->  mAffiliateService.getAffiliate().execute().body());
+    public Single<User> getUser() {
+        return mAffiliateService.getAffiliate();
     }
 }

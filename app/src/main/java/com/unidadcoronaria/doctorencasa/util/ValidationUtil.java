@@ -15,7 +15,7 @@ public class ValidationUtil {
         return password.length() >= 8;
     }
 
-    public static  boolean validEmailFormat(String username) {
+    public static  boolean validEmailFormat(String email) {
         return true;
     }
 }

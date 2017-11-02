@@ -18,11 +18,27 @@
     <string name="password">Contraseña</string>
     <string name="password_repeat">Volvé a ingresar la contraseña</string>
     <string name="login">INGRESAR</string>
+    <string name="send">ENVIAR</string>
+    <string name="ok">ACEPTAR</string>
+    <string name="change">CAMBIAR</string>
     <string name="not_account_yet">¿Todavía no tenés cuenta?</string>
     <string name="forgot_password">¿Olvidaste tu contraseña?</string>
+    <string name="recover_password">Recuperar contraseña</string>
+    <string name="change_password">Cambiar contraseña</string>
     <string name="can_be_empty">No puede ser vacio</string>
     <string name="error_invalid_password_format">La contraseña debe tener al menos 8 caracteres.</string>
     <string name="error_invalid_username_format">El nombre de usuario debe tener al menos 4 caracteres.</string>
+    <string name="error_invalid_email_format">El email debe tener un formato válido.</string>
     <string name="credential_error">El nombre de usuario o la contraseña son incorrectos</string>
-    <string name="create_user_title">Hola %1$s! Ingresá tu mail y contraseña.</string>
+    <string name="create_user_title">Hola %1$s! Ingresá tus datos para crear la cuenta.</string>
+    <string name="no_affiliate_number">Ingrese un número de afiliado</string>
+    <string name="error_getting_affiliate_list">El número de afiliado no corresponde a ningun afiliado o grupo familiar</string>
+    <string name="non_matching_passwords">Las contraseñas ingresadas no coinciden</string>
+    <string name="enter_email">Ingresá el mail asociado a tu cuenta</string>
+    <string name="email_sent">Se ha enviado un mail con la nueva contraseña.</string>
+    <string name="current_password">Contraseña actual</string>
+    <string name="new_password">Contraseña nueva</string>
+    <string name="repeat_new_password">Volvé a ingresar la contraseña nueva</string>
+    <string name="updated_password">Se actualizó la contraseña. Por favor, ingresá nuevamente.</string>
+
 </resources>

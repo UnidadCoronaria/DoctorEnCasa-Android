@@ -1,18 +1,14 @@
 package com.unidadcoronaria.doctorencasa.network.rest;
 
-import com.unidadcoronaria.doctorencasa.domain.Affiliate;
 import com.unidadcoronaria.doctorencasa.domain.Credential;
-import com.unidadcoronaria.doctorencasa.domain.User;
 import com.unidadcoronaria.doctorencasa.domain.UserInfo;
 
-import java.util.List;
-
+import io.reactivex.Completable;
+import io.reactivex.Single;
 import retrofit2.Call;
 import retrofit2.http.Body;
-import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
-import retrofit2.http.Path;
 
 
 /**
@@ -22,12 +18,17 @@ import retrofit2.http.Path;
 public interface UserService {
 
     @POST("auth")
-    Call<UserInfo> login(@Body Credential credential);
+    Single<UserInfo> login(@Body Credential credential);
 
     @PUT("logout")
-    Call<Void> logout();
+    Completable logout();
 
     @POST("user")
-    Call<UserInfo> createUser(@Body Credential credential);
+    Single<UserInfo> createUser(@Body Credential credential);
 
+    @PUT("user/password/reset")
+    Single<UserInfo> forgotPassword(@Body Credential credential);
+
+    @PUT("user/password")
+    Single<UserInfo> updatePassword(@Body Credential credential);
 }

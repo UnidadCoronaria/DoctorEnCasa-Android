@@ -2,6 +2,7 @@ package com.unidadcoronaria.doctorencasa.di.component;
 
 import com.unidadcoronaria.doctorencasa.di.PerActivity;
 import com.unidadcoronaria.doctorencasa.di.module.UserModule;
+import com.unidadcoronaria.doctorencasa.fragment.ForgotPasswordFragment;
 import com.unidadcoronaria.doctorencasa.fragment.LoginFragment;
 
 import dagger.Component;
@@ -14,4 +15,6 @@ import dagger.Component;
 public interface LoginComponent {
 
     void inject(LoginFragment fragment);
+
+    void inject(ForgotPasswordFragment forgotPasswordFragment);
 }

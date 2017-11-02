@@ -24,7 +24,7 @@ public class ProviderRepository {
     }
 
     public Single<List<Provider>> getProviderList() {
-        return Single.fromCallable(() -> mProviderService.get().execute().body());
+        return mProviderService.get();
     }
 
 }

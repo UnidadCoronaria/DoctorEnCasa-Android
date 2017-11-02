@@ -49,15 +49,4 @@ public class UserModule {
     }
 
 
-    @Provides
-    @PerActivity
-    LoginPresenter provideLoginPresenter(LoginUseCase mLoginUseCase, SaveAffiliateUseCase mSaveUserUseCase){
-        return new LoginPresenter(mLoginUseCase, mSaveUserUseCase);
-    }
-
-    @Provides
-    @PerActivity
-    SplashPresenter provideSplashPresenter(GeUserUseCase mLoadAffiliateUseCase, SaveAffiliateUseCase mSaveUserUseCase){
-        return new SplashPresenter(mLoadAffiliateUseCase, mSaveUserUseCase);
-    }
 }

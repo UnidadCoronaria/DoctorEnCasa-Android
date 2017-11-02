@@ -3,6 +3,7 @@ package com.unidadcoronaria.doctorencasa.di.component;
 import com.unidadcoronaria.doctorencasa.di.PerActivity;
 import com.unidadcoronaria.doctorencasa.di.module.ProviderModule;
 import com.unidadcoronaria.doctorencasa.di.module.UserModule;
+import com.unidadcoronaria.doctorencasa.fragment.ChangePasswordFragment;
 import com.unidadcoronaria.doctorencasa.fragment.SelectAffiliateFragment;
 import com.unidadcoronaria.doctorencasa.fragment.SelectProviderFragment;
 import com.unidadcoronaria.doctorencasa.fragment.CreateUserFragment;
@@ -21,4 +22,6 @@ public interface CreateAccountComponent {
     void inject(CreateUserFragment userDataFragment);
 
     void inject(SelectAffiliateFragment selectAffiliateFragment);
+
+    void inject(ChangePasswordFragment changePasswordFragment);
 }

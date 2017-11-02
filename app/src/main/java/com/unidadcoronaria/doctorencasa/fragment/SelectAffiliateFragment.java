@@ -4,12 +4,12 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -38,16 +38,19 @@ public class SelectAffiliateFragment extends BaseFragment<SelectAffiliatePresent
     public static final String PROVIDER_KEY = " com.unidadcoronaria.doctorencasa.fragment.SelectAffiliateFragment.PROVIDER_KEY";
 
 
-    @BindView(R.id.fragment_create_affiliate_account_affiliate_number)
+    @BindView(R.id.fragment_select_affiliate_account_affiliate_number)
     protected EditText vAffiliateNumber;
 
-    @BindView(R.id.fragment_create_affiliate_account_affiliate_list)
+    @BindView(R.id.fragment_select_affiliate_account_affiliate_number_layout)
+    protected TextInputLayout vAffiliateNumberLayout;
+
+    @BindView(R.id.fragment_select_affiliate_account_affiliate_list)
     protected RecyclerView vAffiliateList;
 
-    @BindView(R.id.fragment_create_affiliate_account_continue)
+    @BindView(R.id.fragment_select_affiliate_account_continue)
     protected FloatingActionButton vContinueButton;
 
-    @BindView(R.id.fragment_create_affiliate_account_search)
+    @BindView(R.id.fragment_select_affiliate_account_search)
     protected ImageView vSearchButton;
 
     private AffiliateAdapter mAffiliateAdapter;
@@ -104,25 +107,31 @@ public class SelectAffiliateFragment extends BaseFragment<SelectAffiliatePresent
     }
 
 
-    @OnClick(R.id.fragment_create_affiliate_account_search)
+    @OnClick(R.id.fragment_select_affiliate_account_search)
     public void onSearchClick(){
+        vAffiliateNumberLayout.setError(null);
+        vAffiliateNumberLayout.setErrorEnabled(false);
         vProgress.setVisibility(View.VISIBLE);
         mPresenter.getAffiliateData(vAffiliateNumber.getText().toString(),mProvider);
         hideSoftKeyboard();
     }
 
 
-    @OnClick(R.id.fragment_create_affiliate_account_back)
+    @OnClick(R.id.fragment_select_affiliate_account_back)
     public void onBackClick(){
         getFragmentManager().popBackStack();
     }
 
-    @OnClick(R.id.fragment_create_affiliate_account_continue)
+    @OnClick(R.id.fragment_select_affiliate_account_continue)
     public void onContinueClick(){
-        if(mAffiliateAdapter.getSelectedAffiliate() != null){
-            Affiliate selectedAffiliate = mAffiliateAdapter.getSelectedAffiliate();
-            selectedAffiliate.setProviderId(mProvider);
-            mCallback.navigateToCreateUser(selectedAffiliate);
+        if(mAffiliateAdapter.getSelectedAffiliate() != null ){
+            if(!mAffiliateAdapter.getSelectedAffiliate().isUser()) {
+                Affiliate selectedAffiliate = mAffiliateAdapter.getSelectedAffiliate();
+                selectedAffiliate.setProviderId(mProvider);
+                mCallback.navigateToCreateUser(selectedAffiliate);
+            } else {
+                Toast.makeText(getActivity(), "El afiliado seleccionado ya posee una cuenta.", Toast.LENGTH_LONG).show();
+            }
         } else {
             Toast.makeText(getActivity(), "Seleccione un afiliado para el cual creará la cuenta.", Toast.LENGTH_LONG).show();
         }
@@ -140,20 +149,30 @@ public class SelectAffiliateFragment extends BaseFragment<SelectAffiliatePresent
     public void onAffiliateListRetrieved(List<Affiliate> affiliateList) {
         mAffiliateAdapter = new AffiliateAdapter(affiliateList);
         vAffiliateList.setAdapter(mAffiliateAdapter);
+        vAffiliateList.setVisibility(View.VISIBLE);
         vContinueButton.setVisibility(View.VISIBLE);
         vProgress.setVisibility(View.GONE);
+        vAffiliateNumberLayout.setError(null);
+        vAffiliateNumberLayout.setErrorEnabled(false);
     }
 
 
     @Override
     public void onEmptyAffiliateNumber() {
         Log.d("onEmptyAffiliateNumber","There is no user with the affiliate number");
+        vProgress.setVisibility(View.GONE);
+        vAffiliateList.setVisibility(View.GONE);
+        vAffiliateNumberLayout.setError(getString(R.string.no_affiliate_number));
+        vAffiliateNumberLayout.setErrorEnabled(true);
     }
 
     @Override
     public void onGetAffiliateListError() {
-        vProgress.setVisibility(View.GONE);
         Log.e("onGetAffiliateListError","Error getting list of users");
+        vProgress.setVisibility(View.GONE);
+        vAffiliateList.setVisibility(View.GONE);
+        vAffiliateNumberLayout.setError(getString(R.string.error_getting_affiliate_list));
+        vAffiliateNumberLayout.setErrorEnabled(true);
     }
 
 }

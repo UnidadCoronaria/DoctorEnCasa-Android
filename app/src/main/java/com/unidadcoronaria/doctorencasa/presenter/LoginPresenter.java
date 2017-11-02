@@ -33,6 +33,11 @@ public class LoginPresenter extends BasePresenter<LoginView> {
         this.mSaveUserUseCase = mSaveUserUseCase;
     }
 
+    private void onLoginSuccess(UserInfo userInfo) {
+        saveAffiliate(userInfo);
+    }
+
+
     public void login(String username, String password) {
 
         if (username.isEmpty()) {
@@ -54,7 +59,7 @@ public class LoginPresenter extends BasePresenter<LoginView> {
             return;
         }
 
-        mLoginUseCase.setData(new Credential.Builder(username, password).build());
+        mLoginUseCase.setData(new Credential.Builder().setUsername(username).setPassword(password).build());
         mLoginUseCase.execute(userInfo -> {
             onLoginSuccess((UserInfo) userInfo);
         }, throwable -> {
@@ -63,17 +68,12 @@ public class LoginPresenter extends BasePresenter<LoginView> {
         });
     }
 
-
-    private void onLoginSuccess(UserInfo userInfo) {
-        saveAffiliate(userInfo);
-    }
-
     private void saveAffiliate(UserInfo userInfo) {
         mSaveUserUseCase.setAffiliate(userInfo.getUser());
         mSaveUserUseCase.execute(o -> {
             SessionUtil.saveToken(userInfo.getToken());
             SessionUtil.saveUsername(userInfo.getUser().getUsername());
-            view.onSaveAffiliateSuccess(); }, throwable -> view.onSaveAffiliateError());
+            view.onSaveAffiliateSuccess(userInfo.getUser().getPasswordExpired()); }, throwable -> view.onSaveAffiliateError());
     }
 
     @Override

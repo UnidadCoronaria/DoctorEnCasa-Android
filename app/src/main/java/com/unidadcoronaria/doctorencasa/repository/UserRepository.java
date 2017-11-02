@@ -1,20 +1,17 @@
 package com.unidadcoronaria.doctorencasa.repository;
 
 
-import com.unidadcoronaria.doctorencasa.dao.AffiliateDAO;
-import com.unidadcoronaria.doctorencasa.domain.Affiliate;
 import com.unidadcoronaria.doctorencasa.domain.Credential;
 import com.unidadcoronaria.doctorencasa.domain.User;
 import com.unidadcoronaria.doctorencasa.domain.UserInfo;
 import com.unidadcoronaria.doctorencasa.network.rest.UserService;
 
 
-import java.util.List;
-
 import javax.inject.Inject;
 
 import io.reactivex.Completable;
 import io.reactivex.Single;
+import retrofit2.http.GET;
 
 /**
  * Created by AGUSTIN.BALA on 5/25/2017.
@@ -32,14 +29,23 @@ public class UserRepository {
 
 
     public Single<UserInfo> login(Credential credential) {
-        return Single.fromCallable(() -> mUserService.login(credential).execute().body());
+        return mUserService.login(credential);
     }
 
     public Completable logout() {
-        return Completable.fromAction(() -> mUserService.logout().execute());
+        return mUserService.logout();
     }
 
     public Single<UserInfo> createUser(Credential credential) {
-        return Single.fromCallable(() ->  mUserService.createUser(credential).execute().body());
+        return mUserService.createUser(credential);
     }
+
+    public Single<UserInfo> forgotPassword(Credential credential) {
+        return mUserService.forgotPassword(credential);
+    }
+
+    public Single<UserInfo> updateUser(Credential credential) {
+        return mUserService.updatePassword(credential);
+    }
+
 }

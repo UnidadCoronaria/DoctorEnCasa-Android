@@ -20,6 +20,7 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -34,7 +35,9 @@ public class HTTPModule {
     @Provides
     @Singleton
     Retrofit provideRetrofit(Gson gson){
-        OkHttpClient okHttpClient = new OkHttpClient().newBuilder().retryOnConnectionFailure(false).readTimeout(10, TimeUnit.SECONDS).connectTimeout(10, TimeUnit.SECONDS).addInterceptor(chain -> {
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient okHttpClient = new OkHttpClient().newBuilder().addInterceptor(interceptor).retryOnConnectionFailure(false).readTimeout(10, TimeUnit.SECONDS).connectTimeout(10, TimeUnit.SECONDS).addInterceptor(chain -> {
             Request originalRequest = chain.request();
 
             Request.Builder builder = originalRequest.newBuilder().header("Content-Type",

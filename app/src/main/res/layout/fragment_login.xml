@@ -49,7 +49,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/fragment_login_username_layout"
-            android:layout_marginTop="25dp"
             app:errorTextAppearance="@style/AppTheme.EditTextError"
             app:hintTextAppearance="@style/AppTheme.FloatingLabel">
 
@@ -69,7 +68,7 @@
             android:id="@+id/fragment_login_button"
             style="@style/FormButton"
             android:layout_below="@+id/fragment_login_password_layout"
-            android:layout_marginTop="25dp"
+            android:layout_marginTop="30dp"
             android:text="@string/login" />
 
         <TextView

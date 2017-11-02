@@ -12,7 +12,9 @@ import android.widget.Toast;
 import com.unidadcoronaria.doctorencasa.App;
 import com.unidadcoronaria.doctorencasa.LoginView;
 import com.unidadcoronaria.doctorencasa.R;
+import com.unidadcoronaria.doctorencasa.activity.ChangePasswordActivity;
 import com.unidadcoronaria.doctorencasa.activity.CreateAccountActivity;
+import com.unidadcoronaria.doctorencasa.activity.ForgotPasswordActivity;
 import com.unidadcoronaria.doctorencasa.activity.MainActivity;
 import com.unidadcoronaria.doctorencasa.di.component.DaggerLoginComponent;
 import com.unidadcoronaria.doctorencasa.presenter.LoginPresenter;
@@ -72,6 +74,11 @@ public class LoginFragment extends BaseFragment<LoginPresenter> implements Login
         mPresenter.login(vUsername.getText().toString(), vPassword.getText().toString());
     }
 
+    @OnClick(R.id.fragment_login_forgot_password)
+    public void forgotPassword(){
+        startActivity(ForgotPasswordActivity.getStartIntent(getActivity()));
+    }
+
     @OnClick(R.id.fragment_login_create_account)
     public void createAccount(){
         startActivity(CreateAccountActivity.getStartIntent(getActivity()));
@@ -108,9 +115,14 @@ public class LoginFragment extends BaseFragment<LoginPresenter> implements Login
     }
 
     @Override
-    public void onSaveAffiliateSuccess() {
-        startActivity(MainActivity.getStartIntent(getActivity()));
-        getActivity().finish();
+    public void onSaveAffiliateSuccess(Boolean passwordExpired) {
+        if(passwordExpired){
+            startActivity(ChangePasswordActivity.getStartIntent(getActivity()));
+        } else {
+            startActivity(MainActivity.getStartIntent(getActivity()));
+            getActivity().finish();
+        }
+
     }
 
     @Override

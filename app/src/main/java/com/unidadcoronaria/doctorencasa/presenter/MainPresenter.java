@@ -44,7 +44,7 @@ public class MainPresenter extends BasePresenter<MainView> {
     }
 
     public void logout() {
-        mDeleteAffiliateUseCase.execute(() -> { SessionUtil.logout(); } , throwable -> view.onDeleteAffiliateError());
+        mDeleteAffiliateUseCase.execute(() -> { view.onDeleteAffiliate();  SessionUtil.logout(); } , throwable -> view.onDeleteAffiliateError());
     }
 
 }

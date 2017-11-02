@@ -1,7 +1,5 @@
 package com.unidadcoronaria.doctorencasa;
 
-import com.unidadcoronaria.doctorencasa.domain.User;
-
 /**
  * Created by AGUSTIN.BALA on 5/29/2017.
  */
@@ -14,7 +12,7 @@ public interface LoginView extends BaseView {
 
     void onLoginError();
 
-    void onSaveAffiliateSuccess();
+    void onSaveAffiliateSuccess(Boolean passwordExpired);
 
     void onSaveAffiliateError();
 
