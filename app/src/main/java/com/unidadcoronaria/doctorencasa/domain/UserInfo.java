@@ -7,7 +7,7 @@ package com.unidadcoronaria.doctorencasa.domain;
 public class UserInfo {
 
     private String token;
-    private User user;
+    private Affiliate user;
 
     public String getToken() {
         return token;
@@ -17,11 +17,11 @@ public class UserInfo {
         this.token = token;
     }
 
-    public User getUser() {
+    public Affiliate getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(Affiliate user) {
         this.user = user;
     }
 }

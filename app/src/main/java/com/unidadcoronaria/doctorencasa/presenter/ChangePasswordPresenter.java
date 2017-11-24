@@ -1,8 +1,8 @@
 package com.unidadcoronaria.doctorencasa.presenter;
 
 import com.unidadcoronaria.doctorencasa.ChangePasswordView;
-import com.unidadcoronaria.doctorencasa.domain.Credential;
-import com.unidadcoronaria.doctorencasa.usecase.network.UpdateUserUseCase;
+import com.unidadcoronaria.doctorencasa.dto.Credential;
+import com.unidadcoronaria.doctorencasa.usecase.network.UpdateAffiliateUseCase;
 
 import javax.inject.Inject;
 
@@ -14,17 +14,17 @@ import static com.unidadcoronaria.doctorencasa.util.ValidationUtil.validPassword
 
 public class ChangePasswordPresenter extends BasePresenter<ChangePasswordView> {
 
-    private UpdateUserUseCase mUpdateUserUseCase;
+    private UpdateAffiliateUseCase mUpdateAffiliateUseCase;
 
     @Inject
-    public ChangePasswordPresenter(UpdateUserUseCase mUpdateUserUseCase) {
-        this.mUpdateUserUseCase = mUpdateUserUseCase;
+    public ChangePasswordPresenter(UpdateAffiliateUseCase mUpdateAffiliateUseCase) {
+        this.mUpdateAffiliateUseCase = mUpdateAffiliateUseCase;
     }
 
     @Override
     public void onStop(){
         super.onStop();
-        this.mUpdateUserUseCase.unsubscribe();
+        this.mUpdateAffiliateUseCase.unsubscribe();
     }
 
     public void changePassword(String currentPassword, String newPassword, String newPasswordRepeat) {
@@ -66,8 +66,8 @@ public class ChangePasswordPresenter extends BasePresenter<ChangePasswordView> {
 
         Credential credential = new Credential.Builder().setPassword(currentPassword).setNewPassword(newPassword).build();
         view.onChangePasswordStart();
-        mUpdateUserUseCase.setData(credential);
-        mUpdateUserUseCase.execute(o -> view.onChangePasswordSuccess(), throwable -> view.onChangePasswordError());
+        mUpdateAffiliateUseCase.setData(credential);
+        mUpdateAffiliateUseCase.execute(o -> view.onChangePasswordSuccess(), throwable -> view.onChangePasswordError());
 
     }
 

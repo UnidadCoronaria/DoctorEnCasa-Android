@@ -1,6 +1,4 @@
-package com.unidadcoronaria.doctorencasa.domain;
-
-import com.google.gson.annotations.SerializedName;
+package com.unidadcoronaria.doctorencasa.dto;
 
 /**
  * Created by AGUSTIN.BALA on 5/21/2017.
@@ -10,25 +8,25 @@ public class Credential {
     private String userName;
     private String password;
     private String newPassword;
-    private Integer affiliateId;
+    private Integer affiliateGamId;
     private Integer providerId;
     private String email;
 
     private Credential(Credential.Builder builder) {
         this.userName = builder.username;
         this.password = builder.password;
-        this.affiliateId = builder.affiliateId;
+        this.affiliateGamId = builder.affiliateId;
         this.providerId = builder.providerId;
         this.email = builder.email;
         this.newPassword = builder.newPassword;
     }
 
-    public Integer getAffiliateId() {
-        return affiliateId;
+    public Integer getAffiliateGamId() {
+        return affiliateGamId;
     }
 
-    public void setAffiliateId(Integer affiliateId) {
-        this.affiliateId = affiliateId;
+    public void setAffiliateGamId(Integer affiliateGamId) {
+        this.affiliateGamId = affiliateGamId;
     }
 
     public Integer getProviderId() {

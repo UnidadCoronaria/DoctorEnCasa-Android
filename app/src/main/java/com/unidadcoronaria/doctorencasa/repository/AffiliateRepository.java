@@ -1,18 +1,16 @@
 package com.unidadcoronaria.doctorencasa.repository;
 
 
-import com.unidadcoronaria.doctorencasa.dao.AffiliateDAO;
+import com.unidadcoronaria.doctorencasa.dao.UserDAO;
 import com.unidadcoronaria.doctorencasa.domain.Affiliate;
-import com.unidadcoronaria.doctorencasa.domain.Credential;
-import com.unidadcoronaria.doctorencasa.domain.User;
+import com.unidadcoronaria.doctorencasa.domain.AffiliateCallHistory;
+import com.unidadcoronaria.doctorencasa.domain.VideoCall;
+import com.unidadcoronaria.doctorencasa.dto.Credential;
 import com.unidadcoronaria.doctorencasa.domain.UserInfo;
 import com.unidadcoronaria.doctorencasa.network.rest.AffiliateService;
-import com.unidadcoronaria.doctorencasa.network.rest.UserService;
+
 
 import java.util.List;
-import java.util.Observable;
-import java.util.Optional;
-import java.util.concurrent.Callable;
 
 import javax.inject.Inject;
 
@@ -25,34 +23,45 @@ import io.reactivex.Single;
 
 public class AffiliateRepository {
 
-    private final AffiliateDAO mAffiliateDAO;
     private final AffiliateService mAffiliateService;
+    private UserDAO mUserDAO;
 
 
     @Inject
-    public AffiliateRepository(AffiliateDAO affiliateDAO, AffiliateService affiliateService) {
-        this.mAffiliateDAO = affiliateDAO;
-        this.mAffiliateService = affiliateService;
+    public AffiliateRepository(AffiliateService mAffiliateService) {
+        this.mAffiliateService = mAffiliateService;
     }
 
 
-    public Single<Affiliate> fetchAffiliate() {
-         return Single.fromCallable(() -> {
-            Affiliate mAffiliate = mAffiliateDAO.load();
-            if(mAffiliate != null){
-                return mAffiliate;
-            }
-            String a = "";
-            return new Affiliate();
-        });
-   }
+    public Single<UserInfo> login(Credential credential) {
+        return mAffiliateService.login(credential);
+    }
 
-    public Single<Affiliate> insert(Affiliate affiliate) {
+    public Completable logout() {
+        return mAffiliateService.logout();
+    }
+
+    public Single<UserInfo> createUser(Credential credential) {
+        return mAffiliateService.createUser(credential);
+    }
+
+    public Single<UserInfo> forgotPassword(Credential credential) {
+        return mAffiliateService.forgotPassword(credential);
+    }
+
+    public Single<UserInfo> updateUser(Credential credential) {
+        return mAffiliateService.updatePassword(credential);
+    }
+
+    public Single<Affiliate> fetchAffiliate() {
         return Single.fromCallable(() -> {
-                mAffiliateDAO.save(affiliate);
-                return affiliate;
-            }
-        );
+            Affiliate mAffiliate = mUserDAO.load();
+            return mAffiliate;
+        });
+    }
+
+    public Completable insert(Affiliate affiliate) {
+        return Completable.fromAction(() -> mUserDAO.save(affiliate));
     }
 
     public Single<List<Affiliate>> getAffiliateData(String affiliateNumber, int mProviderId) {
@@ -61,10 +70,19 @@ public class AffiliateRepository {
 
     public Completable delete() {
         return Completable.fromAction(() ->
-            mAffiliateDAO.delete(mAffiliateDAO.load()));
+                mUserDAO.delete(mUserDAO.load()));
     }
 
-    public Single<User> getUser() {
+    public Single<Affiliate> getUser() {
         return mAffiliateService.getAffiliate();
+    }
+
+
+    public Single<AffiliateCallHistory> getAffiliateCallHistory() {
+        return mAffiliateService.getAffiliateCallHistory();
+    }
+
+    public Completable updateFCMToken(String fcmToken) {
+        return mAffiliateService.updateFCMToken(fcmToken);
     }
 }

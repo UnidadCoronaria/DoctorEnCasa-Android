@@ -1,7 +1,7 @@
 package com.unidadcoronaria.doctorencasa.presenter;
 
 import com.unidadcoronaria.doctorencasa.ForgotPasswordView;
-import com.unidadcoronaria.doctorencasa.domain.Credential;
+import com.unidadcoronaria.doctorencasa.dto.Credential;
 import com.unidadcoronaria.doctorencasa.usecase.network.ForgotPasswordUseCase;
 import com.unidadcoronaria.doctorencasa.util.ValidationUtil;
 

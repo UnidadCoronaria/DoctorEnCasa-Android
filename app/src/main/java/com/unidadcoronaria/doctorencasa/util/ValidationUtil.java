@@ -12,10 +12,10 @@ public class ValidationUtil {
     }
 
     public static  boolean validPasswordFormat(String password) {
-        return password.length() >= 8;
+        return password.length() >= 6;
     }
 
     public static  boolean validEmailFormat(String email) {
-        return true;
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 }

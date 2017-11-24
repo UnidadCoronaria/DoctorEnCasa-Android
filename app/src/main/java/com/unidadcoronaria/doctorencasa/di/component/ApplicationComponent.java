@@ -17,11 +17,9 @@ import retrofit2.Retrofit;
 /**
  * Created by AGUSTIN.BALA on 5/22/2017.
  */
-@Component(modules = {ApplicationModule.class, HTTPModule.class})
 @Singleton
+@Component(modules = {ApplicationModule.class, HTTPModule.class})
 public interface ApplicationComponent {
-
-    DoctorEnCasaDB getDB();
 
     Retrofit getRetrofit();
 

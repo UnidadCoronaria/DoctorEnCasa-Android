@@ -31,6 +31,7 @@
     <style name="AppTheme.FloatingLabel" parent="@android:style/TextAppearance">
         <item name="android:textColor">@color/colorPrimary</item>
         <item name="android:textSize">18dp</item>
+        <item name="android:fontFamily">sans-serif</item>
     </style>
 
     <!--Campo de texto-->
@@ -40,12 +41,14 @@
         <!-- cursor y línea con foco-->
         <item name="colorControlActivated">@color/colorPrimary</item>
         <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">sans-serif</item>
     </style>
 
     <!-- mensaje de error debajo del EditText-->
-    <style name="AppTheme.EditTextError" parent="@android:style/TextAppearance">
+    <style name="AppTheme.EditTextError">
         <item name="android:textColor">@android:color/holo_red_light</item>
         <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">sans-serif</item>
     </style>
 
     <!--boton de formularios-->
@@ -55,7 +58,23 @@
         <item name="android:layout_centerHorizontal">true</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:background">@drawable/selector_button</item>
+        <item name="android:fontFamily">sans-serif</item>
         <item name="android:textSize">18dp</item>
+    </style>
+
+    <!-- Card Title -->
+    <style name="CardTitleEditText" >
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+
+    <style name="CardTextEditText">
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:layout_width">match_parent</item>
     </style>
 
 </resources>

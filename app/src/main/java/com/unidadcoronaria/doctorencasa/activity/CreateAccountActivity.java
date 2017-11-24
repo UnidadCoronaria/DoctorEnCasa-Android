@@ -7,6 +7,7 @@ import android.os.Bundle;
 import com.unidadcoronaria.doctorencasa.CreateAccountView;
 import com.unidadcoronaria.doctorencasa.R;
 import com.unidadcoronaria.doctorencasa.domain.Affiliate;
+import com.unidadcoronaria.doctorencasa.domain.Provider;
 import com.unidadcoronaria.doctorencasa.fragment.CreateUserFragment;
 import com.unidadcoronaria.doctorencasa.fragment.BaseFragment;
 import com.unidadcoronaria.doctorencasa.fragment.SelectAffiliateFragment;
@@ -46,8 +47,8 @@ public class CreateAccountActivity extends BaseActivity implements FragmentConta
     }
 
     @Override
-    public void navigateToSelectAffiliate(Integer provider) {
-         showAndHideFragment(SelectProviderFragment.TAG, SelectAffiliateFragment.newInstance(provider));
+    public void navigateToSelectAffiliate(Provider provider) {
+        showAndHideFragment(SelectProviderFragment.TAG, SelectAffiliateFragment.newInstance(provider));
         setToolbarTitle(getResources().getString(R.string.search_affiliate));
     }
 

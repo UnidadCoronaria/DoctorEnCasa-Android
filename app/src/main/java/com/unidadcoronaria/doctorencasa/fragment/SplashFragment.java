@@ -43,15 +43,9 @@ public class SplashFragment extends BaseFragment<SplashPresenter> implements Spl
     }
 
     @Override
-    public void onAffiliateUpdated() {
+    public void userAuthenticated() {
         startActivity(MainActivity.getStartIntent(getActivity()));
         getActivity().finish();
-    }
-
-    @Override
-    public void onGetAffiliateError() {
-        //TODO agregar pull to refresh para volver a obtener informacion del usuario
-        Toast.makeText(getActivity(), "Hubo un error obteniendo los datos del usuario", Toast.LENGTH_LONG).show();
     }
 
     @Override

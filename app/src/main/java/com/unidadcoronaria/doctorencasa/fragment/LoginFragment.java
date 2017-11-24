@@ -31,8 +31,6 @@ public class LoginFragment extends BaseFragment<LoginPresenter> implements Login
     public static final String TAG = "LoginFragment";
 
 
-    @BindView(R.id.rl_progress)
-    protected RelativeLayout vProgress;
     @BindView(R.id.fragment_login_username)
     protected TextView vUsername;
     @BindView(R.id.fragment_login_username_layout)
@@ -70,7 +68,7 @@ public class LoginFragment extends BaseFragment<LoginPresenter> implements Login
 
     @OnClick(R.id.fragment_login_button)
     public void attemptLogin(){
-        vProgress.setVisibility(View.VISIBLE);
+        vLogin.setEnabled(false);
         mPresenter.login(vUsername.getText().toString(), vPassword.getText().toString());
     }
 
@@ -86,7 +84,7 @@ public class LoginFragment extends BaseFragment<LoginPresenter> implements Login
 
     @Override
     public void onEmptyUsername() {
-        vProgress.setVisibility(View.GONE);
+        vLogin.setEnabled(true);
         vUsernameLayout.requestFocus();
         vUsernameLayout.setError(getString(R.string.can_be_empty));
         vUsernameLayout.setErrorEnabled(true);
@@ -96,7 +94,7 @@ public class LoginFragment extends BaseFragment<LoginPresenter> implements Login
 
     @Override
     public void onEmptyPassword() {
-        vProgress.setVisibility(View.GONE);
+        vLogin.setEnabled(true);
         vPasswordLayout.requestFocus();
         vUsernameLayout.setError(null);
         vUsernameLayout.setErrorEnabled(false);
@@ -106,7 +104,7 @@ public class LoginFragment extends BaseFragment<LoginPresenter> implements Login
 
     @Override
     public void onLoginError() {
-        vProgress.setVisibility(View.GONE);
+        vLogin.setEnabled(true);
         vUsernameLayout.requestFocus();
         vUsernameLayout.setError(getString(R.string.credential_error));
         vUsernameLayout.setErrorEnabled(true);
@@ -127,13 +125,13 @@ public class LoginFragment extends BaseFragment<LoginPresenter> implements Login
 
     @Override
     public void onSaveAffiliateError() {
-        vProgress.setVisibility(View.GONE);
+        vLogin.setEnabled(true);
         Toast.makeText(getActivity(), "Hubo un error guardando la información del usuario. Por favor, intentelo nuevamente.", Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void invalidPasswordFormat() {
-        vProgress.setVisibility(View.GONE);
+        vLogin.setEnabled(true);
         vPasswordLayout.requestFocus();
         vUsernameLayout.setError(null);
         vUsernameLayout.setErrorEnabled(false);
@@ -143,7 +141,7 @@ public class LoginFragment extends BaseFragment<LoginPresenter> implements Login
 
     @Override
     public void invalidUsernameFormat() {
-        vProgress.setVisibility(View.GONE);
+        vLogin.setEnabled(true);
         vUsernameLayout.requestFocus();
         vUsernameLayout.setError(getString(R.string.error_invalid_username_format));
         vUsernameLayout.setErrorEnabled(true);

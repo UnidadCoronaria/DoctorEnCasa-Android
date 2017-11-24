@@ -8,6 +8,8 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 
 import com.unidadcoronaria.doctorencasa.R;
 import com.unidadcoronaria.doctorencasa.fragment.BaseFragment;
@@ -15,6 +17,7 @@ import com.unidadcoronaria.doctorencasa.util.FragmentNavigationUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * The base class for all activities
@@ -28,6 +31,10 @@ public abstract class BaseActivity extends AppCompatActivity {
     @BindView(R.id.toolbar)
     Toolbar vToolbar;
 
+    @Nullable
+    @BindView(R.id.toolbar_settings)
+    ImageView vSettingsIcon;
+
     //region Lifecycle implementation
     @Override
     @CallSuper
@@ -37,6 +44,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         if(showToolbar()) {
             configureToolbar(savedInstanceState);
+            if(vSettingsIcon != null) vSettingsIcon.setOnClickListener(view -> startActivity(SettingsActivity.newInstance(BaseActivity.this)));
         } else {
             hideToolbar();
         }
@@ -76,6 +84,9 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.hide();
         }
+        if(vToolbar != null) {
+            vToolbar.setVisibility(View.GONE);
+        }
     }
 
     protected void setBackVisibilityInToolbar(boolean isBackVisible) {
@@ -111,6 +122,12 @@ public abstract class BaseActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setTitle(toolbarTitle);
+        }
+    }
+
+    public void changeSettingsIconVisibility(boolean isVisible){
+        if (vSettingsIcon != null) {
+            vSettingsIcon.setVisibility(isVisible ? View.VISIBLE : View.GONE);
         }
     }
     //endregion

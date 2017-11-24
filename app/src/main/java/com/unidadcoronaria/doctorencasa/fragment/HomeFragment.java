@@ -48,23 +48,23 @@ public class HomeFragment extends BaseFragment<MainPresenter> implements MainVie
         mPresenter.getAffiliate();
     }
 
-    public void onAffiliateRetrieved(Affiliate user){
-        vText.setText(user.getFirstName()+" "+user.getLastName());
+    public void onAffiliateRetrieved(Affiliate affiliate){
+        vText.setText(affiliate.getFirstName()+" "+ affiliate.getLastName());
     }
 
     @Override
-    public void onLoadAffiliateError() {
+    public void onGetAffiliateError() {
         vText.setText("No se pudieron obtener los datos del usuario");
     }
 
     @Override
-    public void onDeleteAffiliate() {
+    public void onLogout() {
         startActivity(LoginActivity.getStartIntent(getActivity()));
         getActivity().finish();
     }
 
     @Override
-    public void onDeleteAffiliateError() {
+    public void onLogoutError() {
 
     }
 

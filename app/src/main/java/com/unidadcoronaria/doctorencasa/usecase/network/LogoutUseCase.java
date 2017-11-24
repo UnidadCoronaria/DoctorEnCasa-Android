@@ -1,6 +1,6 @@
 package com.unidadcoronaria.doctorencasa.usecase.network;
 
-import com.unidadcoronaria.doctorencasa.repository.UserRepository;
+import com.unidadcoronaria.doctorencasa.repository.AffiliateRepository;
 import com.unidadcoronaria.doctorencasa.usecase.VoidUseCase;
 import com.unidadcoronaria.doctorencasa.usecase.executor.PostExecutionThread;
 import com.unidadcoronaria.doctorencasa.usecase.executor.ThreadExecutor;
@@ -11,17 +11,17 @@ import io.reactivex.Completable;
 
 public class LogoutUseCase extends VoidUseCase {
 
-    private final UserRepository mUserRepository;
+    private final AffiliateRepository mAffiliateRepository;
 
     @Inject
-    public LogoutUseCase(UserRepository mUserRepository, ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread) {
+    public LogoutUseCase(AffiliateRepository mAffiliateRepository, ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread) {
         super(threadExecutor, postExecutionThread);
-        this.mUserRepository = mUserRepository;
+        this.mAffiliateRepository = mAffiliateRepository;
     }
 
     @Override
     public Completable buildUseCaseObservable() {
-        return this.mUserRepository.logout();
+        return this.mAffiliateRepository.logout();
     }
 
 }

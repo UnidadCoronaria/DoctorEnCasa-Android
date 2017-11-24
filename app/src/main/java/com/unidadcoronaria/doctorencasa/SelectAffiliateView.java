@@ -1,7 +1,6 @@
 package com.unidadcoronaria.doctorencasa;
 
 import com.unidadcoronaria.doctorencasa.domain.Affiliate;
-import com.unidadcoronaria.doctorencasa.domain.Provider;
 
 import java.util.List;
 

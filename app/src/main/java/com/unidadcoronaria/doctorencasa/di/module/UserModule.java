@@ -1,17 +1,8 @@
 package com.unidadcoronaria.doctorencasa.di.module;
 
-import com.unidadcoronaria.doctorencasa.dao.AffiliateDAO;
-import com.unidadcoronaria.doctorencasa.database.DoctorEnCasaDB;
 import com.unidadcoronaria.doctorencasa.di.PerActivity;
 import com.unidadcoronaria.doctorencasa.network.rest.AffiliateService;
-import com.unidadcoronaria.doctorencasa.network.rest.UserService;
-import com.unidadcoronaria.doctorencasa.presenter.LoginPresenter;
-import com.unidadcoronaria.doctorencasa.presenter.SplashPresenter;
-import com.unidadcoronaria.doctorencasa.repository.UserRepository;
-import com.unidadcoronaria.doctorencasa.usecase.database.LoadAffiliateUseCase;
-import com.unidadcoronaria.doctorencasa.usecase.network.GeUserUseCase;
-import com.unidadcoronaria.doctorencasa.usecase.network.LoginUseCase;
-import com.unidadcoronaria.doctorencasa.usecase.database.SaveAffiliateUseCase;
+import com.unidadcoronaria.doctorencasa.repository.AffiliateRepository;
 
 import dagger.Module;
 import dagger.Provides;
@@ -26,27 +17,14 @@ public class UserModule {
 
     @Provides
     @PerActivity
-    UserService provideUserService(Retrofit retrofit){
-        return retrofit.create(UserService.class);
-    }
-
-    @Provides
-    @PerActivity
-    AffiliateService provideAffiliateService(Retrofit retrofit){
+    AffiliateService provideUserService(Retrofit retrofit){
         return retrofit.create(AffiliateService.class);
     }
 
     @Provides
     @PerActivity
-    UserRepository provideUserRepository(UserService userService){
-        return new UserRepository(userService);
+    AffiliateRepository provideUserRepository(AffiliateService affiliateService){
+        return new AffiliateRepository(affiliateService);
     }
-
-    @Provides
-    @PerActivity
-    AffiliateDAO provideUserDAO(DoctorEnCasaDB db){
-       return db.affiliateDAO();
-    }
-
 
 }

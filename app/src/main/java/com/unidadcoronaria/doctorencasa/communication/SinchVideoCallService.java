@@ -39,8 +39,7 @@ public class SinchVideoCallService implements VideoCallService {
                 .applicationKey(APP_KEY)
                 .applicationSecret(APP_SECRET)
                 .environmentHost(ENVIRONMENT)
-                // TODO: Use username to identify user
-                .userId(SessionUtil.getToken())
+                .userId(SessionUtil.getUsername())
                 .build();
 
         // Specify the client capabilities.

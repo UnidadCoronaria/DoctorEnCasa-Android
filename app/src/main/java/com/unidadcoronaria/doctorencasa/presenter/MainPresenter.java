@@ -2,8 +2,7 @@ package com.unidadcoronaria.doctorencasa.presenter;
 
 import com.unidadcoronaria.doctorencasa.MainView;
 import com.unidadcoronaria.doctorencasa.domain.Affiliate;
-import com.unidadcoronaria.doctorencasa.usecase.database.DeleteAffiliateUseCase;
-import com.unidadcoronaria.doctorencasa.usecase.database.LoadAffiliateUseCase;
+import com.unidadcoronaria.doctorencasa.usecase.network.GetAffiliateUseCase;
 import com.unidadcoronaria.doctorencasa.usecase.network.LogoutUseCase;
 import com.unidadcoronaria.doctorencasa.util.SessionUtil;
 
@@ -15,22 +14,20 @@ import javax.inject.Inject;
 
 public class MainPresenter extends BasePresenter<MainView> {
 
-    private LoadAffiliateUseCase mLoadAffiliateUseCase;
-    private DeleteAffiliateUseCase mDeleteAffiliateUseCase;
+    private GetAffiliateUseCase mGetAffiliateUseCase;
     private LogoutUseCase mLogoutUseCase;
 
     @Inject
-    public MainPresenter(LoadAffiliateUseCase mLoadAffiliateUseCase, DeleteAffiliateUseCase mDeleteAffiliateUseCase, LogoutUseCase mLogoutUseCase) {
-        this.mLoadAffiliateUseCase = mLoadAffiliateUseCase;
-        this.mDeleteAffiliateUseCase = mDeleteAffiliateUseCase;
+    public MainPresenter(GetAffiliateUseCase mGetAffiliateUseCase, LogoutUseCase mLogoutUseCase) {
+        this.mGetAffiliateUseCase = mGetAffiliateUseCase;
         this.mLogoutUseCase = mLogoutUseCase;
     }
 
     public void getAffiliate(){
-        mLoadAffiliateUseCase.execute(affiliate -> {
-            view.onAffiliateRetrieved((Affiliate) affiliate);
+        mGetAffiliateUseCase.execute(user -> {
+            view.onAffiliateRetrieved((Affiliate) user);
         }, throwable -> {
-            view.onLoadAffiliateError();
+            view.onGetAffiliateError();
         });
     }
 
@@ -38,13 +35,16 @@ public class MainPresenter extends BasePresenter<MainView> {
     @Override
     public void onStop(){
         super.onStop();
-        mLoadAffiliateUseCase.unsubscribe();
-        mDeleteAffiliateUseCase.unsubscribe();
         mLogoutUseCase.unsubscribe();
+        mGetAffiliateUseCase.unsubscribe();
     }
 
     public void logout() {
-        mDeleteAffiliateUseCase.execute(() -> { view.onDeleteAffiliate();  SessionUtil.logout(); } , throwable -> view.onDeleteAffiliateError());
+        mLogoutUseCase.execute(() -> {
+            view.onLogout();
+            SessionUtil.logout();
+        }, throwable -> view.onLogoutError());
+
     }
 
 }

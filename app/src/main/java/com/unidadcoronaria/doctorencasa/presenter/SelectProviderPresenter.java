@@ -1,9 +1,7 @@
 package com.unidadcoronaria.doctorencasa.presenter;
 
 import com.unidadcoronaria.doctorencasa.SelectProviderView;
-import com.unidadcoronaria.doctorencasa.domain.Affiliate;
 import com.unidadcoronaria.doctorencasa.domain.Provider;
-import com.unidadcoronaria.doctorencasa.usecase.network.GetAffiliateListUseCase;
 import com.unidadcoronaria.doctorencasa.usecase.network.GetProviderListUseCase;
 
 import java.util.List;

@@ -3,18 +3,14 @@ package com.unidadcoronaria.doctorencasa.presenter;
 import android.util.Log;
 
 import com.unidadcoronaria.doctorencasa.LoginView;
-import com.unidadcoronaria.doctorencasa.domain.Affiliate;
-import com.unidadcoronaria.doctorencasa.domain.Credential;
-import com.unidadcoronaria.doctorencasa.domain.User;
+import com.unidadcoronaria.doctorencasa.dto.Credential;
 import com.unidadcoronaria.doctorencasa.domain.UserInfo;
-import com.unidadcoronaria.doctorencasa.usecase.database.LoadAffiliateUseCase;
-import com.unidadcoronaria.doctorencasa.usecase.database.SaveAffiliateUseCase;
+import com.unidadcoronaria.doctorencasa.usecase.database.SaveUserUseCase;
 import com.unidadcoronaria.doctorencasa.usecase.network.LoginUseCase;
 import com.unidadcoronaria.doctorencasa.util.SessionUtil;
 
 import javax.inject.Inject;
 
-import static com.unidadcoronaria.doctorencasa.util.ValidationUtil.validEmailFormat;
 import static com.unidadcoronaria.doctorencasa.util.ValidationUtil.validPasswordFormat;
 import static com.unidadcoronaria.doctorencasa.util.ValidationUtil.validUsernameFormat;
 
@@ -25,18 +21,13 @@ import static com.unidadcoronaria.doctorencasa.util.ValidationUtil.validUsername
 public class LoginPresenter extends BasePresenter<LoginView> {
 
     private LoginUseCase mLoginUseCase;
-    private SaveAffiliateUseCase mSaveUserUseCase;
+    private SaveUserUseCase mSaveUserUseCase;
 
     @Inject
-    public LoginPresenter(LoginUseCase mLoginUseCase, SaveAffiliateUseCase mSaveUserUseCase) {
+    public LoginPresenter(LoginUseCase mLoginUseCase, SaveUserUseCase mSaveUserUseCase) {
         this.mLoginUseCase = mLoginUseCase;
         this.mSaveUserUseCase = mSaveUserUseCase;
     }
-
-    private void onLoginSuccess(UserInfo userInfo) {
-        saveAffiliate(userInfo);
-    }
-
 
     public void login(String username, String password) {
 
@@ -60,20 +51,25 @@ public class LoginPresenter extends BasePresenter<LoginView> {
         }
 
         mLoginUseCase.setData(new Credential.Builder().setUsername(username).setPassword(password).build());
-        mLoginUseCase.execute(userInfo -> {
-            onLoginSuccess((UserInfo) userInfo);
+        mLoginUseCase.execute(o -> {
+            UserInfo userInfo = (UserInfo) o;
+            SessionUtil.saveToken(userInfo.getToken());
+            SessionUtil.saveUsername(userInfo.getUser().getUsername());
+            view.onSaveAffiliateSuccess(userInfo.getUser().getPasswordExpired());
         }, throwable -> {
             Log.e("LoginPresenter", "Error performing login " + throwable.toString());
             view.onLoginError();
         });
     }
 
+    @Deprecated
     private void saveAffiliate(UserInfo userInfo) {
         mSaveUserUseCase.setAffiliate(userInfo.getUser());
-        mSaveUserUseCase.execute(o -> {
+        mSaveUserUseCase.execute(() -> {
             SessionUtil.saveToken(userInfo.getToken());
             SessionUtil.saveUsername(userInfo.getUser().getUsername());
-            view.onSaveAffiliateSuccess(userInfo.getUser().getPasswordExpired()); }, throwable -> view.onSaveAffiliateError());
+            view.onSaveAffiliateSuccess(userInfo.getUser().getPasswordExpired());
+             }, throwable -> view.onSaveAffiliateError());
     }
 
     @Override

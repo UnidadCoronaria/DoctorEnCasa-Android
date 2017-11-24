@@ -23,7 +23,8 @@
         android:name=".App"
         android:theme="@style/AppTheme.NoActionBar">
 
-        <meta-data
+        <meta-data xmlns:tools="http://schemas.android.com/tools"
+            tools:replace="android:value"
             android:name="io.fabric.ApiKey"
             android:value="7ce6b3e82c1debf66fc206edef2253fa3cd6fb16" />
 
@@ -51,10 +52,33 @@
         <activity android:name=".activity.ChangePasswordActivity"
             android:screenOrientation="portrait"/>
 
+        <activity android:name=".activity.NewCallActivity"
+            android:launchMode="singleTask"
+            android:parentActivityName=".activity.MainActivity"
+            android:screenOrientation="portrait">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.MainActivity"/>
+
+        </activity>
+
+        <activity android:name=".activity.EndCallActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".activity.SettingsActivity"
+            android:screenOrientation="portrait"/>
+
         <service
-            android:name=".communication.NotificationService">
+            android:name=".service.NotificationService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+
+        <service android:name=".service.FCMInstanceIdService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
     </application>

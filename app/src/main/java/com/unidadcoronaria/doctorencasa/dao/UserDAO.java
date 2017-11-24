@@ -6,7 +6,6 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 
 import com.unidadcoronaria.doctorencasa.domain.Affiliate;
-import com.unidadcoronaria.doctorencasa.domain.User;
 
 import static android.arch.persistence.room.OnConflictStrategy.REPLACE;
 
@@ -15,12 +14,12 @@ import static android.arch.persistence.room.OnConflictStrategy.REPLACE;
  */
 
 @Dao
-public interface AffiliateDAO {
+public interface UserDAO {
 
     @Insert(onConflict = REPLACE)
     void save(Affiliate affiliate);
 
-    @Query("SELECT * FROM affiliate limit 1")
+    @Query("SELECT * FROM user limit 1")
     Affiliate load();
 
     @Delete

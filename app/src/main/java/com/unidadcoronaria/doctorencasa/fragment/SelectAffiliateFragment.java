@@ -21,6 +21,7 @@ import com.unidadcoronaria.doctorencasa.SelectAffiliateView;
 import com.unidadcoronaria.doctorencasa.adapter.AffiliateAdapter;
 import com.unidadcoronaria.doctorencasa.di.component.DaggerCreateAccountComponent;
 import com.unidadcoronaria.doctorencasa.domain.Affiliate;
+import com.unidadcoronaria.doctorencasa.domain.Provider;
 import com.unidadcoronaria.doctorencasa.presenter.SelectAffiliatePresenter;
 
 import java.util.List;
@@ -54,7 +55,7 @@ public class SelectAffiliateFragment extends BaseFragment<SelectAffiliatePresent
     protected ImageView vSearchButton;
 
     private AffiliateAdapter mAffiliateAdapter;
-    private int mProvider;
+    private Provider mProvider;
     private CreateAccountView mCallback;
 
 
@@ -68,10 +69,10 @@ public class SelectAffiliateFragment extends BaseFragment<SelectAffiliatePresent
         return TAG;
     }
 
-    public static SelectAffiliateFragment newInstance(Integer provider){
+    public static SelectAffiliateFragment newInstance(Provider provider){
         SelectAffiliateFragment instance = new SelectAffiliateFragment();
         Bundle bundle = new Bundle();
-        bundle.putInt(PROVIDER_KEY, provider);
+        bundle.putSerializable(PROVIDER_KEY, provider);
         instance.setArguments(bundle);
         return instance;
     }
@@ -85,7 +86,7 @@ public class SelectAffiliateFragment extends BaseFragment<SelectAffiliatePresent
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if(getArguments() != null && getArguments().containsKey(PROVIDER_KEY)){
-            mProvider =  getArguments().getInt(PROVIDER_KEY);
+            mProvider = (Provider) getArguments().getSerializable(PROVIDER_KEY);
         }
         mPresenter.setView(this);
         vAffiliateList.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -112,7 +113,7 @@ public class SelectAffiliateFragment extends BaseFragment<SelectAffiliatePresent
         vAffiliateNumberLayout.setError(null);
         vAffiliateNumberLayout.setErrorEnabled(false);
         vProgress.setVisibility(View.VISIBLE);
-        mPresenter.getAffiliateData(vAffiliateNumber.getText().toString(),mProvider);
+        mPresenter.getAffiliateData(vAffiliateNumber.getText().toString(), mProvider.getId());
         hideSoftKeyboard();
     }
 
@@ -124,10 +125,10 @@ public class SelectAffiliateFragment extends BaseFragment<SelectAffiliatePresent
 
     @OnClick(R.id.fragment_select_affiliate_account_continue)
     public void onContinueClick(){
-        if(mAffiliateAdapter.getSelectedAffiliate() != null ){
-            if(!mAffiliateAdapter.getSelectedAffiliate().isUser()) {
-                Affiliate selectedAffiliate = mAffiliateAdapter.getSelectedAffiliate();
-                selectedAffiliate.setProviderId(mProvider);
+        if(mAffiliateAdapter.getSelectedUser() != null ){
+            if(!mAffiliateAdapter.getSelectedUser().isUser()) {
+                Affiliate selectedAffiliate = mAffiliateAdapter.getSelectedUser();
+                selectedAffiliate.setProvider(mProvider);
                 mCallback.navigateToCreateUser(selectedAffiliate);
             } else {
                 Toast.makeText(getActivity(), "El afiliado seleccionado ya posee una cuenta.", Toast.LENGTH_LONG).show();

@@ -48,6 +48,7 @@
             android:id="@+id/fragment_login_password_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:layout_below="@+id/fragment_login_username_layout"
             app:errorTextAppearance="@style/AppTheme.EditTextError"
             app:hintTextAppearance="@style/AppTheme.FloatingLabel">
@@ -95,5 +96,5 @@
 
     </RelativeLayout>
 
-    <include layout="@layout/view_progress_transparent" />
+
 </FrameLayout>

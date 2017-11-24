@@ -134,7 +134,7 @@ public class CreateUserFragment extends BaseFragment<CreateUserPresenter> implem
     @OnClick(R.id.fragment_affiliate_create)
     public void onCreateAccountClick() {
         clearAllErrors();
-        mPresenter.createAccount(mAffiliate.getAffiliateId(), mAffiliate.getProviderId(),
+        mPresenter.createAccount(mAffiliate.getAffiliateGamId(), mAffiliate.getProvider().getId(),
                         vUsername.getText().toString(), vPassword.getText().toString(), vPasswordRepeat.getText().toString(), vEmail.getText().toString());
     }
 

@@ -1,10 +1,9 @@
 package com.unidadcoronaria.doctorencasa.presenter;
 
 import com.unidadcoronaria.doctorencasa.AffiliateDataView;
-import com.unidadcoronaria.doctorencasa.domain.Credential;
-import com.unidadcoronaria.doctorencasa.domain.User;
+import com.unidadcoronaria.doctorencasa.dto.Credential;
 import com.unidadcoronaria.doctorencasa.domain.UserInfo;
-import com.unidadcoronaria.doctorencasa.usecase.database.SaveAffiliateUseCase;
+import com.unidadcoronaria.doctorencasa.usecase.database.SaveUserUseCase;
 import com.unidadcoronaria.doctorencasa.usecase.network.CreateUserUseCase;
 import com.unidadcoronaria.doctorencasa.util.SessionUtil;
 
@@ -21,10 +20,10 @@ import static com.unidadcoronaria.doctorencasa.util.ValidationUtil.validUsername
 public class CreateUserPresenter extends BasePresenter<AffiliateDataView> {
 
     private CreateUserUseCase mCreateUserUseCase;
-    private SaveAffiliateUseCase mSaveUserUseCase;
+    private SaveUserUseCase mSaveUserUseCase;
 
     @Inject
-    public CreateUserPresenter(CreateUserUseCase mCreateUserUseCase, SaveAffiliateUseCase mSaveUserUseCase) {
+    public CreateUserPresenter(CreateUserUseCase mCreateUserUseCase, SaveUserUseCase mSaveUserUseCase) {
         this.mCreateUserUseCase = mCreateUserUseCase;
         this.mSaveUserUseCase = mSaveUserUseCase;
     }
@@ -88,16 +87,22 @@ public class CreateUserPresenter extends BasePresenter<AffiliateDataView> {
                                                                 .setEmail(email).build();
         view.onCreateUserStart();
         mCreateUserUseCase.setData(credential);
-        mCreateUserUseCase.execute(o -> onCreateUserSuccess((UserInfo) o), throwable -> view.onSaveAffiliateError());
+        mCreateUserUseCase.execute(o ->{
+            UserInfo userInfo = (UserInfo) o;
+            SessionUtil.saveToken(userInfo.getToken());
+            SessionUtil.saveUsername(userInfo.getUser().getUsername());
+            view.onSaveAffiliateSuccess(); } , throwable -> view.onSaveAffiliateError());
 
     }
 
+    @Deprecated
     private void onCreateUserSuccess(UserInfo userInfo) {
         mSaveUserUseCase.setAffiliate(userInfo.getUser());
-        mSaveUserUseCase.execute(o -> {
+        mSaveUserUseCase.execute(() -> {
             SessionUtil.saveToken(userInfo.getToken());
             SessionUtil.saveUsername(userInfo.getUser().getUsername());
-            view.onSaveAffiliateSuccess(); }, throwable -> view.onSaveAffiliateError());
+            view.onSaveAffiliateSuccess();
+            }, throwable -> view.onSaveAffiliateError());
     }
 
 }

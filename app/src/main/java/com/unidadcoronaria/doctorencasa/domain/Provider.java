@@ -3,21 +3,22 @@ package com.unidadcoronaria.doctorencasa.domain;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 
+import java.io.Serializable;
+
 /**
  * Created by AGUSTIN.BALA on 5/21/2017.
  */
-@Entity
-public class Provider {
+public class Provider implements Serializable {
 
-    @PrimaryKey
-    private String id;
+    private int id;
     private String name;
 
-    public String getId() {
+
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

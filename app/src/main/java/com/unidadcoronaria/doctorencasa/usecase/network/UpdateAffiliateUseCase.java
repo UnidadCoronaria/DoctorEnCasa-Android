@@ -1,8 +1,8 @@
 package com.unidadcoronaria.doctorencasa.usecase.network;
 
-import com.unidadcoronaria.doctorencasa.domain.Credential;
+import com.unidadcoronaria.doctorencasa.dto.Credential;
 import com.unidadcoronaria.doctorencasa.domain.UserInfo;
-import com.unidadcoronaria.doctorencasa.repository.UserRepository;
+import com.unidadcoronaria.doctorencasa.repository.AffiliateRepository;
 import com.unidadcoronaria.doctorencasa.usecase.SingleItemUseCase;
 import com.unidadcoronaria.doctorencasa.usecase.executor.PostExecutionThread;
 import com.unidadcoronaria.doctorencasa.usecase.executor.ThreadExecutor;
@@ -16,21 +16,21 @@ import io.reactivex.Single;
  * Created by AGUSTIN.BALA on 6/4/2017.
  */
 
-public class UpdateUserUseCase extends SingleItemUseCase {
+public class UpdateAffiliateUseCase extends SingleItemUseCase {
 
-    private final UserRepository mUserRepository;
+    private final AffiliateRepository mAffiliateRepository;
     private Credential mCredential;
 
 
     @Inject
-    public UpdateUserUseCase(UserRepository mUserRepository, ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread) {
+    public UpdateAffiliateUseCase(AffiliateRepository mAffiliateRepository, ThreadExecutor threadExecutor, PostExecutionThread postExecutionThread) {
         super(threadExecutor, postExecutionThread);
-        this.mUserRepository = mUserRepository;
+        this.mAffiliateRepository = mAffiliateRepository;
     }
 
     @Override
     public Single<UserInfo> buildUseCaseObservable() {
-        return this.mUserRepository.updateUser(this.mCredential);
+        return this.mAffiliateRepository.updateUser(this.mCredential);
     }
 
     public void setData(Credential credential){

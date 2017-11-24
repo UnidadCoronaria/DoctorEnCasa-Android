@@ -5,7 +5,7 @@
     android:layout_weight="1"
     android:orientation="vertical">
 
-    <include layout="@layout/view_toolbar" />
+    <include layout="@layout/view_toolbar"  />
 
     <FrameLayout
         android:id="@+id/activity_base_fragment"

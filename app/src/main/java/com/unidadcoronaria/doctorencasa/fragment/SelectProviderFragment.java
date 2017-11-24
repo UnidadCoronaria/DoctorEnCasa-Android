@@ -86,7 +86,7 @@ public class SelectProviderFragment extends BaseFragment<SelectProviderPresenter
     @OnClick(R.id.fragment_create_affiliate_account_continue)
     public void onContinueClick(){
         if(vProviderAdapter.getSelectedProvider() != null){
-            mCallback.navigateToSelectAffiliate(Integer.parseInt(vProviderAdapter.getSelectedProvider().getId()));
+            mCallback.navigateToSelectAffiliate(vProviderAdapter.getSelectedProvider());
         } else {
             Toast.makeText(getActivity(), "Seleccione la empresa a la cual se encuentra afiliada.", Toast.LENGTH_LONG).show();
         }

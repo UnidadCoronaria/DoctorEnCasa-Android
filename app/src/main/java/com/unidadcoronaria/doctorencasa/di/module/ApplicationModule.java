@@ -21,12 +21,6 @@ import dagger.Provides;
 @Module
 public class ApplicationModule {
 
-    @Provides
-    @Singleton
-    DoctorEnCasaDB provideDB(){
-        return Room.databaseBuilder(App.getInstance(),
-                DoctorEnCasaDB.class, DoctorEnCasaDB.DATABASE_NAME).build();
-    }
 
     @Provides
     @Singleton

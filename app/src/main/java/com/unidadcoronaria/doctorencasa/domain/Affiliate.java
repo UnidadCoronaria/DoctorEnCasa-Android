@@ -1,22 +1,16 @@
 package com.unidadcoronaria.doctorencasa.domain;
 
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.PrimaryKey;
-
 import java.io.Serializable;
+import java.util.Date;
 
 /**
- * @author AGUSTIN.BALA
- * @since 4.16
+ * Created by AGUSTIN.BALA on 5/23/2017.
  */
-
-@Entity
 public class Affiliate implements Serializable {
 
-    @PrimaryKey
     private Integer id;
-    private Integer affiliateId;
-    private Integer providerId;
+    private Integer affiliateGamId;
+    private Provider provider;
     private String firstName;
     private String lastName;
     private String documentNumber;
@@ -25,85 +19,60 @@ public class Affiliate implements Serializable {
     private String cellphone;
     private Long birthDate;
     private boolean isUser;
+    private String username;
+    private Boolean enabled;
+    private Boolean passwordExpired;
+    private long lastPasswordResetDate;
 
     public Affiliate() {
+        super();
     }
 
     private Affiliate(Builder builder) {
-        this.firstName = builder.firstName;
-        this.lastName = builder.lastName;
-        this.email = builder.email;
-        this.documentNumber = builder.documentNumber;
-        this.documentType = builder.documentType;
-        this.cellphone = builder.cellphone;
-        this.birthDate = builder.birthDate;
-        this.affiliateId = builder.affiliateId;
-        this.providerId = builder.providerId;
-        this.isUser = builder.isUser;
+        this.username = builder.username;
+        this.enabled = builder.enabled;
+        this.lastPasswordResetDate = builder.lastPasswordResetDate;
+        this.passwordExpired = builder.passwordExpired;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public long getLastPasswordResetDate() {
+        return lastPasswordResetDate;
+    }
+
+    public Boolean getPasswordExpired() {
+        return passwordExpired;
     }
 
     public Integer getId() {
         return id;
     }
 
-    public Integer getAffiliateId() {
-        return affiliateId;
-    }
-
-    public Integer getProviderId() {
-        return providerId;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getFirstName() {
         return firstName;
     }
 
-    public String getLastName() {
-        return lastName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getCellphone() {
-        return cellphone;
-    }
-
-    public Long getBirthDate() {
-        return birthDate;
-    }
-
-    public void setAffiliateId(Integer affiliateId) {
-        this.affiliateId = affiliateId;
-    }
-
-    public void setProviderId(Integer providerId) {
-        this.providerId = providerId;
-    }
-
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
+    public String getLastName() {
+        return lastName;
+    }
+
     public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public void setCellphone(String cellphone) {
-        this.cellphone = cellphone;
-    }
-
-    public void setBirthDate(Long birthDate) {
-        this.birthDate = birthDate;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getDocumentNumber() {
@@ -122,6 +91,30 @@ public class Affiliate implements Serializable {
         this.documentType = documentType;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getCellphone() {
+        return cellphone;
+    }
+
+    public void setCellphone(String cellphone) {
+        this.cellphone = cellphone;
+    }
+
+    public Long getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(Long birthDate) {
+        this.birthDate = birthDate;
+    }
+
     public boolean isUser() {
         return isUser;
     }
@@ -130,33 +123,62 @@ public class Affiliate implements Serializable {
         isUser = user;
     }
 
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public void setPasswordExpired(Boolean passwordExpired) {
+        this.passwordExpired = passwordExpired;
+    }
+
+    public void setLastPasswordResetDate(long lastPasswordResetDate) {
+        this.lastPasswordResetDate = lastPasswordResetDate;
+    }
+
+    public Integer getAffiliateGamId() {
+        return affiliateGamId;
+    }
+
+    public void setAffiliateGamId(Integer affiliateGamId) {
+        this.affiliateGamId = affiliateGamId;
+    }
+
+    public Provider getProvider() {
+        return provider;
+    }
+
+    public void setProvider(Provider provider) {
+        this.provider = provider;
+    }
+
     public static class Builder {
 
-        private Integer affiliateId;
-        private Integer providerId;
-        private String firstName;
-        private String lastName;
-        private String documentNumber;
-        private String documentType;
-        private String email;
-        private String cellphone;
-        private Long birthDate;
-        private boolean isUser;
+        private String username;
+        private Boolean enabled;
+        private Boolean passwordExpired;
+        private long lastPasswordResetDate;
 
-        public Builder(String firstName, String lastName, String email,
-                       String documentNumber, String documentType,
-                       String cellphone, Long birthDate,
-                       Integer affiliateId, Integer providerId, boolean isUser) {
-            this.firstName = firstName;
-            this.lastName = lastName;
-            this.email = email;
-            this.documentNumber = documentNumber;
-            this.documentType = documentType;
-            this.cellphone = cellphone;
-            this.birthDate = birthDate;
-            this.affiliateId = affiliateId;
-            this.providerId = providerId;
-            this.isUser = isUser;
+        public Builder(String username) {
+            this.username = username;
+        }
+
+        public Builder setEnabled(Boolean enabled){
+            this.enabled = enabled;
+            return this;
+        }
+
+        public Builder setLastPasswordResetDate(long lastPasswordResetDate){
+            this.lastPasswordResetDate = lastPasswordResetDate;
+            return this;
+        }
+
+        public Builder setPasswordExpiredDate(Boolean passwordExpired){
+            this.passwordExpired = passwordExpired;
+            return this;
         }
 
         public Affiliate build(){

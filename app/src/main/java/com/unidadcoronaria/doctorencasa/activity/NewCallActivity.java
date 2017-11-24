@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.CallSuper;
 
 import com.unidadcoronaria.doctorencasa.R;
+import com.unidadcoronaria.doctorencasa.domain.VideoCall;
 import com.unidadcoronaria.doctorencasa.fragment.BaseFragment;
 import com.unidadcoronaria.doctorencasa.fragment.NewCallFragment;
 
@@ -16,7 +17,7 @@ import com.unidadcoronaria.doctorencasa.fragment.NewCallFragment;
 public class NewCallActivity extends BaseActivity {
 
     public final static String CALL_DESTINATION_KEY = "com.unidadcoronaria.doctorencasa.activity.newcallactivity.CALL_DESTINATION_KEY";
-    private String mCallDestination;
+    private VideoCall mCallDestination;
 
 
     @Override
@@ -24,7 +25,7 @@ public class NewCallActivity extends BaseActivity {
         return R.layout.activity_new_video_call;
     }
 
-    public static Intent newInstance(Context context, String callDestination) {
+    public static Intent newInstance(Context context, VideoCall callDestination) {
         Intent intent = new Intent(context, NewCallActivity.class);
         intent.putExtra(CALL_DESTINATION_KEY, callDestination);
         return intent;
@@ -42,10 +43,10 @@ public class NewCallActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         if(getIntent() != null && getIntent().hasExtra(CALL_DESTINATION_KEY)){
-            mCallDestination = getIntent().getStringExtra(CALL_DESTINATION_KEY);
+            mCallDestination = (VideoCall) getIntent().getSerializableExtra(CALL_DESTINATION_KEY);
         }
+        super.onCreate(savedInstanceState);
     }
 
 }

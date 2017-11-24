@@ -1,9 +1,5 @@
 package com.unidadcoronaria.doctorencasa.adapter;
 
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.unidadcoronaria.doctorencasa.App;
 import com.unidadcoronaria.doctorencasa.R;
 import com.unidadcoronaria.doctorencasa.domain.Affiliate;
 
@@ -53,7 +48,7 @@ public class AffiliateAdapter extends RecyclerView.Adapter<AffiliateAdapter.Prov
         return mList.size();
     }
 
-    public Affiliate getSelectedAffiliate() {
+    public Affiliate getSelectedUser() {
         return mSelectedAffiliate;
     }
 

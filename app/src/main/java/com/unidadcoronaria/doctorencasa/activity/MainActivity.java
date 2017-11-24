@@ -7,12 +7,13 @@ import android.os.Bundle;
 import com.unidadcoronaria.doctorencasa.R;
 import com.unidadcoronaria.doctorencasa.fragment.BaseFragment;
 import com.unidadcoronaria.doctorencasa.fragment.HomeFragment;
+import com.unidadcoronaria.doctorencasa.fragment.VideoCallFragment;
 
 /**
  * Created by AGUSTIN.BALA on 5/21/2017.
  */
 
-public class MainActivity extends BaseNavActivity {
+public class MainActivity extends BaseActivity {
 
     public static Intent getStartIntent(Context context){
         return new Intent(context, MainActivity.class);
@@ -25,7 +26,7 @@ public class MainActivity extends BaseNavActivity {
 
     @Override
     protected BaseFragment getFragment() {
-        return new HomeFragment();
+        return new VideoCallFragment();
     }
 
     @Override
@@ -36,6 +37,8 @@ public class MainActivity extends BaseNavActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setBackVisibilityInToolbar(false);
+        changeSettingsIconVisibility(true);
     }
 
 

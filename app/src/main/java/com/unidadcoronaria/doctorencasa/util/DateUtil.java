@@ -1,12 +1,16 @@
 package com.unidadcoronaria.doctorencasa.util;
 
+import android.content.Context;
 import android.util.Log;
+
+import com.unidadcoronaria.doctorencasa.R;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 
 public class DateUtil {
@@ -75,4 +79,14 @@ public class DateUtil {
         return now.get(Calendar.DATE) == refTime.get(Calendar.DATE);
     }
 
+    public static String getWaitingTime(Context context, long waitTime){
+        if(waitTime <= 60000){
+            return context.getResources().getQuantityString(R.plurals.seconds, (int) TimeUnit.MILLISECONDS.toSeconds(waitTime), (int) TimeUnit.MILLISECONDS.toSeconds(waitTime));
+        } else {
+            return context.getResources().getQuantityString(R.plurals.minutes, (int) TimeUnit.MILLISECONDS.toMinutes(waitTime), (int) TimeUnit.MILLISECONDS.toMinutes(waitTime)) + " " +
+                    context.getResources().getQuantityString(R.plurals.seconds, (int) TimeUnit.MILLISECONDS.toSeconds(waitTime) -
+                            (int) TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(waitTime)),(int) TimeUnit.MILLISECONDS.toSeconds(waitTime) -
+                            (int) TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(waitTime)));
+        }
+    }
 }

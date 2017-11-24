@@ -6,9 +6,7 @@ package com.unidadcoronaria.doctorencasa;
 
 public interface SplashView extends BaseView {
 
-    void onAffiliateUpdated();
-
-    void onGetAffiliateError();
+    void userAuthenticated();
 
     void onEmptyAffiliate();
 
