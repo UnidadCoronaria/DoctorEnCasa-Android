@@ -10,9 +10,9 @@
     <string name="create_account">Creá tu cuenta</string>
     <string name="create">CREAR</string>
     <string name="continue_to_next_screen">Continuar</string>
-    <string name="nav_bar_home">Inicio</string>
-    <string name="nav_bar_gift">Promociones</string>
-    <string name="nav_bar_videocall">Llamadas</string>
+    <string name="nav_bar_clinic_history">Historia Clinica</string>
+    <string name="nav_bar_plan">Plan</string>
+    <string name="nav_bar_videocall">Videollamada</string>
     <string name="username">Nombre de usuario</string>
     <string name="email">Email</string>
     <string name="password">Contraseña</string>
@@ -21,6 +21,7 @@
     <string name="send">ENVIAR</string>
     <string name="ok">ACEPTAR</string>
     <string name="change">CAMBIAR</string>
+    <string name="skip">OMITIR</string>
     <string name="not_account_yet">¿Todavía no tenés cuenta?</string>
     <string name="forgot_password">¿Olvidaste tu contraseña?</string>
     <string name="recover_password">Recuperar contraseña</string>
@@ -32,6 +33,7 @@
     <string name="credential_error">El nombre de usuario o la contraseña son incorrectos</string>
     <string name="create_user_title">Hola %1$s! Ingresá tus datos para crear la cuenta.</string>
     <string name="no_affiliate_number">Ingrese un número de afiliado</string>
+    <string name="wrong_affiliate_number">El número de afiliado no existe</string>
     <string name="error_getting_affiliate_list">El número de afiliado no corresponde a ningun afiliado o grupo familiar</string>
     <string name="non_matching_passwords">Las contraseñas ingresadas no coinciden</string>
     <string name="enter_email">Ingresá el mail asociado a tu cuenta</string>
@@ -45,6 +47,7 @@
     <string name="yes">si</string>
     <string name="permissions_denied">Si no aceptas los permisos que pide la app, no vas a poder realizar la videollamada./nIntentá realizar la llamada nuevamente y acepta los permisos solicitados.</string>
     <string name="permissions_never_ask"><![CDATA[Para poder realizar la llamada, ingresa a la configuración de tu dispositivo -> Aplicaciones -> Doctor en Casa -> Permisos y acepta todos los permisos.]]></string>
+    <string name="starting_call">INICIANDO VIDEOLLAMADA...</string>
     <string name="error_hangup">Hubo un error finalizando la llamada.</string>
     <string name="cancel">CANCELAR</string>
     <string name="retry">REINTENTAR</string>
@@ -66,6 +69,9 @@
     <string name="history_error">No pudimos obtener el historial de llamadas.</string>
     <string name="logout">Cerrar Sesión</string>
     <string name="settings">Ajustes</string>
+    <string name="rank_call">Calificá la videollamada</string>
+    <string name="back">ATRAS</string>
+    <string name="accept">ACEPTAR</string>
     <plurals name="seconds">
         <item quantity="zero">0 segundos</item>
         <item quantity="one">1 segundo</item>

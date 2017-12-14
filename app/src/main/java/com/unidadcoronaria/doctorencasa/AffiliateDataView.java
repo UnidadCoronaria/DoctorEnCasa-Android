@@ -1,18 +1,18 @@
 package com.unidadcoronaria.doctorencasa;
 
+import com.unidadcoronaria.doctorencasa.domain.Affiliate;
+
+import java.util.List;
+
 /**
  * Created by AGUSTIN.BALA on 6/4/2017.
  */
 
 public interface AffiliateDataView extends BaseView {
 
-    void isUsernameEmpty();
-
     void isPasswordEmpty();
 
     void isPasswordRepeatEmpty();
-
-    void invalidUsernameFormat();
 
     void invalidPasswordFormat();
 
@@ -24,10 +24,16 @@ public interface AffiliateDataView extends BaseView {
 
     void invalidEmailFormat();
 
-    void onSaveAffiliateSuccess();
+    void onCreateUserSuccess();
 
-    void onSaveAffiliateError();
+    void onCreateUserError();
 
     void onCreateUserStart();
+
+    void onGroupOwnerRetrieved(Affiliate affiliate);
+
+    void onEmptyAffiliateNumber();
+
+    void onGroupOwnerError();
 
 }

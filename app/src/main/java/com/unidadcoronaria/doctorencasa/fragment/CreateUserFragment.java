@@ -1,12 +1,15 @@
 package com.unidadcoronaria.doctorencasa.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.design.widget.TextInputLayout;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,6 +21,7 @@ import com.unidadcoronaria.doctorencasa.AffiliateDataView;
 import com.unidadcoronaria.doctorencasa.activity.MainActivity;
 import com.unidadcoronaria.doctorencasa.di.component.DaggerCreateAccountComponent;
 import com.unidadcoronaria.doctorencasa.domain.Affiliate;
+import com.unidadcoronaria.doctorencasa.domain.Provider;
 import com.unidadcoronaria.doctorencasa.presenter.CreateUserPresenter;
 
 import java.util.List;
@@ -35,7 +39,13 @@ import butterknife.OnClick;
 public class CreateUserFragment extends BaseFragment<CreateUserPresenter> implements AffiliateDataView {
 
     public static final String TAG = "CreateUserFragment";
-    public static final String AFFILIATE_KEY = " com.unidadcoronaria.doctorencasa.fragment.UserDataFragment.AFFILIATE_KEY";
+    public static final String PROVIDER_KEY = " com.unidadcoronaria.doctorencasa.fragment.UserDataFragment.PROVIDER_KEY";
+
+    @BindView(R.id.fragment_select_affiliate_account_affiliate_number)
+    protected EditText vAffiliateNumber;
+
+    @BindView(R.id.fragment_select_affiliate_account_affiliate_number_layout)
+    protected TextInputLayout vAffiliateNumberLayout;
 
     @BindView(R.id.fragment_affiliate_data_password)
     protected EditText vPassword;
@@ -46,12 +56,6 @@ public class CreateUserFragment extends BaseFragment<CreateUserPresenter> implem
     @BindView(R.id.fragment_affiliate_data_email)
     protected EditText vEmail;
 
-    @BindView(R.id.fragment_affiliate_data_username)
-    protected EditText vUsername;
-
-    @BindView(R.id.fragment_affiliate_data_username_layout)
-    protected TextInputLayout vUsernameLayout;
-
     @BindView(R.id.fragment_affiliate_data_email_layout)
     protected TextInputLayout vEmailLayout;
 
@@ -61,22 +65,28 @@ public class CreateUserFragment extends BaseFragment<CreateUserPresenter> implem
     @BindView(R.id.fragment_affiliate_data_password_repeat_layout)
     protected TextInputLayout vPasswordRepeatLayout;
 
-    @BindView(R.id.fragment_affiliate_title)
-    protected TextView vTitle;
+    @BindView(R.id.fragment_create_user_group_head)
+    protected EditText vGroupHead;
 
-    @BindViews({ R.id.fragment_affiliate_data_username_layout, R.id.fragment_affiliate_data_email_layout,
+    @BindView(R.id.fragment_select_affiliate_data_container)
+    protected View vAffiliateDataContainer;
+
+
+
+    @BindViews({ R.id.fragment_affiliate_data_email_layout,
             R.id.fragment_affiliate_data_password_layout, R.id.fragment_affiliate_data_password_repeat_layout})
     protected List<TextInputLayout> textInputLayoutList;
 
 
-    private Affiliate mAffiliate;
+    private Provider mProvider;
+    private int mAffiliateGroupId;
     private CreateAccountView mCallback;
 
 
-    public static CreateUserFragment newInstance(Affiliate affiliate){
+    public static CreateUserFragment newInstance(Provider provider){
         CreateUserFragment instance =  new CreateUserFragment();
         Bundle bundle = new Bundle();
-        bundle.putSerializable(AFFILIATE_KEY, affiliate);
+        bundle.putSerializable(PROVIDER_KEY, provider);
         instance.setArguments(bundle);
         return instance;
     }
@@ -100,9 +110,8 @@ public class CreateUserFragment extends BaseFragment<CreateUserPresenter> implem
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mPresenter.setView(this);
-        if(getArguments() != null && getArguments().containsKey(AFFILIATE_KEY)){
-            mAffiliate = (Affiliate) getArguments().get(AFFILIATE_KEY);
-            setAffiliateData();
+        if(getArguments() != null && getArguments().containsKey(PROVIDER_KEY)){
+            mProvider = (Provider) getArguments().get(PROVIDER_KEY);
         }
     }
 
@@ -121,10 +130,15 @@ public class CreateUserFragment extends BaseFragment<CreateUserPresenter> implem
         mCallback.setBackVisibilityInToolbar(true);
     }
 
-    private void setAffiliateData() {
-        vTitle.setText(getString(R.string.create_user_title, mAffiliate.getFirstName()));
-        vEmail.setText(mAffiliate.getEmail());
+    @OnClick(R.id.fragment_select_affiliate_account_search)
+    public void onSearchClick(){
+        vAffiliateNumberLayout.setError(null);
+        vAffiliateNumberLayout.setErrorEnabled(false);
+        vProgress.setVisibility(View.VISIBLE);
+        mPresenter.getAffiliateGroupData(vAffiliateNumber.getText().toString(), mProvider.getId());
+        hideSoftKeyboard();
     }
+
 
     @OnClick(R.id.fragment_create_affiliate_account_back)
     public void onBackClick(){
@@ -134,15 +148,10 @@ public class CreateUserFragment extends BaseFragment<CreateUserPresenter> implem
     @OnClick(R.id.fragment_affiliate_create)
     public void onCreateAccountClick() {
         clearAllErrors();
-        mPresenter.createAccount(mAffiliate.getAffiliateGamId(), mAffiliate.getProvider().getId(),
-                        vUsername.getText().toString(), vPassword.getText().toString(), vPasswordRepeat.getText().toString(), vEmail.getText().toString());
+        mPresenter.createAccount(mAffiliateGroupId, mProvider.getId(),
+                        vEmail.getText().toString(), vPassword.getText().toString(), vPasswordRepeat.getText().toString(), vEmail.getText().toString());
     }
 
-
-    @Override
-    public void isUsernameEmpty() {
-        setEmptyErrorMessage(R.id.fragment_affiliate_data_username_layout);
-    }
 
     @Override
     public void isPasswordEmpty() {
@@ -152,11 +161,6 @@ public class CreateUserFragment extends BaseFragment<CreateUserPresenter> implem
     @Override
     public void isPasswordRepeatEmpty() {
         setEmptyErrorMessage(R.id.fragment_affiliate_data_password_repeat_layout);
-    }
-
-    @Override
-    public void invalidUsernameFormat() {
-        setErrorMessage(R.id.fragment_affiliate_data_username_layout, R.string.error_invalid_username_format);
     }
 
     @Override
@@ -185,13 +189,15 @@ public class CreateUserFragment extends BaseFragment<CreateUserPresenter> implem
     }
 
     @Override
-    public void onSaveAffiliateSuccess() {
-        startActivity(MainActivity.getStartIntent(getActivity()));
+    public void onCreateUserSuccess() {
+        Intent intent = MainActivity.getStartIntent(getActivity());
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
         getActivity().finish();
     }
 
     @Override
-    public void onSaveAffiliateError() {
+    public void onCreateUserError() {
         vProgress.setVisibility(View.GONE);
         Toast.makeText(getActivity(), "Hubo un error guardando la información del usuario. Por favor, intentelo nuevamente.", Toast.LENGTH_LONG).show();
     }
@@ -201,41 +207,67 @@ public class CreateUserFragment extends BaseFragment<CreateUserPresenter> implem
         vProgress.setVisibility(View.VISIBLE);
     }
 
+    @Override
+    public void onGroupOwnerRetrieved(Affiliate affiliate) {
+        vProgress.setVisibility(View.GONE);
+        if (affiliate != null) {
+            mAffiliateGroupId = affiliate.getGroupNumberId();
+            vGroupHead.setText("Nombre del titular: " + affiliate.getFirstName() + " " + affiliate.getLastName());
+            vAffiliateDataContainer.setVisibility(View.VISIBLE);
+        } else {
+            vAffiliateNumberLayout.setError(getString(R.string.wrong_affiliate_number));
+            vAffiliateNumberLayout.setErrorEnabled(true);
+            vAffiliateDataContainer.setVisibility(View.GONE);
+        }
+
+    }
+
+    @Override
+    public void onEmptyAffiliateNumber() {
+        vProgress.setVisibility(View.GONE);
+        vAffiliateNumberLayout.setError(getString(R.string.no_affiliate_number));
+        vAffiliateNumberLayout.setErrorEnabled(true);
+    }
+
+    @Override
+    public void onGroupOwnerError() {
+        vProgress.setVisibility(View.GONE);
+        Toast.makeText(getActivity(), "Hubo un error obteniendo la información del afiliado", Toast.LENGTH_LONG).show();
+    }
+
     private void setEmptyErrorMessage(int viewId){
         clearAllErrors();
-        ButterKnife.apply(textInputLayoutList, new Action<TextInputLayout>() {
-            @Override
-            public void apply(@NonNull TextInputLayout view, int index) {
-                if(view.getId() == viewId){
-                    view.setErrorEnabled(true);
-                    view.setError(getString(R.string.can_be_empty));
-                }
+        ButterKnife.apply(textInputLayoutList, (Action<TextInputLayout>) (view, index) -> {
+            if(view.getId() == viewId){
+                view.setErrorEnabled(true);
+                view.setError(getString(R.string.can_be_empty));
             }
         });
     }
 
     private void setErrorMessage(int viewId, @StringRes int messageId){
         clearAllErrors();
-        ButterKnife.apply(textInputLayoutList, new Action<TextInputLayout>() {
-            @Override
-            public void apply(@NonNull TextInputLayout view, int index) {
-                if(view.getId() == viewId){
-                    view.setErrorEnabled(true);
-                    view.setError(getString(messageId));
-                }
+        ButterKnife.apply(textInputLayoutList, (Action<TextInputLayout>) (view, index) -> {
+            if(view.getId() == viewId){
+                view.setErrorEnabled(true);
+                view.setError(getString(messageId));
             }
         });
     }
 
     private void clearAllErrors(){
-        ButterKnife.apply(textInputLayoutList, new Action<TextInputLayout>() {
-            @Override
-            public void apply(@NonNull TextInputLayout view, int index) {
-                view.setErrorEnabled(false);
-                view.setError(null);
-            }
+        ButterKnife.apply(textInputLayoutList, (Action<TextInputLayout>) (view, index) -> {
+            view.setErrorEnabled(false);
+            view.setError(null);
         });
     }
 
-}
+    private void hideSoftKeyboard() {
+            View view = this.getView().getRootView();
+            if (view != null) {
+               InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            }
+    }
 
+}

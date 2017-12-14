@@ -10,128 +10,169 @@
         android:layout_height="match_parent"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp">
+        >
 
         <include
             layout="@layout/view_progress"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-        <TextView
-            android:id="@+id/fragment_affiliate_title"
+        <LinearLayout
+            android:id="@+id/fragment_select_affiliate_search_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_marginTop="20dp"
-            android:text="@string/create_user_title"
-            android:textSize="16sp" />
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+           >
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/fragment_affiliate_data_username_layout"
-            android:layout_below="@+id/fragment_affiliate_title"
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/fragment_select_affiliate_account_affiliate_number_layout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/fragment_select_affiliate_account_provider_list"
+                android:layout_marginRight="10dp"
+                app:errorTextAppearance="@style/AppTheme.EditTextError"
+                app:hintTextAppearance="@style/AppTheme.FloatingLabel"
+                android:layout_weight="1">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/fragment_select_affiliate_account_affiliate_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/affiliate_number"
+                    android:imeOptions="actionDone"
+                    android:theme="@style/FormEditText"
+                    android:maxLines="1" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <ImageView
+                android:id="@+id/fragment_select_affiliate_account_search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/selector_search_button"
+                android:src="@drawable/ic_search" />
+
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/fragment_select_affiliate_data_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            app:errorTextAppearance="@style/AppTheme.EditTextError"
-            app:hintTextAppearance="@style/AppTheme.FloatingLabel">
+            android:layout_below="@+id/fragment_select_affiliate_search_container"
+            android:orientation="vertical"
+            android:visibility="visible">
 
-
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/fragment_affiliate_data_username"
+            <EditText
+                android:id="@+id/fragment_create_user_group_head"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/username"
-                android:imeOptions="actionNext"
-                android:inputType="text"
-                android:maxLines="1"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:enabled="false"
+                android:textSize="18sp"
                 android:theme="@style/FormEditText" />
 
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/fragment_affiliate_data_email_layout"
-            android:layout_below="@+id/fragment_affiliate_data_username_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            app:errorTextAppearance="@style/AppTheme.EditTextError"
-            app:hintTextAppearance="@style/AppTheme.FloatingLabel">
-
-
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/fragment_affiliate_data_email"
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/fragment_affiliate_data_email_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/email"
-                android:imeOptions="actionNext"
-                android:inputType="text"
-                android:maxLines="1"
-                android:theme="@style/FormEditText" />
+                android:layout_below="@+id/fragment_create_user_group_head"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                app:errorTextAppearance="@style/AppTheme.EditTextError"
+                app:hintTextAppearance="@style/AppTheme.FloatingLabel">
 
-        </android.support.design.widget.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/fragment_affiliate_data_password_layout"
-            android:layout_below="@+id/fragment_affiliate_data_email_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            app:errorTextAppearance="@style/AppTheme.EditTextError"
-            app:hintTextAppearance="@style/AppTheme.FloatingLabel">
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/fragment_affiliate_data_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/email"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:theme="@style/FormEditText" />
 
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/fragment_affiliate_data_password"
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/fragment_affiliate_data_password_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/password"
-                android:imeOptions="actionNext"
-                android:inputType="textPassword"
-                android:maxLines="1"
-                android:theme="@style/FormEditText" />
+                android:layout_below="@+id/fragment_affiliate_data_email_layout"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                app:errorTextAppearance="@style/AppTheme.EditTextError"
+                app:hintTextAppearance="@style/AppTheme.FloatingLabel">
 
-        </android.support.design.widget.TextInputLayout>
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/fragment_affiliate_data_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/password"
+                    android:imeOptions="actionNext"
+                    android:inputType="textPassword"
+                    android:maxLines="1"
+                    android:theme="@style/FormEditText" />
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/fragment_affiliate_data_password_repeat_layout"
-            android:layout_below="@+id/fragment_affiliate_data_password_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            app:errorTextAppearance="@style/AppTheme.EditTextError"
-            app:hintTextAppearance="@style/AppTheme.FloatingLabel">
+            </android.support.design.widget.TextInputLayout>
 
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/fragment_affiliate_data_password_repeat"
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/fragment_affiliate_data_password_repeat_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/password_repeat"
-                android:imeOptions="actionDone"
-                android:inputType="textPassword"
-                android:maxLines="1"
-                android:theme="@style/FormEditText" />
+                android:layout_below="@+id/fragment_affiliate_data_password_layout"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                app:errorTextAppearance="@style/AppTheme.EditTextError"
+                app:hintTextAppearance="@style/AppTheme.FloatingLabel">
 
-        </android.support.design.widget.TextInputLayout>
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/fragment_affiliate_data_password_repeat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/password_repeat"
+                    android:imeOptions="actionDone"
+                    android:inputType="textPassword"
+                    android:maxLines="1"
+                    android:theme="@style/FormEditText" />
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fragment_affiliate_create"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginBottom="16dp"
-            android:layout_marginTop="16dp"
-            android:src="@drawable/ic_check" />
+            </android.support.design.widget.TextInputLayout>
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fragment_create_affiliate_account_back"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_marginBottom="16dp"
-            android:layout_marginTop="16dp"
-            android:src="@drawable/ic_keyboard_arrow_left" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_marginTop="30dp"
+                android:layout_alignParentBottom="true"
+                android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/fragment_affiliate_create"
+                style="@style/FormButton"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:text="@string/create" />
+
+            <Button
+                android:id="@+id/fragment_create_affiliate_account_back"
+                style="@style/FormButton"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:text="@string/back" />
+
+            </LinearLayout>
+        </RelativeLayout>
 
     </RelativeLayout>
 </ScrollView>

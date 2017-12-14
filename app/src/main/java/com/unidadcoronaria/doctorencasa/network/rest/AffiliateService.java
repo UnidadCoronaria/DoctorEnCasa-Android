@@ -12,6 +12,7 @@ import io.reactivex.Completable;
 import io.reactivex.Single;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
@@ -23,7 +24,7 @@ import retrofit2.http.Path;
  */
 public interface AffiliateService {
 
-    @GET("provider/{providerId}/affiliate/{affiliateNumber}")
+    @GET("provider/{providerId}/group/{affiliateNumber}")
     Single<List<Affiliate>> getAffiliateData(@Path("providerId") int providerId, @Path("affiliateNumber") String affiliateNumber);
 
     @GET("user")
@@ -32,24 +33,24 @@ public interface AffiliateService {
     @POST("auth")
     Single<UserInfo> login(@Body Credential credential);
 
-    @PUT("logout")
+    @POST("user/logout")
     Completable logout();
 
     @POST("user")
     Single<UserInfo> createUser(@Body Credential credential);
 
     @PUT("user/password/reset")
-    Single<UserInfo> forgotPassword(@Body Credential credential);
+    Single<String> forgotPassword(@Body Credential credential);
 
     @PUT("user/password")
     Single<UserInfo> updatePassword(@Body Credential credential);
 
-    @PUT("user/fcmToken/{fcmToken}")
-    Completable updateFCMToken(@Path("fcmToken") String fcmToken);
+    @PUT("user/updateTokenGCM")
+    Completable updateFCMToken(@Header("TokenGCM") String fcmToken);
 
     @GET("user/history")
     Single<AffiliateCallHistory> getAffiliateCallHistory();
 
-
-
+    @GET("provider/{providerId}/group/{mGroupId}/owner")
+    Single<Affiliate> getGroupOwner(@Path("providerId") int mProviderId, @Path("mGroupId") String mGroupId);
 }

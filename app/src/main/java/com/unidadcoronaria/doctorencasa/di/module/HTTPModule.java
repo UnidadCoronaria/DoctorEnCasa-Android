@@ -43,7 +43,7 @@ public class HTTPModule {
             Request.Builder builder = originalRequest.newBuilder().header("Content-Type",
                     "application/json");
             if(SessionUtil.isAuthenticated()){
-               builder.header("Authorization", "Bearer "+SessionUtil.getToken());
+               builder.header("Authorization", SessionUtil.getToken());
             }
             Log.d("Retrofit", "Making request to "+originalRequest.url().toString());
             Request newRequest = builder.build();

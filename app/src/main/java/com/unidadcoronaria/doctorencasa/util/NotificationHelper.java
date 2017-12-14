@@ -32,7 +32,7 @@ public class NotificationHelper {
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
         Intent resultIntent;
         resultIntent = new Intent(context, NewCallActivity.class);
-        resultIntent.putExtra(NewCallActivity.CALL_DESTINATION_KEY, callId);
+        resultIntent.putExtra(NewCallActivity.CALL_DESTINATION_ID_KEY, Integer.valueOf(callId));
         resultIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         resultIntent.setType(callId);
         stackBuilder.addParentStack(NewCallActivity.class);

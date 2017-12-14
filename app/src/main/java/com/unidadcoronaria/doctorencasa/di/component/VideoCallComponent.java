@@ -3,7 +3,6 @@ package com.unidadcoronaria.doctorencasa.di.component;
 import com.unidadcoronaria.doctorencasa.di.PerActivity;
 import com.unidadcoronaria.doctorencasa.di.module.UserModule;
 import com.unidadcoronaria.doctorencasa.di.module.VideoCallModule;
-import com.unidadcoronaria.doctorencasa.fragment.EndCallFragment;
 import com.unidadcoronaria.doctorencasa.fragment.NewCallFragment;
 import com.unidadcoronaria.doctorencasa.fragment.VideoCallFragment;
 
@@ -20,5 +19,4 @@ public interface VideoCallComponent {
 
     void inject(NewCallFragment newCallFragment);
 
-    void inject(EndCallFragment endCallFragment);
 }

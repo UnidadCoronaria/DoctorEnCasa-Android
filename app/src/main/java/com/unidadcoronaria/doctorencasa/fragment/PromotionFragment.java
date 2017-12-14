@@ -1,13 +1,11 @@
 package com.unidadcoronaria.doctorencasa.fragment;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.unidadcoronaria.doctorencasa.App;
 import com.unidadcoronaria.doctorencasa.PromotionView;
 import com.unidadcoronaria.doctorencasa.R;
-import com.unidadcoronaria.doctorencasa.activity.BaseActivity;
 import com.unidadcoronaria.doctorencasa.di.component.DaggerPromotionComponent;
 import com.unidadcoronaria.doctorencasa.presenter.PromotionPresenter;
 

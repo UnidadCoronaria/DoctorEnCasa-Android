@@ -12,6 +12,31 @@
         android:layout_height="match_parent" />
 
     <RelativeLayout
+        android:id="@+id/fragment_new_video_call_calling"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        android:padding="30dp"
+        android:visibility="gone"
+        >
+
+        <TextView
+            android:id="@+id/fragment_new_video_call_calling_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:layout_centerInParent="true"
+            android:text="@string/starting_call"/>
+
+        <ProgressBar
+        style="@style/AppTheme.ProgressBar"
+        android:clickable="true"
+        android:layout_below="@+id/fragment_new_video_call_calling_text"
+        android:indeterminateTint="@color/colorPrimary"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
         android:id="@+id/rl_error"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -37,19 +62,17 @@
         android:visibility="gone"
         >
 
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/call_frame"
             android:layout_width="match_parent"
-            android:background="@color/colorAccent"
             android:layout_height="match_parent"
             android:layout_alignParentTop="true"/>
 
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/call_self_camera"
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_alignParentBottom="true"
-            android:background="@color/colorPrimary"
             android:layout_alignParentLeft="true"/>
 
 
@@ -58,11 +81,12 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             app:fabSize="normal"
+            android:visibility="gone"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
+            android:layout_centerHorizontal="true"
             android:layout_marginBottom="16dp"
             android:layout_marginRight="16dp"
-            android:src="@drawable/ic_keyboard_arrow_left" />
+            android:src="@drawable/ic_call_end" />
 
     </RelativeLayout>
 

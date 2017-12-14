@@ -28,7 +28,7 @@ public class ForgotPasswordUseCase extends SingleItemUseCase {
     }
 
     @Override
-    public Single<UserInfo> buildUseCaseObservable() {
+    public Single<String> buildUseCaseObservable() {
         return this.mAffiliateRepository.forgotPassword(this.credential);
     }
 

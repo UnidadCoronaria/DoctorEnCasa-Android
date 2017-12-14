@@ -7,7 +7,7 @@ package com.unidadcoronaria.doctorencasa.dto;
 public class VideoCallDTO {
 
     private int videocallId;
-    private Integer ranking;
+    private Integer score;
     private String comment;
 
     public int getVideocallId() {
@@ -18,12 +18,12 @@ public class VideoCallDTO {
         this.videocallId = videocallId;
     }
 
-    public Integer getRanking() {
-        return ranking;
+    public Integer getScore() {
+        return score;
     }
 
-    public void setRanking(Integer ranking) {
-        this.ranking = ranking;
+    public void setScore(Integer score) {
+        this.score = score;
     }
 
     public String getComment() {

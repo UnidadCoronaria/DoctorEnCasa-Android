@@ -14,50 +14,6 @@
         <include layout="@layout/view_progress" />
 
         <android.support.v7.widget.CardView
-            android:id="@+id/fragment_video_call_history"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-           >
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:elevation="2dp"
-                android:orientation="vertical"
-                android:paddingBottom="24dp"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:paddingTop="24dp">
-
-                <TextView
-                    android:text="@string/last_consult"
-                    android:layout_height="wrap_content"
-                    android:layout_width="match_parent"
-                    android:theme="@style/CardTitleEditText"/>
-
-                <TextView
-                    android:id="@+id/fragment_video_call_last_call_detail"
-                    android:theme="@style/CardTextEditText"
-                    android:layout_height="wrap_content"
-                    android:layout_width="match_parent"
-                    android:layout_marginTop="20dp"
-                    tools:text="@string/last_call_detail" />
-
-                <TextView
-                    android:id="@+id/fragment_video_calls_quantity"
-                    android:theme="@style/CardTextEditText"
-                    android:layout_height="wrap_content"
-                    android:layout_width="match_parent"
-                    android:layout_marginTop="20dp"
-                    tools:text="Realizaste 3 consultas en los últimos 30 días" />
-
-
-            </LinearLayout>
-
-        </android.support.v7.widget.CardView>
-
-        <android.support.v7.widget.CardView
             android:id="@+id/fragment_video_queue_status"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -211,11 +167,12 @@
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
-            android:id="@+id/fragment_video_call_clinic_history"
+            android:id="@+id/fragment_video_call_history"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp">
+            >
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -228,10 +185,26 @@
                 android:paddingTop="24dp">
 
                 <TextView
+                    android:text="@string/last_consult"
                     android:layout_height="wrap_content"
                     android:layout_width="match_parent"
-                    android:theme="@style/CardTitleEditText"
-                    android:text="@string/clinic_history" />
+                    android:theme="@style/CardTitleEditText"/>
+
+                <TextView
+                    android:id="@+id/fragment_video_call_last_call_detail"
+                    android:theme="@style/CardTextEditText"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="20dp"
+                    tools:text="@string/last_call_detail" />
+
+                <TextView
+                    android:id="@+id/fragment_video_calls_quantity"
+                    android:theme="@style/CardTextEditText"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="20dp"
+                    tools:text="Realizaste 3 consultas en los últimos 30 días" />
 
 
             </LinearLayout>

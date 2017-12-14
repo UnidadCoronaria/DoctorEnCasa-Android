@@ -5,28 +5,28 @@ package com.unidadcoronaria.doctorencasa.dto;
  */
 public class Credential {
 
-    private String userName;
+    private String username;
     private String password;
     private String newPassword;
-    private Integer affiliateGamId;
+    private Integer groupNumberId;
     private Integer providerId;
     private String email;
 
     private Credential(Credential.Builder builder) {
-        this.userName = builder.username;
+        this.username = builder.username;
         this.password = builder.password;
-        this.affiliateGamId = builder.affiliateId;
+        this.groupNumberId = builder.groupNumberId;
         this.providerId = builder.providerId;
         this.email = builder.email;
         this.newPassword = builder.newPassword;
     }
 
-    public Integer getAffiliateGamId() {
-        return affiliateGamId;
+    public Integer getGroupNumberId() {
+        return groupNumberId;
     }
 
-    public void setAffiliateGamId(Integer affiliateGamId) {
-        this.affiliateGamId = affiliateGamId;
+    public void setGroupNumberId(Integer groupNumberId) {
+        this.groupNumberId = groupNumberId;
     }
 
     public Integer getProviderId() {
@@ -35,14 +35,6 @@ public class Credential {
 
     public void setProviderId(Integer providerId) {
         this.providerId = providerId;
-    }
-
-    public String getUsername() {
-        return userName;
-    }
-
-    public void setUsername(String username) {
-        this.userName = username;
     }
 
     public String getPassword() {
@@ -61,12 +53,12 @@ public class Credential {
         this.email = email;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getNewPassword() {
@@ -81,7 +73,7 @@ public class Credential {
 
         private String username;
         private String password;
-        private Integer affiliateId;
+        private Integer groupNumberId;
         private Integer providerId;
         private String email;
         private String newPassword;
@@ -96,8 +88,8 @@ public class Credential {
             return this;
         }
 
-        public Builder setAffiliateId(Integer affiliateId){
-            this.affiliateId = affiliateId;
+        public Builder setGroupNumberId(Integer groupNumberId){
+            this.groupNumberId = groupNumberId;
             return this;
         }
 

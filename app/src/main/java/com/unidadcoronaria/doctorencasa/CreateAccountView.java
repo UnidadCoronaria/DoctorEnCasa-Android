@@ -11,7 +11,7 @@ public interface CreateAccountView extends BaseView {
 
     void navigateToSelectAffiliate(Provider provider);
 
-    void navigateToCreateUser(Affiliate affiliate);
+    void navigateToCreateUser(Provider provider);
 
     void setToolbarTitle(String title);
 

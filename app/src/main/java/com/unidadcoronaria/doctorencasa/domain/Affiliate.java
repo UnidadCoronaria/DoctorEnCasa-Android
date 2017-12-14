@@ -19,6 +19,7 @@ public class Affiliate implements Serializable {
     private String cellphone;
     private Long birthDate;
     private boolean isUser;
+    private int groupNumberId;
     private String username;
     private Boolean enabled;
     private Boolean passwordExpired;
@@ -153,6 +154,14 @@ public class Affiliate implements Serializable {
 
     public void setProvider(Provider provider) {
         this.provider = provider;
+    }
+
+    public int getGroupNumberId() {
+        return groupNumberId;
+    }
+
+    public void setGroupNumberId(int groupNumberId) {
+        this.groupNumberId = groupNumberId;
     }
 
     public static class Builder {

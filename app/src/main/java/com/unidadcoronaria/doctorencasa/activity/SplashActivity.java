@@ -1,14 +1,12 @@
 package com.unidadcoronaria.doctorencasa.activity;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
 
 import com.unidadcoronaria.doctorencasa.R;
 import com.unidadcoronaria.doctorencasa.fragment.BaseFragment;
-import com.unidadcoronaria.doctorencasa.fragment.HomeFragment;
+import com.unidadcoronaria.doctorencasa.fragment.NewCallFragment;
 import com.unidadcoronaria.doctorencasa.fragment.SplashFragment;
 
 /**

@@ -17,4 +17,12 @@ public interface NewCallView extends BaseView {
     void onStartError();
 
     void onCallUnavailableError();
+
+    void onRankSuccess();
+
+    void onRankError();
+
+    void onGetVideocallSuccess(VideoCall videoCall);
+
+    void onGetVideocallError();
 }

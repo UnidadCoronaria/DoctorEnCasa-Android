@@ -4,7 +4,6 @@ package com.unidadcoronaria.doctorencasa.repository;
 import com.unidadcoronaria.doctorencasa.dao.UserDAO;
 import com.unidadcoronaria.doctorencasa.domain.Affiliate;
 import com.unidadcoronaria.doctorencasa.domain.AffiliateCallHistory;
-import com.unidadcoronaria.doctorencasa.domain.VideoCall;
 import com.unidadcoronaria.doctorencasa.dto.Credential;
 import com.unidadcoronaria.doctorencasa.domain.UserInfo;
 import com.unidadcoronaria.doctorencasa.network.rest.AffiliateService;
@@ -45,7 +44,7 @@ public class AffiliateRepository {
         return mAffiliateService.createUser(credential);
     }
 
-    public Single<UserInfo> forgotPassword(Credential credential) {
+    public Single<String> forgotPassword(Credential credential) {
         return mAffiliateService.forgotPassword(credential);
     }
 
@@ -84,5 +83,9 @@ public class AffiliateRepository {
 
     public Completable updateFCMToken(String fcmToken) {
         return mAffiliateService.updateFCMToken(fcmToken);
+    }
+
+    public Single<Affiliate> getGroupOwner(int mProviderId, String mGroupId) {
+        return mAffiliateService.getGroupOwner(mProviderId, mGroupId);
     }
 }

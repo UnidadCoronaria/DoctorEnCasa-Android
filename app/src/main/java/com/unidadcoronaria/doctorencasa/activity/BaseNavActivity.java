@@ -6,7 +6,7 @@ import android.support.design.widget.BottomNavigationView;
 import com.unidadcoronaria.doctorencasa.NavBarView;
 import com.unidadcoronaria.doctorencasa.R;
 import com.unidadcoronaria.doctorencasa.fragment.BaseFragment;
-import com.unidadcoronaria.doctorencasa.fragment.HomeFragment;
+import com.unidadcoronaria.doctorencasa.fragment.ClinicHistoryFragment;
 import com.unidadcoronaria.doctorencasa.fragment.PromotionFragment;
 import com.unidadcoronaria.doctorencasa.fragment.VideoCallFragment;
 
@@ -37,10 +37,10 @@ public abstract class BaseNavActivity extends BaseActivity implements NavBarView
                     if(currentTab != item.getItemId()) {
                         currentTab = item.getItemId();
                         switch (item.getItemId()) {
-                            case R.id.nav_home:
-                                showFragment(HomeFragment.newInstance());
+                            case R.id.nav_historic:
+                                showFragment(ClinicHistoryFragment.newInstance());
                                 return true;
-                            case R.id.nav_gift:
+                            case R.id.nav_plan:
                                 showFragment(PromotionFragment.newInstance());
                                 return true;
                             case R.id.nav_videocall:

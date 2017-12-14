@@ -1,7 +1,6 @@
 package com.unidadcoronaria.doctorencasa.fragment;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.TextView;
@@ -118,7 +117,8 @@ public class VideoCallFragment extends BaseFragment<VideoCallPresenter> implemen
         if (affiliateCallHistory != null && affiliateCallHistory.getLastVideocall() != null) {
             showHistoryView(affiliateCallHistory);
             if(VideoCallStatus.FINALIZADA.equals(affiliateCallHistory.getLastVideocall().getStatus())
-                        || VideoCallStatus.EXPIRADA.equals(affiliateCallHistory.getLastVideocall().getStatus())) {
+                        || VideoCallStatus.EXPIRADA.equals(affiliateCallHistory.getLastVideocall().getStatus())
+                           || VideoCallStatus.CERRADA.equals(affiliateCallHistory.getLastVideocall().getStatus())) {
                 //Si no hay call activa
                 mPresenter.getQueueStatus();
             } else {
@@ -194,7 +194,8 @@ public class VideoCallFragment extends BaseFragment<VideoCallPresenter> implemen
     @Override
     public void onGetAffiliateCallHistoryError() {
         vProgress.setVisibility(View.GONE);
-        vCallHistory.setVisibility(View.GONE);
+        vCallHistory.setVisibility(View.VISIBLE);
+        vCallsQuantity.setVisibility(View.GONE);
         vLastCallDetail.setText(R.string.history_error);
         mPresenter.getQueueStatus();
     }
@@ -248,6 +249,7 @@ public class VideoCallFragment extends BaseFragment<VideoCallPresenter> implemen
 
     @Override
     public void onInitCallStart() {
-        vProgress.setVisibility(View.VISIBLE);
+        onGetDataStart();
     }
+
 }

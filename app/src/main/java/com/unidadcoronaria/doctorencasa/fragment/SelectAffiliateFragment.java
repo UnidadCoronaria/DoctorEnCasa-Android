@@ -129,7 +129,7 @@ public class SelectAffiliateFragment extends BaseFragment<SelectAffiliatePresent
             if(!mAffiliateAdapter.getSelectedUser().isUser()) {
                 Affiliate selectedAffiliate = mAffiliateAdapter.getSelectedUser();
                 selectedAffiliate.setProvider(mProvider);
-                mCallback.navigateToCreateUser(selectedAffiliate);
+                mCallback.navigateToCreateUser(mProvider);
             } else {
                 Toast.makeText(getActivity(), "El afiliado seleccionado ya posee una cuenta.", Toast.LENGTH_LONG).show();
             }
@@ -169,7 +169,7 @@ public class SelectAffiliateFragment extends BaseFragment<SelectAffiliatePresent
 
     @Override
     public void onGetAffiliateListError() {
-        Log.e("onGetAffiliateListError","Error getting list of users");
+        Log.e("onGroupOwnerError","Error getting list of users");
         vProgress.setVisibility(View.GONE);
         vAffiliateList.setVisibility(View.GONE);
         vAffiliateNumberLayout.setError(getString(R.string.error_getting_affiliate_list));

@@ -10,6 +10,7 @@ public enum VideoCallStatus {
     EN_COLA("EN_COLA"),
     EN_PROGRESO("EN_PROGRESO"),
     EXPIRADA("EXPIRADA"),
+    CERRADA("CERRADA"),
     LISTA_ATENCION("LISTA_ATENCION");
 
     private String value;

@@ -1,6 +1,7 @@
 package com.unidadcoronaria.doctorencasa.repository;
 
 
+import com.unidadcoronaria.doctorencasa.domain.Affiliate;
 import com.unidadcoronaria.doctorencasa.domain.Queue;
 import com.unidadcoronaria.doctorencasa.domain.VideoCall;
 import com.unidadcoronaria.doctorencasa.dto.VideoCallDTO;
@@ -46,5 +47,9 @@ public class VideoCallRepository {
 
     public Single<VideoCall> getLastCall() {
         return mVideoCallService.getLastCall();
+    }
+
+    public Single<VideoCall> getVideocall(int mVideocallId) {
+        return mVideoCallService.getVideocall(mVideocallId);
     }
 }

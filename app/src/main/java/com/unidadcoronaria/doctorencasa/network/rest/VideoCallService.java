@@ -35,6 +35,9 @@ public interface VideoCallService {
 
     @GET("videocall")
     Single<VideoCall> getLastCall();
+
+    @GET("videocall/{videocallId}")
+    Single<VideoCall> getVideocall(@Path("videocallId") int mVideocallId);
 }
 
 

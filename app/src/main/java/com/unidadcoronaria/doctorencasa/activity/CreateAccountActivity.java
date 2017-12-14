@@ -6,10 +6,10 @@ import android.os.Bundle;
 
 import com.unidadcoronaria.doctorencasa.CreateAccountView;
 import com.unidadcoronaria.doctorencasa.R;
-import com.unidadcoronaria.doctorencasa.domain.Affiliate;
 import com.unidadcoronaria.doctorencasa.domain.Provider;
-import com.unidadcoronaria.doctorencasa.fragment.CreateUserFragment;
 import com.unidadcoronaria.doctorencasa.fragment.BaseFragment;
+import com.unidadcoronaria.doctorencasa.fragment.CreateUserFragment;
+import com.unidadcoronaria.doctorencasa.fragment.NewCallFragment;
 import com.unidadcoronaria.doctorencasa.fragment.SelectAffiliateFragment;
 import com.unidadcoronaria.doctorencasa.fragment.SelectProviderFragment;
 import com.unidadcoronaria.doctorencasa.fragment.FragmentContainer;
@@ -53,8 +53,8 @@ public class CreateAccountActivity extends BaseActivity implements FragmentConta
     }
 
     @Override
-    public void navigateToCreateUser(Affiliate affiliate) {
-        showAndHideFragment(SelectAffiliateFragment.TAG, CreateUserFragment.newInstance(affiliate));
+    public void navigateToCreateUser(Provider provider) {
+        showAndHideFragment(SelectProviderFragment.TAG, CreateUserFragment.newInstance(provider));
         setToolbarTitle(getResources().getString(R.string.create_account));
     }
 
