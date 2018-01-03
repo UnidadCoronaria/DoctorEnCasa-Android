@@ -15,7 +15,7 @@ import retrofit2.http.GET;
  */
 public interface ClinicHistoryService {
 
-    @GET("clinicHistory")
+    @GET("user/medicalrecord")
     Single<List<ClinicHistory>> get();
 
 }

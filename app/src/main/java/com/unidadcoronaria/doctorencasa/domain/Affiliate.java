@@ -1,7 +1,6 @@
 package com.unidadcoronaria.doctorencasa.domain;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * Created by AGUSTIN.BALA on 5/23/2017.
@@ -19,7 +18,7 @@ public class Affiliate implements Serializable {
     private String cellphone;
     private Long birthDate;
     private boolean isUser;
-    private int groupNumberId;
+    private int groupNumber;
     private String username;
     private Boolean enabled;
     private Boolean passwordExpired;
@@ -156,12 +155,12 @@ public class Affiliate implements Serializable {
         this.provider = provider;
     }
 
-    public int getGroupNumberId() {
-        return groupNumberId;
+    public int getGroupNumber() {
+        return groupNumber;
     }
 
-    public void setGroupNumberId(int groupNumberId) {
-        this.groupNumberId = groupNumberId;
+    public void setGroupNumber(int groupNumber) {
+        this.groupNumber = groupNumber;
     }
 
     public static class Builder {
