@@ -1,6 +1,7 @@
 package com.unidadcoronaria.doctorencasa;
 
-import com.unidadcoronaria.doctorencasa.domain.VideoCall;
+import com.sinch.android.rtc.calling.Call;
+import com.unidadcoronaria.doctorencasa.service.SinchService;
 
 /**
  * Created by AGUSTIN.BALA on 5/29/2017.
@@ -8,21 +9,10 @@ import com.unidadcoronaria.doctorencasa.domain.VideoCall;
 
 public interface NewCallView extends BaseView {
 
-    void onHangupSuccess(VideoCall videoCall);
-
-    void onHangupError();
-
-    void onStartSuccess(VideoCall videoCall);
-
-    void onStartError();
-
-    void onCallUnavailableError();
+    void initCall(Call call, SinchService.SinchServiceInterface serviceInterface);
 
     void onRankSuccess();
 
     void onRankError();
-
-    void onGetVideocallSuccess(VideoCall videoCall);
-
-    void onGetVideocallError();
+;
 }

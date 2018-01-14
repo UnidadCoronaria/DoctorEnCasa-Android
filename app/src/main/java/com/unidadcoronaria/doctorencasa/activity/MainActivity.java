@@ -4,17 +4,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.WindowManager;
 
+import com.sinch.android.rtc.SinchError;
 import com.unidadcoronaria.doctorencasa.App;
 import com.unidadcoronaria.doctorencasa.R;
 import com.unidadcoronaria.doctorencasa.MainView;
 import com.unidadcoronaria.doctorencasa.di.component.DaggerSettingsComponent;
 import com.unidadcoronaria.doctorencasa.fragment.BaseFragment;
-import com.unidadcoronaria.doctorencasa.fragment.NewCallFragment;
 import com.unidadcoronaria.doctorencasa.fragment.VideoCallFragment;
 import com.unidadcoronaria.doctorencasa.presenter.MainPresenter;
+import com.unidadcoronaria.doctorencasa.streaming.SinchCallManager;
 import com.unidadcoronaria.doctorencasa.util.SessionUtil;
 
 import javax.inject.Inject;
@@ -23,11 +26,12 @@ import javax.inject.Inject;
  * Created by AGUSTIN.BALA on 5/21/2017.
  */
 
-public class MainActivity extends BaseNavActivity implements MainView {
+public class MainActivity extends BaseNavActivity implements MainView, SinchCallManager.StartFailedListener {
 
 
     @Inject
     MainPresenter mPresenter;
+
 
     public static Intent getStartIntent(Context context){
         return new Intent(context, MainActivity.class);
@@ -55,9 +59,12 @@ public class MainActivity extends BaseNavActivity implements MainView {
             onLogout();
         }
         setBackVisibilityInToolbar(false);
+        setToolbarTitle(getString(R.string.app_name));
         DaggerSettingsComponent.builder().applicationComponent(App.getInstance().getApplicationComponent()).build().inject(this);
         mPresenter.setView(this);
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -87,10 +94,9 @@ public class MainActivity extends BaseNavActivity implements MainView {
         return super.onOptionsItemSelected(item);
     }
 
-
     @Override
     public void onLogout() {
-        Intent intent = LoginActivity.getStartIntent(this);
+        Intent intent = LoginActivity.getStartIntent(getApplicationContext());
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();
@@ -104,5 +110,27 @@ public class MainActivity extends BaseNavActivity implements MainView {
                 .setNegativeButton(getString(R.string.retry), (dialog, button) -> mPresenter.logout())
                 .setCancelable(false)
                 .show();
+    }
+
+    protected void onServiceConnected() {
+        if(getSinchServiceInterface() != null){
+            getSinchServiceInterface().setStartListener(this);
+            getSinchServiceInterface().startClient(SessionUtil.getUsername());
+        }
+    }
+
+    @Override
+    public void onStartFailed(SinchError error) {
+        Log.e("MainActivity", "onStartFailed");
+    }
+
+    @Override
+    public void onStopped() {
+        Log.e("MainActivity", "onStopped");
+    }
+
+    @Override
+    public void onStarted() {
+        Log.e("MainActivity", "onStarted");
     }
 }

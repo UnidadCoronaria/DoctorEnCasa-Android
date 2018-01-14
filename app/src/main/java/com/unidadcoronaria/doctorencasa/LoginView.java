@@ -19,4 +19,5 @@ public interface LoginView extends BaseView {
     void invalidPasswordFormat();
 
     void invalidUsernameFormat();
+
 }

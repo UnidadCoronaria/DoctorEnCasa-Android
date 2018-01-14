@@ -7,8 +7,7 @@ import android.os.Bundle;
 import com.unidadcoronaria.doctorencasa.R;
 import com.unidadcoronaria.doctorencasa.fragment.BaseFragment;
 import com.unidadcoronaria.doctorencasa.fragment.ChangePasswordFragment;
-import com.unidadcoronaria.doctorencasa.fragment.NewCallFragment;
-import com.unidadcoronaria.doctorencasa.presenter.ChangePasswordPresenter;
+import com.unidadcoronaria.doctorencasa.util.SessionUtil;
 
 /**
  * Created by AGUSTIN.BALA on 5/21/2017.
@@ -41,5 +40,15 @@ public class ChangePasswordActivity extends BaseActivity {
         return true;
     }
 
+
+    public void logout() {
+        finish();
+    }
+
+    protected void onServiceConnected() {
+        if(getSinchServiceInterface() != null){
+            getSinchServiceInterface().startClient(SessionUtil.getUsername());
+        }
+    }
 
 }

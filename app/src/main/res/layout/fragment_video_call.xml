@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,211 +9,63 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:orientation="vertical">
 
         <include layout="@layout/view_progress" />
 
-        <android.support.v7.widget.CardView
-            android:id="@+id/fragment_video_queue_status"
+        <LinearLayout
+            android:id="@+id/fragment_video_call_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            >
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="16dp">
 
-            <LinearLayout
+            <ImageView
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/ic_doctor_main" />
+
+
+            <TextView
+                android:id="@+id/fragment_video_call_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:elevation="2dp"
-                android:orientation="vertical"
-                android:paddingBottom="24dp"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:paddingTop="24dp">
+                android:layout_marginTop="20dp"
+                android:textAlignment="center"
+                android:theme="@style/CardTextEditText"
+                tools:text="@string/queue_delay" />
 
-                <TextView
-                    android:layout_height="wrap_content"
-                    android:layout_width="match_parent"
-                    android:theme="@style/CardTitleEditText"
-                    android:text="@string/new_consult" />
-
-                <TextView
-                    android:id="@+id/fragment_video_call_delay"
-                    android:theme="@style/CardTextEditText"
-                    android:layout_height="wrap_content"
-                    android:layout_width="match_parent"
-                    android:layout_marginTop="20dp"
-                    android:text="@string/queue_delay" />
-
-                <TextView
-                    android:id="@+id/fragment_video_call_doctors_attending"
-                    android:theme="@style/CardTextEditText"
-                    android:layout_height="wrap_content"
-                    android:layout_width="match_parent"
-                    android:layout_marginTop="20dp"
-                    tools:text="Hay 3 doctores atendiendo" />
-
-                <Button
-                    android:id="@+id/fragment_video_call_init_call"
-                    style="@style/FormButton"
-                    android:layout_marginTop="30dp"
-                    android:layout_gravity="center"
-                    android:text="@string/init_call" />
+            <Button
+                android:id="@+id/fragment_video_call_button"
+                style="@style/FormButton"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:text="@string/init_call" />
 
 
-            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="@color/white" />
 
-        </android.support.v7.widget.CardView>
 
-        <android.support.v7.widget.CardView
-            android:id="@+id/fragment_video_call_in_queue"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:visibility="gone">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/greyLight" />
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/fragment_video_call_delay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:elevation="2dp"
-                android:orientation="vertical"
-                android:paddingBottom="24dp"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:paddingTop="24dp">
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="20dp"
+                android:textAlignment="center"
+                android:theme="@style/CardTextEditText"
+                tools:text="@string/in_queue_delay" />
 
-                <TextView
-                    android:layout_height="wrap_content"
-                    android:layout_width="match_parent"
-                    android:theme="@style/CardTitleEditText"
-                    android:text="@string/already_in_queue" />
-
-                <TextView
-                    android:id="@+id/fragment_video_call_in_queue_delay"
-                    android:theme="@style/CardTextEditText"
-                    android:layout_height="wrap_content"
-                    android:layout_width="match_parent"
-                    android:layout_marginTop="20dp"
-                    tools:text="@string/in_queue_delay" />
-
-                <TextView
-                    android:theme="@style/CardTextEditText"
-                    android:layout_height="wrap_content"
-                    android:layout_width="match_parent"
-                    android:layout_marginTop="20dp"
-                    android:text="@string/use_your_device_meanwhile" />
-
-            </LinearLayout>
-
-        </android.support.v7.widget.CardView>
-
-        <android.support.v7.widget.CardView
-            android:id="@+id/fragment_video_call_ready"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:elevation="2dp"
-                android:orientation="vertical"
-                android:paddingBottom="24dp"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:paddingTop="24dp">
-
-                <TextView
-                    android:layout_height="wrap_content"
-                    android:layout_width="match_parent"
-                    android:theme="@style/CardTitleEditText"
-                    android:text="@string/there_is_a_doctor_for_you" />
-
-                <Button
-                    android:id="@+id/fragment_video_call_button_ready"
-                    style="@style/FormButton"
-                    android:layout_marginTop="30dp"
-                    android:layout_gravity="center"
-                    android:text="@string/init_call" />
-
-            </LinearLayout>
-
-        </android.support.v7.widget.CardView>
-
-        <android.support.v7.widget.CardView
-            android:id="@+id/fragment_video_call_in_progress"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:visibility="gone">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:elevation="2dp"
-                android:orientation="vertical"
-                android:paddingBottom="24dp"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:paddingTop="24dp">
-
-                <TextView
-                    android:layout_height="wrap_content"
-                    android:layout_width="match_parent"
-                    android:theme="@style/CardTitleEditText"
-                    android:text="@string/there_is_a_call_in_progress" />
-
-            </LinearLayout>
-
-        </android.support.v7.widget.CardView>
-
-        <android.support.v7.widget.CardView
-            android:id="@+id/fragment_video_call_history"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
-            >
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:elevation="2dp"
-                android:orientation="vertical"
-                android:paddingBottom="24dp"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:paddingTop="24dp">
-
-                <TextView
-                    android:text="@string/last_consult"
-                    android:layout_height="wrap_content"
-                    android:layout_width="match_parent"
-                    android:theme="@style/CardTitleEditText"/>
-
-                <TextView
-                    android:id="@+id/fragment_video_call_last_call_detail"
-                    android:theme="@style/CardTextEditText"
-                    android:layout_height="wrap_content"
-                    android:layout_width="match_parent"
-                    android:layout_marginTop="20dp"
-                    tools:text="@string/last_call_detail" />
-
-                <TextView
-                    android:id="@+id/fragment_video_calls_quantity"
-                    android:theme="@style/CardTextEditText"
-                    android:layout_height="wrap_content"
-                    android:layout_width="match_parent"
-                    android:layout_marginTop="20dp"
-                    tools:text="Realizaste 3 consultas en los últimos 30 días" />
-
-
-            </LinearLayout>
-
-        </android.support.v7.widget.CardView>
-
-
-
+        </LinearLayout>
     </LinearLayout>
-
 </ScrollView>

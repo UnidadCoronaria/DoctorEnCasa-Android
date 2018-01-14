@@ -7,7 +7,6 @@ import android.os.Bundle;
 import com.unidadcoronaria.doctorencasa.R;
 import com.unidadcoronaria.doctorencasa.fragment.BaseFragment;
 import com.unidadcoronaria.doctorencasa.fragment.LoginFragment;
-import com.unidadcoronaria.doctorencasa.fragment.NewCallFragment;
 
 /**
  * Created by AGUSTIN.BALA on 5/21/2017.
@@ -38,6 +37,5 @@ public class LoginActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
-
 
 }

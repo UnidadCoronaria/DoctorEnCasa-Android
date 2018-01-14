@@ -9,7 +9,7 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 
 import com.unidadcoronaria.doctorencasa.R;
-import com.unidadcoronaria.doctorencasa.activity.NewCallActivity;
+import com.unidadcoronaria.doctorencasa.activity.MainActivity;
 
 
 /**
@@ -21,7 +21,7 @@ public class NotificationHelper {
     public static void showNotification(Context context, String callId) {
 
 
-        String text = "Estamos listos para atenderte. Hace click para iniciar la llamada.";
+        String text = "Estate atento! El doctor te va a llamar en cualquier momento";
         NotificationManager mNotificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, callId)
@@ -31,11 +31,9 @@ public class NotificationHelper {
 
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
         Intent resultIntent;
-        resultIntent = new Intent(context, NewCallActivity.class);
-        resultIntent.putExtra(NewCallActivity.CALL_DESTINATION_ID_KEY, Integer.valueOf(callId));
+        resultIntent = new Intent(context, MainActivity.class);
         resultIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        resultIntent.setType(callId);
-        stackBuilder.addParentStack(NewCallActivity.class);
+        stackBuilder.addParentStack(MainActivity.class);
         stackBuilder.addNextIntent(resultIntent);
 
         builder.setContentIntent(stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT));

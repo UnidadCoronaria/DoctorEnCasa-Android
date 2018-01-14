@@ -44,13 +44,13 @@ public class SplashFragment extends BaseFragment<SplashPresenter> implements Spl
 
     @Override
     public void userAuthenticated() {
-        startActivity(MainActivity.getStartIntent(getActivity()));
+        startActivity(MainActivity.getStartIntent(getContext()));
         getActivity().finish();
     }
 
     @Override
     public void onEmptyAffiliate() {
-        startActivity(LoginActivity.getStartIntent(getActivity()));
+        startActivity(LoginActivity.getStartIntent(getContext()));
         getActivity().finish();
     }
 }

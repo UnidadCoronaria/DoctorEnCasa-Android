@@ -43,7 +43,7 @@
         <activity android:name=".activity.LoginActivity"
             android:screenOrientation="portrait"/>
 
-        <activity android:name=".activity.MainActivity"
+        <activity android:name=".activity.MainActivity" android:launchMode="singleTop" android:showOnLockScreen="true"
             android:screenOrientation="portrait"/>
 
         <activity android:name=".activity.ForgotPasswordActivity"
@@ -52,16 +52,12 @@
         <activity android:name=".activity.ChangePasswordActivity"
             android:screenOrientation="portrait"/>
 
-        <activity android:name=".activity.NewCallActivity"
-            android:launchMode="singleTask"
-            android:parentActivityName=".activity.MainActivity"
-            android:screenOrientation="portrait">
+        <activity android:name=".activity.NewCallActivity" android:noHistory="true"
+            android:screenOrientation="portrait"/>
 
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.MainActivity"/>
 
-        </activity>
+        <service
+            android:name=".service.SinchService"/>
 
         <service
             android:name=".service.NotificationService">

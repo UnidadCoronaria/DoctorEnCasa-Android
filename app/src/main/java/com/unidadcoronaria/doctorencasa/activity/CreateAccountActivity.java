@@ -9,7 +9,6 @@ import com.unidadcoronaria.doctorencasa.R;
 import com.unidadcoronaria.doctorencasa.domain.Provider;
 import com.unidadcoronaria.doctorencasa.fragment.BaseFragment;
 import com.unidadcoronaria.doctorencasa.fragment.CreateUserFragment;
-import com.unidadcoronaria.doctorencasa.fragment.NewCallFragment;
 import com.unidadcoronaria.doctorencasa.fragment.SelectAffiliateFragment;
 import com.unidadcoronaria.doctorencasa.fragment.SelectProviderFragment;
 import com.unidadcoronaria.doctorencasa.fragment.FragmentContainer;

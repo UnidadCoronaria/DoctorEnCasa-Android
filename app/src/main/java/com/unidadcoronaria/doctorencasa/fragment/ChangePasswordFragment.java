@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.unidadcoronaria.doctorencasa.App;
 import com.unidadcoronaria.doctorencasa.ChangePasswordView;
 import com.unidadcoronaria.doctorencasa.R;
+import com.unidadcoronaria.doctorencasa.activity.ChangePasswordActivity;
 import com.unidadcoronaria.doctorencasa.di.component.DaggerCreateAccountComponent;
 import com.unidadcoronaria.doctorencasa.presenter.ChangePasswordPresenter;
 import com.unidadcoronaria.doctorencasa.util.SessionUtil;
@@ -127,7 +128,7 @@ public class ChangePasswordFragment extends BaseFragment<ChangePasswordPresenter
     @Override
     public void onChangePasswordSuccess() {
         new AlertDialog.Builder(getActivity()).setMessage(R.string.updated_password).setPositiveButton(R.string.ok,
-                (dialog, which) -> { SessionUtil.logout(); getActivity().finish(); }).setCancelable(false).show();
+                (dialog, which) -> { SessionUtil.logout(); ((ChangePasswordActivity)getActivity()).logout(); }).setCancelable(false).show();
     }
 
     @Override
@@ -143,37 +144,28 @@ public class ChangePasswordFragment extends BaseFragment<ChangePasswordPresenter
 
     private void setEmptyErrorMessage(int viewId){
         clearAllErrors();
-        ButterKnife.apply(textInputLayoutList, new Action<TextInputLayout>() {
-            @Override
-            public void apply(@NonNull TextInputLayout view, int index) {
-                if(view.getId() == viewId){
-                    view.setErrorEnabled(true);
-                    view.setError(getString(R.string.can_be_empty));
-                }
+        ButterKnife.apply(textInputLayoutList, (Action<TextInputLayout>) (view, index) -> {
+            if(view.getId() == viewId){
+                view.setErrorEnabled(true);
+                view.setError(getString(R.string.can_be_empty));
             }
         });
     }
 
     private void setErrorMessage(int viewId, @StringRes int messageId){
         clearAllErrors();
-        ButterKnife.apply(textInputLayoutList, new Action<TextInputLayout>() {
-            @Override
-            public void apply(@NonNull TextInputLayout view, int index) {
-                if(view.getId() == viewId){
-                    view.setErrorEnabled(true);
-                    view.setError(getString(messageId));
-                }
+        ButterKnife.apply(textInputLayoutList, (Action<TextInputLayout>) (view, index) -> {
+            if(view.getId() == viewId){
+                view.setErrorEnabled(true);
+                view.setError(getString(messageId));
             }
         });
     }
 
     private void clearAllErrors(){
-        ButterKnife.apply(textInputLayoutList, new Action<TextInputLayout>() {
-            @Override
-            public void apply(@NonNull TextInputLayout view, int index) {
-                view.setErrorEnabled(false);
-                view.setError(null);
-            }
+        ButterKnife.apply(textInputLayoutList, (Action<TextInputLayout>) (view, index) -> {
+            view.setErrorEnabled(false);
+            view.setError(null);
         });
     }
 

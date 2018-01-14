@@ -7,8 +7,6 @@ import android.os.Bundle;
 import com.unidadcoronaria.doctorencasa.R;
 import com.unidadcoronaria.doctorencasa.fragment.BaseFragment;
 import com.unidadcoronaria.doctorencasa.fragment.ForgotPasswordFragment;
-import com.unidadcoronaria.doctorencasa.fragment.NewCallFragment;
-import com.unidadcoronaria.doctorencasa.presenter.ForgotPasswordPresenter;
 
 /**
  * Created by AGUSTIN.BALA on 5/21/2017.

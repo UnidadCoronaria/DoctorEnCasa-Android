@@ -18,5 +18,4 @@ public interface VideoCallComponent {
     void inject(VideoCallFragment fragment);
 
     void inject(NewCallFragment newCallFragment);
-
 }

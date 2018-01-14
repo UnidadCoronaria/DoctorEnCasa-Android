@@ -8,10 +8,14 @@ import com.unidadcoronaria.doctorencasa.VideoCallView;
 import com.unidadcoronaria.doctorencasa.domain.AffiliateCallHistory;
 import com.unidadcoronaria.doctorencasa.domain.Queue;
 import com.unidadcoronaria.doctorencasa.domain.VideoCall;
+import com.unidadcoronaria.doctorencasa.dto.VideoCallDTO;
 import com.unidadcoronaria.doctorencasa.usecase.network.CreateCallUseCase;
 import com.unidadcoronaria.doctorencasa.usecase.network.GetAffiliateCallHistoryUseCase;
 import com.unidadcoronaria.doctorencasa.usecase.network.GetQueueStatusUseCase;
+import com.unidadcoronaria.doctorencasa.usecase.network.GetVideocallUseCase;
 import com.unidadcoronaria.doctorencasa.usecase.network.HangupUseCase;
+import com.unidadcoronaria.doctorencasa.usecase.network.RankCallUseCase;
+import com.unidadcoronaria.doctorencasa.usecase.network.StartCallUseCase;
 import com.unidadcoronaria.doctorencasa.usecase.network.UpdateFCMTokenUseCase;
 import com.unidadcoronaria.doctorencasa.util.SessionUtil;
 
@@ -30,17 +34,22 @@ public class VideoCallPresenter extends BasePresenter<VideoCallView> {
     private GetQueueStatusUseCase mGetQueueStatusUseCase;
     private CreateCallUseCase mCreateCallUseCase;
     private UpdateFCMTokenUseCase mUpdateFCMTokenUseCase;
+    private RankCallUseCase mRankCallUseCase;
+
     final Handler handler = new Handler();
+    private Boolean isListeningUpdates = Boolean.FALSE;
 
     @Inject
     public VideoCallPresenter(GetAffiliateCallHistoryUseCase mGetAffiliateCallHistoryUseCase,
                               GetQueueStatusUseCase mGetQueueStatusUseCase,
                               CreateCallUseCase mCreateCallUseCase,
-                              UpdateFCMTokenUseCase mUpdateFCMTokenUseCase){
+                              UpdateFCMTokenUseCase mUpdateFCMTokenUseCase,
+                              RankCallUseCase mRankCallUseCase){
         this.mGetAffiliateCallHistoryUseCase = mGetAffiliateCallHistoryUseCase;
         this.mGetQueueStatusUseCase = mGetQueueStatusUseCase;
         this.mCreateCallUseCase = mCreateCallUseCase;
         this.mUpdateFCMTokenUseCase = mUpdateFCMTokenUseCase;
+        this.mRankCallUseCase = mRankCallUseCase;
     }
 
 
@@ -48,6 +57,33 @@ public class VideoCallPresenter extends BasePresenter<VideoCallView> {
     public void onResume() {
         super.onResume();
         view.onGetDataStart();
+        sendTokenToServer();
+        listenQueueUpdates();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if(isListeningUpdates){
+            handler.removeCallbacksAndMessages(null);
+            isListeningUpdates = false;
+        }
+    }
+
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mGetQueueStatusUseCase.unsubscribe();
+        mCreateCallUseCase.unsubscribe();
+        mGetAffiliateCallHistoryUseCase.unsubscribe();
+        mUpdateFCMTokenUseCase.unsubscribe();
+        mRankCallUseCase.unsubscribe();
+    }
+
+    public void listenQueueUpdates(){
+        if(!isListeningUpdates){
+            isListeningUpdates = true;
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -55,7 +91,13 @@ public class VideoCallPresenter extends BasePresenter<VideoCallView> {
                 getAffiliateHistory();
             }
         }, 0); // first run instantly
-        sendTokenToServer();
+        }
+    }
+
+    public void stopListeningQueueUpdates(){
+        if(isListeningUpdates){
+            handler.removeCallbacksAndMessages(null);
+        }
     }
 
     private void sendTokenToServer() {
@@ -68,7 +110,7 @@ public class VideoCallPresenter extends BasePresenter<VideoCallView> {
         }
     }
 
-    private void getAffiliateHistory() {
+    public void getAffiliateHistory() {
         mGetAffiliateCallHistoryUseCase.execute(o -> {
             view.onGetAffiliateCallHistorySuccess((AffiliateCallHistory) o);
         }, throwable -> {
@@ -83,21 +125,14 @@ public class VideoCallPresenter extends BasePresenter<VideoCallView> {
             view.onGetQueueStatusError());
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        mGetQueueStatusUseCase.unsubscribe();
-        mCreateCallUseCase.unsubscribe();
-        mGetAffiliateCallHistoryUseCase.unsubscribe();
-        handler.removeCallbacksAndMessages(null);
-    }
 
     public void initCall() {
-        view.onInitCallStart();
+        view.onGetDataStart();
         mCreateCallUseCase.execute(o -> {
             view.onInitCallSuccess((VideoCall)o);
         }, throwable -> {
             view.onInitCallError();
         });
     }
+
 }

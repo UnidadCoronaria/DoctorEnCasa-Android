@@ -54,6 +54,42 @@
 
     </RelativeLayout>
 
+    <RelativeLayout
+        android:id="@+id/fragment_new_video_call_incoming"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/holo_green_dark"
+        android:padding="30dp"
+        android:visibility="gone"
+        >
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fragment_video_call_answer_button"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            app:fabSize="normal"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="16dp"
+            android:layout_marginRight="16dp"
+            android:src="@drawable/ic_video_call" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fragment_video_call_decline_button"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            app:fabSize="normal"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_toRightOf="@+id/fragment_video_call_answer_button"
+            android:layout_marginBottom="16dp"
+            android:layout_marginRight="16dp"
+            android:src="@drawable/ic_call_end" />
+
+
+
+    </RelativeLayout>
+
 
     <RelativeLayout
         android:id="@+id/fragment_video_call_container"
@@ -63,12 +99,14 @@
         >
 
         <LinearLayout
+            android:orientation="vertical"
             android:id="@+id/call_frame"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentTop="true"/>
 
         <LinearLayout
+            android:orientation="vertical"
             android:id="@+id/call_self_camera"
             android:layout_width="150dp"
             android:layout_height="150dp"

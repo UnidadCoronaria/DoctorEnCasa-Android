@@ -3,9 +3,16 @@
     android:layout_width="match_parent"
     android:layout_height="0dp"
     android:layout_weight="1"
+    android:background="@color/colorPrimaryDark"
     android:orientation="vertical">
 
     <include layout="@layout/view_toolbar"  />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/greyLight" />
+
 
     <FrameLayout
         android:id="@+id/activity_base_fragment"

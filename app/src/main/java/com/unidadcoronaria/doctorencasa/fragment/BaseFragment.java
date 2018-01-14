@@ -2,8 +2,12 @@ package com.unidadcoronaria.doctorencasa.fragment;
 
 import android.app.Activity;
 import android.arch.lifecycle.LifecycleFragment;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.annotation.CallSuper;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -12,6 +16,7 @@ import android.view.ViewGroup;
 
 import com.unidadcoronaria.doctorencasa.R;
 import com.unidadcoronaria.doctorencasa.presenter.BasePresenter;
+import com.unidadcoronaria.doctorencasa.service.SinchService;
 
 import javax.inject.Inject;
 
@@ -95,4 +100,6 @@ public abstract class BaseFragment<T extends BasePresenter> extends LifecycleFra
         mPresenter.onStop();
     }
     //endregion
+
+
 }

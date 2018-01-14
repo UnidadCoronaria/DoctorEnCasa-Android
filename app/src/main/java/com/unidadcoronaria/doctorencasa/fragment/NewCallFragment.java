@@ -2,6 +2,7 @@ package com.unidadcoronaria.doctorencasa.fragment;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,10 +10,16 @@ import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.sinch.android.rtc.AudioController;
+import com.sinch.android.rtc.PushPair;
 import com.sinch.android.rtc.SinchError;
 import com.sinch.android.rtc.calling.Call;
+import com.sinch.android.rtc.calling.CallEndCause;
+import com.sinch.android.rtc.calling.CallListener;
+import com.sinch.android.rtc.video.VideoCallListener;
 import com.sinch.android.rtc.video.VideoController;
 import com.unidadcoronaria.doctorencasa.App;
 import com.unidadcoronaria.doctorencasa.NewCallView;
@@ -21,9 +28,13 @@ import com.unidadcoronaria.doctorencasa.di.component.DaggerVideoCallComponent;
 import com.unidadcoronaria.doctorencasa.domain.VideoCall;
 import com.unidadcoronaria.doctorencasa.domain.VideoCallStatus;
 import com.unidadcoronaria.doctorencasa.presenter.NewCallPresenter;
+import com.unidadcoronaria.doctorencasa.service.SinchService;
+import com.unidadcoronaria.doctorencasa.streaming.AudioPlayer;
 import com.unidadcoronaria.doctorencasa.streaming.SinchCallManager;
 import com.unidadcoronaria.doctorencasa.dialog.RankDialog;
 import com.unidadcoronaria.doctorencasa.util.SessionUtil;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -58,16 +69,17 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
     @BindView(R.id.fragment_new_video_call_calling)
     protected View vStartingContainer;
 
+    @BindView(R.id.fragment_new_video_call_incoming)
+    protected View vIncomingContainer;
+
     @BindView(R.id.fragment_video_call_hangup_button)
     protected View vHangoutButton;
 
-    private SinchCallManager mCallManager = new SinchCallManager();
     private Call mCall;
-    public final static String CALL_DESTINATION_KEY = "com.unidadcoronaria.doctorencasa.fragment.newcallfragment.CALL_DESTINATION_KEY";
-    public final static String CALL_DESTINATION_ID_KEY = "com.unidadcoronaria.doctorencasa.fragment.newcallfragment.CALL_DESTINATION_ID_KEY";
-    private VideoCall mCallDestination;
     private RankDialog mRankDialog =  new RankDialog();
-    private int mCallDestinationId;
+    private AudioPlayer mAudioPlayer;
+    private SinchService.SinchServiceInterface mServiceInterface;
+
 
     @Override
     protected int makeContentViewResourceId() {
@@ -79,12 +91,8 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
         return TAG;
     }
 
-    public static NewCallFragment newInstance(VideoCall callDestination, int mCallDestinationId) {
+    public static NewCallFragment newInstance() {
         NewCallFragment instance = new NewCallFragment();
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(CALL_DESTINATION_KEY, callDestination);
-        bundle.putInt(CALL_DESTINATION_ID_KEY, mCallDestinationId);
-        instance.setArguments(bundle);
         return instance;
     }
 
@@ -98,56 +106,26 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mPresenter.setView(this);
-        if (getArguments() != null && getArguments().containsKey(CALL_DESTINATION_KEY)) {
-            mCallDestination = (VideoCall) getArguments().getSerializable(CALL_DESTINATION_KEY);
-        }
-        if (getArguments() != null && getArguments().containsKey(CALL_DESTINATION_ID_KEY)) {
-            mCallDestinationId = getArguments().getInt(CALL_DESTINATION_ID_KEY);
-        }
-        vStartingContainer.setVisibility(View.VISIBLE);
+        vProgress.setVisibility(View.VISIBLE);
     }
 
     @Override
-    public void onResume(){
-        super.onResume();
-        if(mCallDestination != null){
-            initCallClient();
-        } else {
-            if(mCallDestinationId != 0){
-                 mPresenter.getVideocall(mCallDestinationId);
-            }
+    public void onDestroy() {
+        super.onDestroy();
+        if (mCall != null) {
+            mCall.removeCallListener(mCallListener);
         }
     }
 
     @Override
-    public void onSaveInstanceState(Bundle bundle){
-        bundle.putInt(CALL_DESTINATION_ID_KEY, mCallDestinationId);
-        bundle.putSerializable(CALL_DESTINATION_KEY, mCallDestination);
-    }
+    public void initCall(Call call, SinchService.SinchServiceInterface serviceInterface){
+        this.mCall = call;
+        this.mServiceInterface = serviceInterface;
+        this.mCall.addCallListener(mCallListener);
 
-    private void initCallClient() {
-        vStartingContainer.setVisibility(View.VISIBLE);
-        mCallManager.initClient(SessionUtil.getUsername(), new SinchCallManager.StartFailedListener() {
-            @Override
-            public void onStartFailed(SinchError error) {
-                Log.i(TAG, "Error in onStartFailed");
-                //TODO
-                //VER COMO MANEJAR LOS REINTENTOS Y UN TIMEOUT PARA QUE NO QUEDE COLGADA LA LLAMADA
-                initCallClient();
-            }
-
-            @Override
-            public void onStopped() {
-                Log.i(TAG, "Sinch Client stopped");
-                Toast.makeText(getActivity(), "Sinch Client stopped", Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onStarted() {
-                Log.i(TAG, "Sinch Client started");
-                NewCallFragmentPermissionsDispatcher.makeCallWithPermissionCheck(NewCallFragment.this);
-            }
-        });
+        if(mCall != null){
+           NewCallFragmentPermissionsDispatcher.acceptCallWithPermissionCheck(this);
+        }
     }
 
     @SuppressLint("NeedOnRequestPermissionsResult")
@@ -160,8 +138,15 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
 
     @NeedsPermission({Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO,
              Manifest.permission.READ_PHONE_STATE})
-    protected void makeCall() {
-        mPresenter.start(mCallDestination);
+    protected void acceptCall() {
+        vProgress.setVisibility(View.GONE);
+        vStartingContainer.setVisibility(View.GONE);
+        vErrorContainer.setVisibility(View.GONE);
+        vContainer.setVisibility(View.GONE);
+        vIncomingContainer.setVisibility(View.VISIBLE);
+        mAudioPlayer = new AudioPlayer(getActivity());
+        mAudioPlayer.playRingtone();
+        //MOSTRAR PANTALLA DE LLAMADA ENTRANTE
     }
 
 
@@ -170,27 +155,67 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
         mCall.hangup();
     }
 
+    @OnClick(R.id.fragment_video_call_answer_button)
+    protected void onAnswerClick() {
+        mAudioPlayer.stopRingtone();
+        mCall.answer();
+    }
+
+    @OnClick(R.id.fragment_video_call_decline_button)
+    protected void declineClicked() {
+        mAudioPlayer.stopRingtone();
+        if (mCall != null) {
+            mCall.hangup();
+
+        }
+        getActivity().finish();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        //TODO removeVideoViews();
+    }
+
+    private void showRankDialog(){
+        mRankDialog.dismiss();
+        mRankDialog.showRankMessage(getActivity(),
+                new RankDialog.Callback() {
+                    @Override
+                    public void onPositiveClick(String comment, int ranking) {
+                        mPresenter.rank(comment, ranking);
+                    }
+
+                    @Override
+                    public void onNegativeClick() {
+                        getActivity().finish();
+                    }
+                });
+    }
+
     private void addVideoViews() {
-        final VideoController vc = mCallManager.getVideoController();
+        final VideoController vc = mServiceInterface.getVideoController();
         if (vc != null) {
             vFrame.addView(vc.getRemoteView());
             vFrame.setOnClickListener(v -> vc.toggleCaptureDevicePosition());
             vSelfCamera.addView(vc.getLocalView());
+            vHangoutButton.setVisibility(View.VISIBLE);
+            vStartingContainer.setVisibility(View.GONE);
+            vContainer.setVisibility(View.VISIBLE);
+            vIncomingContainer.setVisibility(View.GONE);
         }
     }
 
     private void removeVideoViews() {
-        VideoController vc = mCallManager.getVideoController();
+        VideoController vc = mServiceInterface.getVideoController();
         if (vc != null) {
             vFrame.removeView(vc.getRemoteView());
             vSelfCamera.removeView(vc.getLocalView());
+            vContainer.setVisibility(View.GONE);
+            vHangoutButton.setVisibility(View.VISIBLE);
         }
     }
 
-    public void onStop() {
-        super.onStop();
-        mCallManager.stopClient();
-    }
 
     //region Permissions Handling
     @SuppressLint("NoCorrespondingNeedsPermission")
@@ -225,74 +250,6 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
         Toast.makeText(getActivity(), getString(R.string.permissions_never_ask), Toast.LENGTH_SHORT).show();
     }
 
-    @Override
-    public void onHangupSuccess(VideoCall videoCall) {
-        mRankDialog.dismiss();
-        mRankDialog.showRankMessage(getActivity(),
-                new RankDialog.Callback() {
-                    @Override
-                    public void onPositiveClick(String comment, int ranking) {
-                        mPresenter.rank(mCallDestination.getId(), comment, ranking);
-                    }
-
-                    @Override
-                    public void onNegativeClick() {
-                        getActivity().finish();
-                    }
-                });
-    }
-
-    @Override
-    public void onHangupError() {
-        new AlertDialog.Builder(getActivity())
-                .setMessage(getString(R.string.error_hangup))
-                .setPositiveButton(getString(R.string.cancel), (dialog, button) -> getActivity().finish())
-                .setNegativeButton(getString(R.string.retry), (dialog, button) -> mPresenter.hangout(mCallDestination))
-                .setCancelable(false)
-                .show();
-
-    }
-
-    @Override
-    public void onStartSuccess(VideoCall videoCall) {
-        vProgress.setVisibility(View.GONE);
-        vContainer.setVisibility(View.VISIBLE);
-        mCall = mCallManager.makeCall(mCallDestination.getDoctor().getUsername(), new SinchCallManager.SinchCallListener() {
-            @Override
-            public void onCallEstablished(Call call) {
-                super.onCallEstablished(call);
-                addVideoViews();
-                vHangoutButton.setVisibility(View.VISIBLE);
-                vStartingContainer.setVisibility(View.GONE);
-            }
-
-
-            @Override
-            public void onCallEnded(Call call) {
-                super.onCallEnded(call);
-                vStartingContainer.setVisibility(View.GONE);
-                removeVideoViews();
-                vContainer.setVisibility(View.GONE);
-                mPresenter.hangout(mCallDestination);
-            }
-
-        });
-    }
-
-    @Override
-    public void onStartError() {
-        new AlertDialog.Builder(getActivity())
-                .setMessage("Error iniciando la llamada. Por favor,vuelva a intentarlo.")
-                .setPositiveButton(getString(R.string.cancel), (dialog, button) -> getActivity().finish())
-                .setNegativeButton(getString(R.string.retry), (dialog, button) -> mPresenter.start(mCallDestination))
-                .setCancelable(false)
-                .show();
-    }
-
-    @Override
-    public void onCallUnavailableError() {
-        Toast.makeText(getActivity(), "Ya no es posible realizar la llamada", Toast.LENGTH_LONG).show();
-    }
 
     @Override
     public void onRankSuccess() {
@@ -306,34 +263,60 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
         new AlertDialog.Builder(getActivity())
                 .setMessage("Hubo un error. Por favor, vuelva a intentarlo.")
                 .setPositiveButton(getString(R.string.cancel), (dialog, button) -> getActivity().finish())
-                .setNegativeButton(getString(R.string.retry), (dialog, button) -> onHangupSuccess(mCallDestination))
-                .setCancelable(false)
-                .show();
-    }
-
-    @Override
-    public void onGetVideocallSuccess(VideoCall videoCall) {
-        if(VideoCallStatus.LISTA_ATENCION.equals(videoCall.getStatus())){
-            mCallDestination = videoCall;
-            initCallClient();
-        } else {
-            new AlertDialog.Builder(getActivity())
-                    .setMessage("La llamada no está disponible")
-                    .setPositiveButton(getString(R.string.accept), (dialog, button) -> getActivity().finish())
-                    .setCancelable(false)
-                    .show();
-        }
-    }
-
-    @Override
-    public void onGetVideocallError() {
-        vStartingContainer.setVisibility(View.GONE);
-        new AlertDialog.Builder(getActivity())
-                .setMessage("Hubo un error. Por favor, vuelva a intentarlo.")
-                .setPositiveButton(getString(R.string.cancel), (dialog, button) -> getActivity().finish())
-                .setNegativeButton(getString(R.string.retry), (dialog, button) -> mPresenter.getVideocall(mCallDestinationId))
+                .setNegativeButton(getString(R.string.retry), (dialog, button) -> showRankDialog())
                 .setCancelable(false)
                 .show();
     }
     //endregion
+
+    private long mCallStart;
+    private CallListener mCallListener = new VideoCallListener() {
+        @Override
+        public void onCallEnded(Call call) {
+            mAudioPlayer.stopRingtone();
+            CallEndCause cause = call.getDetails().getEndCause();
+            Log.d(TAG, "Call ended. Reason: " + cause.toString());
+            mAudioPlayer.stopProgressTone();
+            getActivity().setVolumeControlStream(AudioManager.USE_DEFAULT_STREAM_TYPE);
+            String endMsg = "Call ended: " + call.getDetails().toString();
+            showRankDialog();
+        }
+
+        @Override
+        public void onCallEstablished(Call call) {
+            Log.d(TAG, "Call established");
+            mAudioPlayer.stopProgressTone();
+            getActivity().setVolumeControlStream(AudioManager.STREAM_VOICE_CALL);
+            AudioController audioController = mServiceInterface.getAudioController();
+            audioController.enableSpeaker();
+            mCallStart = System.currentTimeMillis();
+        }
+
+        @Override
+        public void onCallProgressing(Call call) {
+            Log.d(TAG, "Call progressing");
+            mAudioPlayer.playProgressTone();
+        }
+
+        @Override
+        public void onShouldSendPushNotification(Call call, List<PushPair> pushPairs) {
+            // Send a push through your push provider here, e.g. GCM
+        }
+
+        @Override
+        public void onVideoTrackAdded(Call call) {
+            Log.d(TAG, "Video track added");
+            addVideoViews();
+        }
+
+        @Override
+        public void onVideoTrackPaused(Call call) {
+
+        }
+
+        @Override
+        public void onVideoTrackResumed(Call call) {
+
+        }
+    };
 }

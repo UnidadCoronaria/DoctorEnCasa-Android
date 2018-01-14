@@ -1,6 +1,11 @@
 package com.unidadcoronaria.doctorencasa.activity;
 
+import android.app.Activity;
+import android.content.ComponentName;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.annotation.CallSuper;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
@@ -9,14 +14,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.unidadcoronaria.doctorencasa.R;
 import com.unidadcoronaria.doctorencasa.fragment.BaseFragment;
-import com.unidadcoronaria.doctorencasa.fragment.NewCallFragment;
+import com.unidadcoronaria.doctorencasa.service.SinchService;
 import com.unidadcoronaria.doctorencasa.util.FragmentNavigationUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.Optional;
 
 /**
  * The base class for all activities
@@ -24,11 +33,19 @@ import butterknife.ButterKnife;
  * @author Agustin.Bala
  * @since 0.0.1
  */
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity  implements ServiceConnection {
 
     @Nullable
     @BindView(R.id.toolbar)
     Toolbar vToolbar;
+    @Nullable
+    @BindView(R.id.toolbar_title)
+    TextView vToolbarTitle;
+    @Nullable
+    @BindView(R.id.toolbar_icon)
+    ImageView vToolbarIcon;
+
+    private SinchService.SinchServiceInterface mSinchServiceInterface;
 
     //region Lifecycle implementation
     @Override
@@ -45,6 +62,8 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (savedInstanceState == null && getFragment() != null) {
             FragmentNavigationUtil.addFragment(getSupportFragmentManager(), R.id.activity_base_fragment, getFragment());
         }
+        getApplicationContext().bindService(new Intent(this, SinchService.class), this,
+                Activity.BIND_AUTO_CREATE);
     }
 
     @Override
@@ -68,8 +87,9 @@ public abstract class BaseActivity extends AppCompatActivity {
         setSupportActionBar(vToolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setHomeButtonEnabled(true);
+            actionBar.setDisplayHomeAsUpEnabled(false);
+            actionBar.setHomeButtonEnabled(false);
+            actionBar.setDisplayShowTitleEnabled(false);
         }
     }
 
@@ -84,23 +104,11 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     protected void setBackVisibilityInToolbar(boolean isBackVisible) {
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(isBackVisible);
-            actionBar.setHomeButtonEnabled(isBackVisible);
+        if (vToolbarIcon != null) {
+            vToolbarIcon.setVisibility(isBackVisible ? View.VISIBLE : View.GONE);
         }
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
     // endregion
 
     //region Public Implementation
@@ -113,10 +121,15 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     public void setToolbarTitle(String toolbarTitle){
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setTitle(toolbarTitle);
+        if (vToolbarTitle != null) {
+            vToolbarTitle.setText(toolbarTitle);
         }
+    }
+
+    @Optional
+    @OnClick(R.id.toolbar_icon)
+    public void onBackClick(){
+        onBackPressed();
     }
 
     //endregion
@@ -127,5 +140,35 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected abstract BaseFragment getFragment();
 
     protected abstract boolean showToolbar();
+    //endregion
+
+    //region SinchService
+    @Override
+    public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+        if (SinchService.class.getName().equals(componentName.getClassName())) {
+            mSinchServiceInterface = (SinchService.SinchServiceInterface) iBinder;
+            onServiceConnected();
+        }
+    }
+
+    @Override
+    public void onServiceDisconnected(ComponentName componentName) {
+        if (SinchService.class.getName().equals(componentName.getClassName())) {
+            mSinchServiceInterface = null;
+            onServiceDisconnected();
+        }
+    }
+
+    protected void onServiceConnected() {
+        // for subclasses
+    }
+
+    protected void onServiceDisconnected() {
+        // for subclasses
+    }
+
+    protected SinchService.SinchServiceInterface getSinchServiceInterface() {
+        return mSinchServiceInterface;
+    }
     //endregion
 }

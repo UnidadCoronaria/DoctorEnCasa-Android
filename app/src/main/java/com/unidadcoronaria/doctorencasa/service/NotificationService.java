@@ -1,11 +1,19 @@
 package com.unidadcoronaria.doctorencasa.service;
 
+import android.content.ComponentName;
+import android.content.Intent;
+import android.content.ServiceConnection;
+import android.os.IBinder;
 import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.unidadcoronaria.doctorencasa.App;
+import com.unidadcoronaria.doctorencasa.activity.MainActivity;
+import com.unidadcoronaria.doctorencasa.activity.NewCallActivity;
 import com.unidadcoronaria.doctorencasa.util.NotificationHelper;
+
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
 /**
  * Created by AGUSTIN.BALA on 11/11/2016.
@@ -18,9 +26,6 @@ public class NotificationService extends FirebaseMessagingService {
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
-        // ...
-
-        // TODO(developer): Handle FCM messages here.
         // Not getting messages here? See why this may be: https://goo.gl/39bRNJ
         Log.d(TAG, "From: " + remoteMessage.getFrom());
 
@@ -41,4 +46,6 @@ public class NotificationService extends FirebaseMessagingService {
             NotificationHelper.showNotification(App.getInstance(), remoteMessage.getData().get("videocallId").toString());
         }
     }
+
+
 }

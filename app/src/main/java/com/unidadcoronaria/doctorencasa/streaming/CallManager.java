@@ -1,24 +1,24 @@
 package com.unidadcoronaria.doctorencasa.streaming;
 
+import com.sinch.android.rtc.SinchClient;
+import com.sinch.android.rtc.calling.CallClientListener;
+import com.sinch.android.rtc.video.VideoCallListener;
+
 /**
  * @author AGUSTIN.BALA
  * @since 4.16
  */
 
-public interface CallManager <T,Y>{
+public interface CallManager <T>{
 
-    void initClient(String userName, SinchCallManager.StartFailedListener mListener);
+    SinchClient initClient(String userName, SinchCallManager.StartFailedListener mListener, CallClientListener mCallClientListener);
 
     boolean isStarted();
 
-    void resumeListeningIncomingCalls();
-
-    void stopListeningIncomingCalls();
-
     void stopClient();
 
-    T makeCall(String userId, Y callback);
+    T makeCall(String userId, VideoCallListener callback);
 
-    T getCall(String callId, Y callback);
+    T getCall(String callId, VideoCallListener callback);
 
 }
