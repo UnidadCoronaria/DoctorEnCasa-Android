@@ -33,6 +33,7 @@ import com.unidadcoronaria.doctorencasa.streaming.AudioPlayer;
 import com.unidadcoronaria.doctorencasa.streaming.SinchCallManager;
 import com.unidadcoronaria.doctorencasa.dialog.RankDialog;
 import com.unidadcoronaria.doctorencasa.util.SessionUtil;
+import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.List;
 
@@ -74,6 +75,15 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
 
     @BindView(R.id.fragment_video_call_hangup_button)
     protected View vHangoutButton;
+
+    @BindView(R.id.fragment_video_call_stop_video)
+    protected View vStopVideoButton;
+
+    @BindView(R.id.fragment_video_call_mute)
+    protected View vMuteButton;
+
+    @BindView(R.id.fragment_new_call_incoming_effect)
+    protected AVLoadingIndicatorView vIncomingCallEffect;
 
     private Call mCall;
     private RankDialog mRankDialog =  new RankDialog();
@@ -146,6 +156,7 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
         vIncomingContainer.setVisibility(View.VISIBLE);
         mAudioPlayer = new AudioPlayer(getActivity());
         mAudioPlayer.playRingtone();
+        vIncomingCallEffect.show();
         //MOSTRAR PANTALLA DE LLAMADA ENTRANTE
     }
 
@@ -274,6 +285,8 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
         @Override
         public void onCallEnded(Call call) {
             mAudioPlayer.stopRingtone();
+            vContainer.setVisibility(View.GONE);
+            vStartingContainer.setVisibility(View.GONE);
             CallEndCause cause = call.getDetails().getEndCause();
             Log.d(TAG, "Call ended. Reason: " + cause.toString());
             mAudioPlayer.stopProgressTone();

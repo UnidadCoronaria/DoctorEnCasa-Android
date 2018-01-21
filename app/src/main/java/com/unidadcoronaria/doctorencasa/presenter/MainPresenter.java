@@ -13,24 +13,9 @@ import javax.inject.Inject;
 public class MainPresenter extends BasePresenter<MainView> {
 
 
-    private LogoutUseCase mLogoutUseCase;
-
     @Inject
-    public MainPresenter(LogoutUseCase mLogoutUseCase) {
-        this.mLogoutUseCase = mLogoutUseCase;
+    public MainPresenter(){
     }
 
-    public void logout(){
-        mLogoutUseCase.execute(() -> {
-            SessionUtil.logout();
-            view.onLogout();
-        }, throwable -> view.onLogoutError());
-    }
-
-    @Override
-    public void onStop(){
-        super.onStop();
-        mLogoutUseCase.unsubscribe();
-    }
 
 }

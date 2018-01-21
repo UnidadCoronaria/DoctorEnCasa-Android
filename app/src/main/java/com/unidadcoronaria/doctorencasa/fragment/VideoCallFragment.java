@@ -113,6 +113,7 @@ public class VideoCallFragment extends BaseFragment<VideoCallPresenter> implemen
             vProgress.setVisibility(View.GONE);
         }
         vContainer.setVisibility(View.VISIBLE);
+        vButton.setVisibility(View.GONE);
         vText.setText(Html.fromHtml(getString(R.string.already_in_queue)));
     }
 

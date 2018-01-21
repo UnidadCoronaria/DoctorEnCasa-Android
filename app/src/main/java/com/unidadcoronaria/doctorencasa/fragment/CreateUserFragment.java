@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.design.widget.TextInputLayout;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -38,46 +40,44 @@ public class CreateUserFragment extends BaseFragment<CreateUserPresenter> implem
     public static final String TAG = "CreateUserFragment";
     public static final String PROVIDER_KEY = " com.unidadcoronaria.doctorencasa.fragment.UserDataFragment.PROVIDER_KEY";
 
-    @BindView(R.id.fragment_select_affiliate_account_affiliate_number)
+    @BindView(R.id.fragment_create_user_affiliate_number)
     protected EditText vAffiliateNumber;
 
-    @BindView(R.id.fragment_select_affiliate_account_affiliate_number_layout)
+    @BindView(R.id.fragment_create_user_number_layout)
     protected TextInputLayout vAffiliateNumberLayout;
 
-    @BindView(R.id.fragment_affiliate_data_password)
+    @BindView(R.id.fragment_create_user_password)
     protected EditText vPassword;
 
-    @BindView(R.id.fragment_affiliate_data_password_repeat)
+    @BindView(R.id.fragment_create_user_password_repeat)
     protected EditText vPasswordRepeat;
 
-    @BindView(R.id.fragment_affiliate_data_email)
+    @BindView(R.id.fragment_create_user_email)
     protected EditText vEmail;
 
-    @BindView(R.id.fragment_affiliate_data_email_layout)
+    @BindView(R.id.fragment_create_user_email_layout)
     protected TextInputLayout vEmailLayout;
 
-    @BindView(R.id.fragment_affiliate_data_password_layout)
+    @BindView(R.id.fragment_create_user_password_layout)
     protected TextInputLayout vPasswordLayout;
 
-    @BindView(R.id.fragment_affiliate_data_password_repeat_layout)
+    @BindView(R.id.fragment_create_user_password_repeat_layout)
     protected TextInputLayout vPasswordRepeatLayout;
 
-    @BindView(R.id.fragment_create_user_group_head)
-    protected EditText vGroupHead;
-
-    @BindView(R.id.fragment_select_affiliate_data_container)
+    @BindView(R.id.fragment_create_user_data_container)
     protected View vAffiliateDataContainer;
 
 
 
-    @BindViews({ R.id.fragment_affiliate_data_email_layout,
-            R.id.fragment_affiliate_data_password_layout, R.id.fragment_affiliate_data_password_repeat_layout})
+    @BindViews({ R.id.fragment_create_user_email_layout,
+            R.id.fragment_create_user_password_layout, R.id.fragment_create_user_password_repeat_layout})
     protected List<TextInputLayout> textInputLayoutList;
 
 
     private Provider mProvider;
     private int mAffiliateGroupId;
     private CreateAccountView mCallback;
+    private String mPreviousNumberValue;
 
 
     public static CreateUserFragment newInstance(Provider provider){
@@ -110,6 +110,25 @@ public class CreateUserFragment extends BaseFragment<CreateUserPresenter> implem
         if(getArguments() != null && getArguments().containsKey(PROVIDER_KEY)){
             mProvider = (Provider) getArguments().get(PROVIDER_KEY);
         }
+        vAffiliateNumber.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.length() > 4 && !s.toString().equals(mPreviousNumberValue)){
+                    mPreviousNumberValue = s.toString();
+                    mPresenter.getAffiliateGroupData(vAffiliateNumber.getText().toString().split(" - ")[0], mProvider.getId());
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
 
     @Override
@@ -123,26 +142,16 @@ public class CreateUserFragment extends BaseFragment<CreateUserPresenter> implem
     @Override
     public void onResume() {
         super.onResume();
-        mCallback.setToolbarTitle(getResources().getString(R.string.create_account));
+        mCallback.setToolbarTitle(getResources().getString(R.string.app_name));
         mCallback.setBackVisibilityInToolbar(true);
     }
 
-    @OnClick(R.id.fragment_select_affiliate_account_search)
-    public void onSearchClick(){
-        vAffiliateNumberLayout.setError(null);
-        vAffiliateNumberLayout.setErrorEnabled(false);
-        vProgress.setVisibility(View.VISIBLE);
-        mPresenter.getAffiliateGroupData(vAffiliateNumber.getText().toString(), mProvider.getId());
-        hideSoftKeyboard();
-    }
-
-
-    @OnClick(R.id.fragment_create_affiliate_account_back)
+    @OnClick(R.id.fragment_create_user_cancel)
     public void onBackClick(){
         getFragmentManager().popBackStack();
     }
 
-    @OnClick(R.id.fragment_affiliate_create)
+    @OnClick(R.id.fragment_create_user_continue)
     public void onCreateAccountClick() {
         clearAllErrors();
         mPresenter.createAccount(mAffiliateGroupId, mProvider.getId(),
@@ -152,37 +161,37 @@ public class CreateUserFragment extends BaseFragment<CreateUserPresenter> implem
 
     @Override
     public void isPasswordEmpty() {
-        setEmptyErrorMessage(R.id.fragment_affiliate_data_password_layout);
+        setEmptyErrorMessage(R.id.fragment_create_user_password_layout);
     }
 
     @Override
     public void isPasswordRepeatEmpty() {
-        setEmptyErrorMessage(R.id.fragment_affiliate_data_password_repeat_layout);
+        setEmptyErrorMessage(R.id.fragment_create_user_password_repeat_layout);
     }
 
     @Override
     public void invalidPasswordFormat() {
-        setErrorMessage(R.id.fragment_affiliate_data_password_layout, R.string.error_invalid_password_format);
+        setErrorMessage(R.id.fragment_create_user_password_layout, R.string.error_invalid_password_format);
     }
 
     @Override
     public void invalidPasswordRepeatFormat() {
-        setErrorMessage(R.id.fragment_affiliate_data_password_repeat_layout, R.string.error_invalid_password_format);
+        setErrorMessage(R.id.fragment_create_user_password_repeat_layout, R.string.error_invalid_password_format);
     }
 
     @Override
     public void notMatchingPassword() {
-        setErrorMessage(R.id.fragment_affiliate_data_password_repeat_layout, R.string.non_matching_passwords);
+        setErrorMessage(R.id.fragment_create_user_password_repeat_layout, R.string.non_matching_passwords);
     }
 
     @Override
     public void isEmailEmpty() {
-        setEmptyErrorMessage(R.id.fragment_affiliate_data_email_layout);
+        setEmptyErrorMessage(R.id.fragment_create_user_email_layout);
     }
 
     @Override
     public void invalidEmailFormat() {
-        setErrorMessage(R.id.fragment_affiliate_data_email_layout, R.string.error_invalid_email_format);
+        setErrorMessage(R.id.fragment_create_user_email_layout, R.string.error_invalid_email_format);
     }
 
     @Override
@@ -209,14 +218,9 @@ public class CreateUserFragment extends BaseFragment<CreateUserPresenter> implem
         vProgress.setVisibility(View.GONE);
         if (affiliate != null) {
             mAffiliateGroupId = affiliate.getGroupNumber();
-            vGroupHead.setText("Nombre del titular: " + affiliate.getFirstName() + " " + affiliate.getLastName());
-            vAffiliateDataContainer.setVisibility(View.VISIBLE);
-        } else {
-            vAffiliateNumberLayout.setError(getString(R.string.wrong_affiliate_number));
-            vAffiliateNumberLayout.setErrorEnabled(true);
-            vAffiliateDataContainer.setVisibility(View.GONE);
+            vAffiliateNumber.setText(vAffiliateNumber.getText().toString().split(" - ")[0]+" - "+affiliate.getFirstName()+" "+affiliate.getLastName());
+            vAffiliateNumber.setSelection(vAffiliateNumber.getText().toString().length());
         }
-
     }
 
     @Override
@@ -229,7 +233,10 @@ public class CreateUserFragment extends BaseFragment<CreateUserPresenter> implem
     @Override
     public void onGroupOwnerError() {
         vProgress.setVisibility(View.GONE);
-        Toast.makeText(getActivity(), "Hubo un error obteniendo la información del afiliado", Toast.LENGTH_LONG).show();
+        mAffiliateGroupId = 0;
+        vAffiliateNumber.setText(vAffiliateNumber.getText().toString().split(" - ")[0]);
+        vAffiliateNumber.setSelection(vAffiliateNumber.getText().toString().length());
+        //Toast.makeText(getActivity(), "Hubo un error obteniendo la información del afiliado", Toast.LENGTH_LONG).show();
     }
 
     private void setEmptyErrorMessage(int viewId){

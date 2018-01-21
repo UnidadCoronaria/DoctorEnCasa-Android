@@ -7,7 +7,7 @@ import com.unidadcoronaria.doctorencasa.NavBarView;
 import com.unidadcoronaria.doctorencasa.R;
 import com.unidadcoronaria.doctorencasa.fragment.BaseFragment;
 import com.unidadcoronaria.doctorencasa.fragment.ClinicHistoryFragment;
-import com.unidadcoronaria.doctorencasa.fragment.PromotionFragment;
+import com.unidadcoronaria.doctorencasa.fragment.SettingsFragment;
 import com.unidadcoronaria.doctorencasa.fragment.VideoCallFragment;
 
 import butterknife.BindView;
@@ -41,7 +41,7 @@ public abstract class BaseNavActivity extends BaseActivity implements NavBarView
                                 showFragment(ClinicHistoryFragment.newInstance());
                                 return true;
                             case R.id.nav_plan:
-                                showFragment(PromotionFragment.newInstance());
+                                showFragment(SettingsFragment.newInstance());
                                 return true;
                             case R.id.nav_videocall:
                                 showFragment(VideoCallFragment.newInstance());

@@ -2,53 +2,87 @@
 <RelativeLayout android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:paddingTop="16dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@android:color/white"
     xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <com.unidadcoronaria.doctorencasa.view.CustomTextView
+        android:id="@+id/dialog_rank_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="16dp"
+        app:visual_font_name="regular"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:textSize="18sp"
+        android:textColor="@color/greyDark"
+        android:text="@string/rank_call" />
 
 
     <com.ashokslsk.androidabcd.squarerating.SquareRatingView
         android:id="@+id/dialog_rank_ranking"
+        android:layout_below="@+id/dialog_rank_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginRight="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_alignParentTop="true"
+        android:layout_marginTop="25dp"
         app:setNumSquare="5"
         app:setRating="0"
-        app:setSelectedResource="@drawable/ic_star"
+        app:setSelectedResource="@drawable/ic_selected_star"
         app:setStepSize="1"
-        app:setUnSelectedResource="@drawable/ic_star_border" />
+        app:setUnSelectedResource="@drawable/ic_star" />
 
-    <EditText
+
+    <com.unidadcoronaria.doctorencasa.view.CustomTextView
+        android:id="@+id/dialog_rank_send_comments"
+        android:layout_below="@+id/dialog_rank_ranking"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:layout_marginLeft="16dp"
+        app:visual_font_name="regular"
+        android:layout_alignParentLeft="true"
+        android:textSize="18sp"
+        android:textColor="@color/greyDark"
+        android:text="@string/add_comments" />
+
+    <com.unidadcoronaria.doctorencasa.view.CustomFontEditText
         android:id="@+id/dialog_rank_comment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginRight="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="20dp"
-        android:layout_below="@+id/dialog_rank_ranking"
-        android:textSize="16sp"
-        android:hint="@string/add_comments" />
+        android:layout_below="@+id/dialog_rank_send_comments"
+        android:textSize="18sp"
+        android:hint="@string/write_comments"
+        app:hintTextAppearance="@style/AppTheme.FloatingLabel"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_marginTop="30dp"
+        android:layout_marginBottom="20dp"
         android:layout_below="@id/dialog_rank_comment"
         android:layout_height="wrap_content">
 
         <Button
             android:id="@+id/negative_button"
-            style="@style/FormButton"
+            android:background="@drawable/selector_transparent_button"
+            android:layout_height="45dp"
             android:layout_weight="1"
             android:layout_width="0dp"
+            android:textSize="18sp"
+            android:textColor="@color/greyDark"
             android:text="@string/skip" />
 
         <Button
             android:id="@+id/positive_button"
-            style="@style/FormButton"
+            android:background="@drawable/selector_transparent_button"
+            android:layout_height="45dp"
             android:layout_weight="1"
             android:layout_width="0dp"
+            android:textSize="18sp"
+            android:textColor="@color/red"
             android:text="@string/send" />
 
     </LinearLayout>

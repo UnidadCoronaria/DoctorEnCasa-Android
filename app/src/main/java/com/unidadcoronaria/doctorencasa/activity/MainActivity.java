@@ -56,7 +56,7 @@ public class MainActivity extends BaseNavActivity implements MainView, SinchCall
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if(!SessionUtil.isAuthenticated()){
-            onLogout();
+            logout();
         }
         setBackVisibilityInToolbar(false);
         setToolbarTitle(getString(R.string.app_name));
@@ -64,53 +64,14 @@ public class MainActivity extends BaseNavActivity implements MainView, SinchCall
         mPresenter.setView(this);
     }
 
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.activity_main_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_change_password) {
-            startActivity(ChangePasswordActivity.getStartIntent(this));
-            return true;
-        }
-        //Add Below if you want to do actions when you click action_home
-        else if (id == R.id.action_logout) {
-            mPresenter.logout();
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onLogout() {
-        Intent intent = LoginActivity.getStartIntent(getApplicationContext());
+    private void logout() {
+        SessionUtil.logout();
+        Intent intent = LoginActivity.getStartIntent(this);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();
     }
 
-    @Override
-    public void onLogoutError() {
-        new AlertDialog.Builder(this)
-                .setMessage("Error cerrando sesión. Por favor,vuelva a intentarlo.")
-                .setPositiveButton(getString(R.string.cancel), (dialog, button) -> dialog.dismiss())
-                .setNegativeButton(getString(R.string.retry), (dialog, button) -> mPresenter.logout())
-                .setCancelable(false)
-                .show();
-    }
 
     protected void onServiceConnected() {
         if(getSinchServiceInterface() != null){

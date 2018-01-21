@@ -27,13 +27,14 @@
                 android:src="@drawable/ic_doctor_main" />
 
 
-            <TextView
+            <com.unidadcoronaria.doctorencasa.view.CustomTextView
                 android:id="@+id/fragment_video_call_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:textAlignment="center"
                 android:theme="@style/CardTextEditText"
+                app:visual_font_name="light"
                 tools:text="@string/queue_delay" />
 
             <Button
@@ -56,7 +57,7 @@
                 android:layout_height="1dp"
                 android:background="@color/greyLight" />
 
-            <TextView
+            <com.unidadcoronaria.doctorencasa.view.CustomTextView
                 android:id="@+id/fragment_video_call_delay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -64,6 +65,7 @@
                 android:layout_marginTop="20dp"
                 android:textAlignment="center"
                 android:theme="@style/CardTextEditText"
+                app:visual_font_name="light"
                 tools:text="@string/in_queue_delay" />
 
         </LinearLayout>

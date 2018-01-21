@@ -5,8 +5,9 @@ import android.graphics.Typeface;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.widget.AppCompatEditText;
 import android.util.AttributeSet;
+import android.widget.EditText;
 
-public class CustomFontEditText extends TextInputEditText {
+public class CustomFontEditText extends AppCompatEditText {
 
     public CustomFontEditText(Context context) {
         super(context);

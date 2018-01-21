@@ -116,6 +116,7 @@ dependencies {
     annotationProcessor "android.arch.persistence.room:compiler:1.0.0-alpha1"
     compile 'com.facebook.stetho:stetho:1.5.0'
     compile 'com.facebook.stetho:stetho-okhttp3:1.5.0'
+    compile 'com.wang.avi:library:2.1.1'
     compile project(':sinch-android-rtc-3.12.3')
 }
 

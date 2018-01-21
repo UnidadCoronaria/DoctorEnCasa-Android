@@ -35,12 +35,15 @@ public class SelectProviderFragment extends BaseFragment<SelectProviderPresenter
     public static final String TAG = "SelectProviderFragment";
 
 
-    @BindView(R.id.fragment_create_affiliate_account_provider_list)
+    @BindView(R.id.fragment_select_provider_list)
     protected RecyclerView vProviderList;
 
-    @BindView(R.id.fragment_create_affiliate_account_continue)
-    protected FloatingActionButton vContinueButton;
 
+    @BindView(R.id.fragment_select_provider_continue)
+    protected View vContinue;
+
+    @BindView(R.id.fragment_select_provider_continue_arrow)
+    protected View vContinueArrow;
 
     private ProviderAdapter vProviderAdapter;
     private CreateAccountView mCallback;
@@ -79,17 +82,22 @@ public class SelectProviderFragment extends BaseFragment<SelectProviderPresenter
     @Override
     public void onResume() {
         super.onResume();
-        mCallback.setToolbarTitle(getResources().getString(R.string.choose_provider));
-        mCallback.setBackVisibilityInToolbar(true);
+        mCallback.setToolbarTitle(getResources().getString(R.string.app_name));
+        mCallback.setBackVisibilityInToolbar(false);
     }
 
-    @OnClick(R.id.fragment_create_affiliate_account_continue)
+    @OnClick(R.id.fragment_select_provider_continue)
     public void onContinueClick(){
         if(vProviderAdapter.getSelectedProvider() != null){
             mCallback.navigateToCreateUser(vProviderAdapter.getSelectedProvider());
         } else {
             Toast.makeText(getActivity(), "Seleccione la empresa a la cual se encuentra afiliada.", Toast.LENGTH_LONG).show();
         }
+    }
+
+    @OnClick(R.id.fragment_select_provider_cancel)
+    public void onCancelClick(){
+        getActivity().finish();
     }
 
     @Override
@@ -107,7 +115,8 @@ public class SelectProviderFragment extends BaseFragment<SelectProviderPresenter
 
     @Override
     public void onItemSelected() {
-        vContinueButton.setVisibility(View.VISIBLE);
+        vContinue.setEnabled(true);
+        vContinueArrow.setEnabled(true);
     }
 }
 

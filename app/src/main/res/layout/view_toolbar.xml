@@ -36,6 +36,7 @@
             android:layout_height="32dp"
             android:layout_alignParentLeft="true"
             android:layout_gravity="center_vertical"
+            android:tint="@color/red"
             android:layout_toLeftOf="@+id/toolbar_title"
             android:src="@drawable/ic_back" />
 

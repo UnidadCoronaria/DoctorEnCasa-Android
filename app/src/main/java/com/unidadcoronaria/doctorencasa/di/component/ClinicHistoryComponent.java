@@ -2,9 +2,8 @@ package com.unidadcoronaria.doctorencasa.di.component;
 
 import com.unidadcoronaria.doctorencasa.di.PerActivity;
 import com.unidadcoronaria.doctorencasa.di.module.ClinicHistoryModule;
-import com.unidadcoronaria.doctorencasa.di.module.UserModule;
+import com.unidadcoronaria.doctorencasa.fragment.ClinicHistoryDetailFragment;
 import com.unidadcoronaria.doctorencasa.fragment.ClinicHistoryFragment;
-import com.unidadcoronaria.doctorencasa.fragment.PromotionFragment;
 
 import dagger.Component;
 
@@ -16,4 +15,6 @@ import dagger.Component;
 public interface ClinicHistoryComponent {
 
     void inject(ClinicHistoryFragment fragment);
+
+    void inject(ClinicHistoryDetailFragment clinicHistoryDetailFragment);
 }

@@ -6,7 +6,4 @@ package com.unidadcoronaria.doctorencasa;
 
 public interface MainView extends BaseView {
 
-    void onLogout();
-
-    void onLogoutError();
 }

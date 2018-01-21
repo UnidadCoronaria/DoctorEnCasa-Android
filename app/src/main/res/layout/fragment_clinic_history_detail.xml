@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <include
+        layout="@layout/view_progress"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/red" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:padding="10dp"
+            >
+
+
+            <com.unidadcoronaria.doctorencasa.view.CustomTextView
+                android:id="@+id/fragment_clinic_history_detail_last"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/greyDark"
+                android:textSize="18sp"
+                app:visual_font_name="light"
+                tools:text="Última consulta de Agustin Bala" />
+
+            <com.unidadcoronaria.doctorencasa.view.CustomTextView
+                android:id="@+id/fragment_clinic_history_detail_last_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/greyDark"
+                android:textSize="16sp"
+                app:visual_font_name="light"
+                tools:text="23/02/2018" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/greyLight" />
+
+
+            <com.unidadcoronaria.doctorencasa.view.CustomTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/diagnostic"
+                android:textColor="@color/greyDark"
+                android:textSize="18sp"
+                app:visual_font_name="light" />
+
+            <com.unidadcoronaria.doctorencasa.view.CustomTextView
+                android:id="@+id/fragment_clinic_history_detail_diagnostic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/greyDark"
+                android:textSize="16sp"
+                app:visual_font_name="light"
+                tools:text="Accumsan ad commodo cras curabitur erat est facilisis feugiat iaculis ipsum lacinia litora lorem mollis nam nec netus nostra platea posuere rhoncus" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/greyLight" />
+
+            <com.unidadcoronaria.doctorencasa.view.CustomTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/attended_by"
+                android:textColor="@color/greyDark"
+                android:textSize="18sp"
+                app:visual_font_name="light" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white">
+                setBackVisibilityInToolbar
+                <ImageView
+                    android:id="@+id/fragment_clinic_history_detail_doctor_image"
+                    android:layout_alignParentLeft="true"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    android:src="@drawable/bg_splash_bottom" />
+
+                <com.unidadcoronaria.doctorencasa.view.CustomTextView
+                    android:layout_toRightOf="@+id/fragment_clinic_history_detail_doctor_image"
+                    android:id="@+id/fragment_clinic_history_detail_doctor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/greyDark"
+                    android:layout_centerVertical="true"
+                    android:textSize="16sp"
+                    app:visual_font_name="light"
+                    tools:text="Dr Juan Perez" />
+
+
+            </RelativeLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+</RelativeLayout>

@@ -5,6 +5,7 @@
     <color name="colorAccent">@color/greyLight</color>
     <color name="red">#f57a7e</color>
     <color name="redDark">#d3727a</color>
+    <color name="redLight">#FFF7EFF0</color>
     <color name="grey">#bcbec2</color>
     <color name="greyLight">#ebebec</color>
     <color name="greyDark">#5a5d67</color>
@@ -14,4 +15,6 @@
     <color name="gradientEnd">#f54a57</color>
     <color name="greenGradientStart">#73c49b</color>
     <color name="greenGradientEnd">#72d49b</color>
+    <color name="pastel">#fff3e6</color>
+
 </resources>

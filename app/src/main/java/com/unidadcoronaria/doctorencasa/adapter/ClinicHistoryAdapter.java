@@ -7,11 +7,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.unidadcoronaria.doctorencasa.App;
 import com.unidadcoronaria.doctorencasa.R;
 import com.unidadcoronaria.doctorencasa.domain.Affiliate;
 import com.unidadcoronaria.doctorencasa.domain.ClinicHistory;
+import com.unidadcoronaria.doctorencasa.util.DateUtil;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -21,23 +24,56 @@ import butterknife.ButterKnife;
  * Created by AGUSTIN.BALA on 6/4/2017.
  */
 
-public class ClinicHistoryAdapter extends RecyclerView.Adapter<ClinicHistoryAdapter.ClinicHistoryHolder> {
+public class ClinicHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    private final Callback mCallback;
     private List<ClinicHistory> mList = new ArrayList<>();
 
-    public ClinicHistoryAdapter(List<ClinicHistory> mList) {
+    public ClinicHistoryAdapter(List<ClinicHistory> mList, Callback callback) {
         this.mList = mList;
+        this.mCallback = callback;
     }
 
     @Override
-    public ClinicHistoryHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ClinicHistoryAdapter.ClinicHistoryHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_clinic_history, parent, false));
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        switch (viewType) {
+            case 0:
+                return new ClinicHistoryAdapter.ClinicHistoryHeaderHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_clinic_history_header, parent, false));
+            default:
+                return new ClinicHistoryAdapter.ClinicHistoryHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_clinic_history, parent, false));
+
+        }
     }
 
     @Override
-    public void onBindViewHolder(ClinicHistoryHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         ClinicHistory clinicHistory = mList.get(position);
-        holder.vComment.setText(clinicHistory.getComment());
+        switch (holder.getItemViewType()) {
+            case 0:
+                ClinicHistoryHeaderHolder holderHeader = (ClinicHistoryHeaderHolder)holder;
+                holderHeader.vLast.setText(App.getInstance().getString(R.string.previous_clinic_history_of, "Agustin Bala"));
+                holderHeader.vLastDate.setText(DateUtil.getConvertedDayString(new Date()));
+                holderHeader.vDiagnostic.setText(clinicHistory.getComment());
+                holderHeader.vDoctor.setText("Dr "+"Juan Perez");
+                holderHeader.vDoctorImage.setImageResource(R.drawable.ic_selected_star);
+                break;
+            default:
+                ClinicHistoryHolder holderItem = (ClinicHistoryHolder)holder;
+                holderItem.vComment.setText(clinicHistory.getComment());
+                holderItem.vDate.setText(DateUtil.getConvertedDayString(new Date()));
+                holderItem.vDoctor.setText("Dr "+"Juan Perez");
+                holderItem.vContainer.setOnClickListener(v ->
+                    mCallback.onItemClick(clinicHistory));
+                
+                break;
+        }
+
+    }
+
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
     }
 
     @Override
@@ -45,15 +81,54 @@ public class ClinicHistoryAdapter extends RecyclerView.Adapter<ClinicHistoryAdap
         return mList.size();
     }
 
+    public interface Callback{
+
+        void onItemClick(ClinicHistory clinicHistory);
+    }
+
+    static class ClinicHistoryHeaderHolder extends RecyclerView.ViewHolder{
+
+        @BindView(R.id.item_clinic_history_header_last)
+        TextView vLast;
+
+        @BindView(R.id.item_clinic_history_header_last_date)
+        TextView vLastDate;
+
+        @BindView(R.id.item_clinic_history_header_diagnostic)
+        TextView vDiagnostic;
+
+        @BindView(R.id.item_clinic_history_header_doctor)
+        TextView vDoctor;
+
+        @BindView(R.id.item_clinic_history_header_doctor_image)
+        ImageView vDoctorImage;
+
+
+        public ClinicHistoryHeaderHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+        }
+    }
 
     static class ClinicHistoryHolder extends RecyclerView.ViewHolder{
 
         @BindView(R.id.item_clinic_history_comment)
         TextView vComment;
 
+        @BindView(R.id.item_clinic_history_doctor)
+        TextView vDoctor;
+
+        @BindView(R.id.item_clinic_history_date)
+        TextView vDate;
+
+        @BindView(R.id.item_clinic_history_date_container)
+        View vContainer;
+
+
         public ClinicHistoryHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+
         }
     }
 }

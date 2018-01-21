@@ -23,6 +23,8 @@ public class CreateAccountActivity extends BaseActivity implements FragmentConta
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setBackVisibilityInToolbar(true);
+        setToolbarTitle(getString(R.string.app_name));
     }
 
 

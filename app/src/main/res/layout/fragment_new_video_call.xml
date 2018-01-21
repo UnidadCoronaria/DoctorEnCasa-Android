@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
 
     <include
@@ -17,22 +18,23 @@
         android:layout_height="match_parent"
         android:background="@android:color/white"
         android:padding="30dp"
-        android:visibility="gone"
-        >
+        tools:visibility="gone">
 
-        <TextView
+        <com.unidadcoronaria.doctorencasa.view.CustomTextView
             android:id="@+id/fragment_new_video_call_calling_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20dp"
             android:layout_centerInParent="true"
-            android:text="@string/starting_call"/>
+            android:text="@string/starting_call"
+            android:textColor="@color/greyDark"
+            android:textSize="20dp"
+            app:visual_font_name="regular" />
 
         <ProgressBar
-        style="@style/AppTheme.ProgressBar"
-        android:clickable="true"
-        android:layout_below="@+id/fragment_new_video_call_calling_text"
-        android:indeterminateTint="@color/colorPrimary"/>
+            style="@style/AppTheme.ProgressBar"
+            android:layout_below="@+id/fragment_new_video_call_calling_text"
+            android:clickable="true"
+            android:indeterminateTint="@color/colorPrimary" />
 
     </RelativeLayout>
 
@@ -42,53 +44,120 @@
         android:layout_height="match_parent"
         android:background="@android:color/white"
         android:padding="30dp"
-        android:visibility="gone"
-        >
+        android:visibility="gone">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20dp"
             android:layout_centerInParent="true"
-            android:text="@string/permissions_never_ask"/>
+            android:text="@string/permissions_never_ask"
+            android:textSize="20dp" />
 
     </RelativeLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/fragment_new_video_call_incoming"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/holo_green_dark"
-        android:padding="30dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
         android:visibility="gone"
-        >
+        tools:visibility="gone">
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fragment_video_call_answer_button"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            app:fabSize="normal"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="16dp"
-            android:layout_marginRight="16dp"
-            android:src="@drawable/ic_video_call" />
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fragment_video_call_decline_button"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            app:fabSize="normal"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_toRightOf="@+id/fragment_video_call_answer_button"
-            android:layout_marginBottom="16dp"
-            android:layout_marginRight="16dp"
-            android:src="@drawable/ic_call_end" />
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_incoming_call_doctor" />
+
+            <com.wang.avi.AVLoadingIndicatorView
+                android:id="@+id/fragment_new_call_incoming_effect"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="visible"
+                app:indicatorColor="@android:color/white"
+                app:indicatorName="BallScaleMultipleIndicator" />
+        </FrameLayout>
 
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center_horizontal">
 
-    </RelativeLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginRight="40dp"
+                android:orientation="vertical">
+
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/fragment_video_call_decline_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@drawable/ic_call_reject"
+                    app:fabSize="normal" />
+
+                <com.unidadcoronaria.doctorencasa.view.CustomTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/cancel"
+                    android:theme="@style/CardTextEditText"
+                    app:visual_font_name="regular" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:orientation="vertical">
+
+
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/fragment_video_call_answer_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@drawable/ic_call_accept"
+                    app:backgroundTint="@color/greenGradientStart"
+                    app:fabSize="normal" />
+
+                <com.unidadcoronaria.doctorencasa.view.CustomTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/accept"
+                    android:theme="@style/CardTextEditText"
+                    app:visual_font_name="regular" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+        <com.unidadcoronaria.doctorencasa.view.CustomTextView
+            android:id="@+id/fragment_video_call_delay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/remaining_time_to_answer"
+            android:textAlignment="center"
+            android:theme="@style/CardTextEditText"
+            app:visual_font_name="light" />
+
+    </LinearLayout>
 
 
     <RelativeLayout
@@ -96,35 +165,92 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"
-        >
+        tools:visibility="visible">
 
         <LinearLayout
-            android:orientation="vertical"
-            android:id="@+id/call_frame"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentTop="true"/>
-
-        <LinearLayout
-            android:orientation="vertical"
             android:id="@+id/call_self_camera"
             android:layout_width="150dp"
             android:layout_height="150dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"/>
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:orientation="vertical" />
+
+        <LinearLayout
+            android:id="@+id/call_frame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:orientation="vertical" />
 
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fragment_video_call_hangup_button"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            app:fabSize="normal"
-            android:visibility="gone"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="16dp"
-            android:layout_marginRight="16dp"
-            android:src="@drawable/ic_call_end" />
+            android:layout_marginBottom="20dp"
+            android:orientation="horizontal">
+
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+
+                <ImageView
+                    android:id="@+id/fragment_video_call_stop_video"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_stop_video"
+                  />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+
+                <ImageView
+                    android:id="@+id/fragment_video_call_hangup_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_call_reject"
+                    />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+
+                <ImageView
+                    android:id="@+id/fragment_video_call_mute"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_mute"
+                     />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
 
     </RelativeLayout>
 

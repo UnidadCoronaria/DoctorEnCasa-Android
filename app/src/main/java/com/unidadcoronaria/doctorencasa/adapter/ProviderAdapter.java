@@ -44,8 +44,8 @@ public class ProviderAdapter extends RecyclerView.Adapter<ProviderAdapter.Provid
         Provider mProvider = mList.get(position);
         holder.vName.setText(mProvider.getName());
         holder.vName.setOnClickListener(v -> selectItem(position));
-        holder.vCheck.setOnClickListener(v -> selectItem(position));
-        holder.vCheck.setSelected(mSelectedProvider != null && mSelectedProvider.equals(mProvider));
+        holder.vContainer.setOnClickListener(v -> selectItem(position));
+        holder.vContainer.setSelected(mSelectedProvider != null && mSelectedProvider.equals(mProvider));
     }
 
     private void selectItem(int position) {
