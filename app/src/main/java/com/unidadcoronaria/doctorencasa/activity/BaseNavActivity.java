@@ -2,9 +2,14 @@ package com.unidadcoronaria.doctorencasa.activity;
 
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
 
 import com.unidadcoronaria.doctorencasa.NavBarView;
 import com.unidadcoronaria.doctorencasa.R;
+import com.unidadcoronaria.doctorencasa.domain.ClinicHistory;
 import com.unidadcoronaria.doctorencasa.fragment.BaseFragment;
 import com.unidadcoronaria.doctorencasa.fragment.ClinicHistoryFragment;
 import com.unidadcoronaria.doctorencasa.fragment.SettingsFragment;
@@ -24,11 +29,20 @@ public abstract class BaseNavActivity extends BaseActivity implements NavBarView
     BottomNavigationView vNavigationView;
 
     private int currentTab;
+    private ClinicHistoryFragment clinicHistoryFragment;
 
     //region BaseActivity implementation
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         configureNav();
+        vToolbarFilterIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(clinicHistoryFragment != null){
+                    clinicHistoryFragment.showFilters();
+                }
+            }
+        });
     }
 
     private void configureNav() {
@@ -38,13 +52,16 @@ public abstract class BaseNavActivity extends BaseActivity implements NavBarView
                         currentTab = item.getItemId();
                         switch (item.getItemId()) {
                             case R.id.nav_historic:
-                                showFragment(ClinicHistoryFragment.newInstance());
+                                clinicHistoryFragment = (ClinicHistoryFragment) ClinicHistoryFragment.newInstance();
+                                showFragment(clinicHistoryFragment);
+                                showFilter(true);
                                 return true;
                             case R.id.nav_plan:
                                 showFragment(SettingsFragment.newInstance());
+                                showFilter(false);
                                 return true;
                             case R.id.nav_videocall:
-                                showFragment(VideoCallFragment.newInstance());
+                                showVideocallFragment();
                                 return true;
                             default:
                                 return false;
@@ -53,7 +70,28 @@ public abstract class BaseNavActivity extends BaseActivity implements NavBarView
                     return false;
                 });
     }
+
+    @Override
+    public void onBackPressed() {
+        doBack();
+    }
+
+    private void doBack(){
+        if(currentTab == R.id.nav_videocall) {
+            finish();
+        } else {
+            currentTab = R.id.nav_videocall;
+            showVideocallFragment();
+            Menu menu = vNavigationView.getMenu();
+            menu.getItem(0).setChecked(true);
+        }
+    }
     //endregion
+
+    protected void showVideocallFragment(){
+        showFragment(VideoCallFragment.newInstance());
+        showFilter(false);
+    }
 
     //region Abstract methods declarations
     @Override

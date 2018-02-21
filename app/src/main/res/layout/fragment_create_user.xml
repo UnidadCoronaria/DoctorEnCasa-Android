@@ -17,14 +17,29 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-        <ImageView
+
+        <LinearLayout
             android:id="@+id/fragment_create_user_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_alignParentTop="true"
-            android:layout_width="15dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="10dp"
-            android:src="@drawable/ic_stop_video"/>
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:src="@drawable/ic_step_filled" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_step_filled" />
+
+        </LinearLayout>
 
         <com.unidadcoronaria.doctorencasa.view.CustomTextView
             android:id="@+id/fragment_create_user_title"
@@ -33,7 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:layout_marginBottom="20dp"
             android:text="@string/create_account_title"
             android:textColor="@color/red"
@@ -172,6 +187,21 @@
                 android:layout_alignParentBottom="true"
                 android:orientation="horizontal">
 
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="30dp"
+                    android:tint="@color/white"
+                    android:src="@drawable/ic_arrow_left"/>
+
                 <com.unidadcoronaria.doctorencasa.view.CustomTextView
                     android:id="@+id/fragment_create_user_cancel"
                     android:layout_width="0dp"
@@ -184,6 +214,10 @@
                     android:textSize="20sp"
                     android:background="@drawable/selector_red_button"
                     android:text="@string/go_back" />
+
+
+
+            </LinearLayout>
 
 
                 <View
@@ -215,7 +249,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_marginRight="30dp"
-                        android:tint="@color/white"
                         android:src="@drawable/ic_arrow_right"/>
 
                 </LinearLayout>

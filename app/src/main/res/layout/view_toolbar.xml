@@ -12,14 +12,24 @@
     app:layout_scrollFlags="enterAlways|scroll"
     app:popupTheme="@style/AppTheme.PopupOverlay">
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="56dp">
+
+        <ImageView
+            android:id="@+id/toolbar_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_gravity="center_vertical"
+            android:layout_toLeftOf="@+id/toolbar_title"
+            android:src="@drawable/ic_back_navigation" />
 
 
         <com.unidadcoronaria.doctorencasa.view.CustomTextView
             android:id="@+id/toolbar_title"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
@@ -30,17 +40,21 @@
             app:visual_font_name="regular"
             tools:text="Recuperar Contraseña" />
 
-        <ImageView
-            android:id="@+id/toolbar_icon"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_alignParentLeft="true"
-            android:layout_gravity="center_vertical"
-            android:tint="@color/red"
-            android:layout_toLeftOf="@+id/toolbar_title"
-            android:src="@drawable/ic_back" />
 
-    </FrameLayout>
+        <ImageView
+            android:id="@+id/toolbar_filter_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"
+            android:layout_gravity="center_vertical"
+            android:layout_toRightOf="@+id/toolbar_title"
+            android:visibility="gone"
+            tools:visibility="visible"
+            android:src="@drawable/ic_filter" />
+
+
+    </LinearLayout>
 
 
 </android.support.v7.widget.Toolbar>

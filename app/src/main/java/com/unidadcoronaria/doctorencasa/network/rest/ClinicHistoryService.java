@@ -1,7 +1,7 @@
 package com.unidadcoronaria.doctorencasa.network.rest;
 
 import com.unidadcoronaria.doctorencasa.domain.ClinicHistory;
-import com.unidadcoronaria.doctorencasa.domain.Provider;
+import com.unidadcoronaria.doctorencasa.domain.VideoCall;
 
 import java.util.List;
 

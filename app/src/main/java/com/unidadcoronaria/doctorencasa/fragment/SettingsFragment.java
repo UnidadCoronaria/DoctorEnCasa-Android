@@ -49,12 +49,8 @@ public class SettingsFragment extends BaseFragment<SettingsPresenter> implements
     }
 
     @OnClick(R.id.fragment_settings_logout_button)
-    public void logout(){
-        SessionUtil.logout();
-        Intent intent = LoginActivity.getStartIntent(getActivity());
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-        getActivity().finish();
+    public void logoutClick(){
+        logout();
     }
 
     @OnClick(R.id.fragment_settings_change_pasword_button)

@@ -2,13 +2,16 @@ package com.unidadcoronaria.doctorencasa.fragment;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.media.AudioManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -85,10 +88,16 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
     @BindView(R.id.fragment_new_call_incoming_effect)
     protected AVLoadingIndicatorView vIncomingCallEffect;
 
+    @BindView(R.id.fragment_video_call_delay)
+    protected TextView vCallRemainingTime;
+
     private Call mCall;
-    private RankDialog mRankDialog =  new RankDialog();
+    private RankDialog mRankDialog = new RankDialog();
     private AudioPlayer mAudioPlayer;
     private SinchService.SinchServiceInterface mServiceInterface;
+    private AudioManager audioManager;
+    private Handler mRemainingMinutesHandler = new Handler();
+    private int mRemainingMinutes = 3;
 
 
     @Override
@@ -117,6 +126,9 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
         super.onActivityCreated(savedInstanceState);
         mPresenter.setView(this);
         vProgress.setVisibility(View.VISIBLE);
+        audioManager = (AudioManager) App.getInstance().getSystemService(Context.AUDIO_SERVICE);
+        audioManager.setMode(AudioManager.MODE_IN_CALL);
+        vMuteButton.setSelected(!audioManager.isMicrophoneMute());
     }
 
     @Override
@@ -128,13 +140,13 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
     }
 
     @Override
-    public void initCall(Call call, SinchService.SinchServiceInterface serviceInterface){
+    public void initCall(Call call, SinchService.SinchServiceInterface serviceInterface) {
         this.mCall = call;
         this.mServiceInterface = serviceInterface;
         this.mCall.addCallListener(mCallListener);
 
-        if(mCall != null){
-           NewCallFragmentPermissionsDispatcher.acceptCallWithPermissionCheck(this);
+        if (mCall != null) {
+            NewCallFragmentPermissionsDispatcher.acceptCallWithPermissionCheck(this);
         }
     }
 
@@ -146,8 +158,8 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
         NewCallFragmentPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
     }
 
-    @NeedsPermission({Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO,
-             Manifest.permission.READ_PHONE_STATE})
+    @NeedsPermission({Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO, Manifest.permission.MODIFY_AUDIO_SETTINGS,
+            Manifest.permission.READ_PHONE_STATE})
     protected void acceptCall() {
         vProgress.setVisibility(View.GONE);
         vStartingContainer.setVisibility(View.GONE);
@@ -157,7 +169,6 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
         mAudioPlayer = new AudioPlayer(getActivity());
         mAudioPlayer.playRingtone();
         vIncomingCallEffect.show();
-        //MOSTRAR PANTALLA DE LLAMADA ENTRANTE
     }
 
 
@@ -182,13 +193,45 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
         getActivity().finish();
     }
 
+    @OnClick(R.id.fragment_video_call_stop_video)
+    protected void onStopVideoClick() {
+        if(vStopVideoButton.isSelected()){
+            resumeVideo();
+        } else {
+            stopVideo();
+        }
+        vStopVideoButton.setSelected(!vStopVideoButton.isSelected());
+    }
+
+    private void resumeVideo() {
+        mCall.resumeVideo();
+    }
+
+    private void stopVideo() {
+        mCall.pauseVideo();
+    }
+
+    @OnClick(R.id.fragment_video_call_mute)
+    protected void onMuteClick() {
+        audioManager.setMode(AudioManager.MODE_IN_CALL);
+        if (!audioManager.isMicrophoneMute()) {
+            audioManager.setMicrophoneMute(true);
+            vMuteButton.setSelected(false);
+
+        } else {
+            audioManager.setMicrophoneMute(false);
+            vMuteButton.setSelected(true);
+        }
+    }
+
+
     @Override
     public void onStop() {
         super.onStop();
         //TODO removeVideoViews();
     }
 
-    private void showRankDialog(){
+    private void showRankDialog() {
         mRankDialog.dismiss();
         mRankDialog.showRankMessage(getActivity(),
                 new RankDialog.Callback() {
@@ -214,6 +257,8 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
             vStartingContainer.setVisibility(View.GONE);
             vContainer.setVisibility(View.VISIBLE);
             vIncomingContainer.setVisibility(View.GONE);
+            vStopVideoButton.setSelected(true);
+            vMuteButton.setSelected(true);
         }
     }
 
@@ -231,7 +276,7 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
     //region Permissions Handling
     @SuppressLint("NoCorrespondingNeedsPermission")
     @OnShowRationale({Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO,
-            Manifest.permission.READ_PHONE_STATE})
+            Manifest.permission.READ_PHONE_STATE, Manifest.permission.MODIFY_AUDIO_SETTINGS})
     void showRationaleForCamera(final PermissionRequest request) {
         new AlertDialog.Builder(getActivity())
                 .setMessage(getString(R.string.permissions_need_acepted))
@@ -241,7 +286,7 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
     }
 
     @OnPermissionDenied({Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO,
-            Manifest.permission.READ_PHONE_STATE})
+            Manifest.permission.READ_PHONE_STATE, Manifest.permission.MODIFY_AUDIO_SETTINGS})
     void showDeniedForCamera() {
         vErrorContainer.setVisibility(View.VISIBLE);
         vProgress.setVisibility(View.GONE);
@@ -252,7 +297,7 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
     }
 
     @OnNeverAskAgain({Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO,
-            Manifest.permission.READ_PHONE_STATE})
+            Manifest.permission.READ_PHONE_STATE, Manifest.permission.MODIFY_AUDIO_SETTINGS})
     void showNeverAskForCamera() {
         vErrorContainer.setVisibility(View.VISIBLE);
         vProgress.setVisibility(View.GONE);
@@ -293,6 +338,7 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
             getActivity().setVolumeControlStream(AudioManager.USE_DEFAULT_STREAM_TYPE);
             String endMsg = "Call ended: " + call.getDetails().toString();
             showRankDialog();
+            mRemainingMinutesHandler.removeCallbacksAndMessages(null);
         }
 
         @Override
@@ -303,12 +349,27 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
             AudioController audioController = mServiceInterface.getAudioController();
             audioController.enableSpeaker();
             mCallStart = System.currentTimeMillis();
+            mRemainingMinutesHandler.removeCallbacksAndMessages(null);
         }
 
         @Override
         public void onCallProgressing(Call call) {
             Log.d(TAG, "Call progressing");
             mAudioPlayer.playProgressTone();
+            vCallRemainingTime.setText(getString(R.string.remaining_time_to_answer, "3 minutos"));
+            mRemainingMinutesHandler.postDelayed(() -> {
+                mRemainingMinutes--;
+                if(mRemainingMinutes <= 0){
+                    onHangoutClick();
+                    mRemainingMinutesHandler.removeCallbacksAndMessages(null);
+                } else {
+                    if(mRemainingMinutes == 2){
+                        vCallRemainingTime.setText(getString(R.string.remaining_time_to_answer, "2 minutos"));
+                    } else {
+                        vCallRemainingTime.setText(getString(R.string.remaining_time_to_answer_one));
+                    }
+                }
+            }, 60*1000);
         }
 
         @Override
@@ -324,12 +385,12 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
 
         @Override
         public void onVideoTrackPaused(Call call) {
-
+            Toast.makeText(getActivity(), "Video paused", Toast.LENGTH_LONG).show();
         }
 
         @Override
         public void onVideoTrackResumed(Call call) {
-
+            Toast.makeText(getActivity(), "Video resumed", Toast.LENGTH_LONG).show();
         }
     };
 }

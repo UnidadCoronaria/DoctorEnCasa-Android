@@ -45,6 +45,10 @@ public abstract class BaseActivity extends AppCompatActivity  implements Service
     @BindView(R.id.toolbar_icon)
     ImageView vToolbarIcon;
 
+    @Nullable
+    @BindView(R.id.toolbar_filter_icon)
+    ImageView vToolbarFilterIcon;
+
     private SinchService.SinchServiceInterface mSinchServiceInterface;
 
     //region Lifecycle implementation
@@ -106,6 +110,12 @@ public abstract class BaseActivity extends AppCompatActivity  implements Service
     protected void setBackVisibilityInToolbar(boolean isBackVisible) {
         if (vToolbarIcon != null) {
             vToolbarIcon.setVisibility(isBackVisible ? View.VISIBLE : View.GONE);
+        }
+    }
+
+    protected void showFilter(boolean isFilterVisible) {
+        if (vToolbarFilterIcon != null) {
+            vToolbarFilterIcon.setVisibility(isFilterVisible ? View.VISIBLE : View.GONE);
         }
     }
 

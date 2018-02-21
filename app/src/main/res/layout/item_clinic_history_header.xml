@@ -24,8 +24,7 @@
             android:layout_height="wrap_content"
             android:background="@color/pastel"
             android:orientation="vertical"
-            android:padding="16dp"
-         >
+            android:padding="16dp">
 
 
             <com.unidadcoronaria.doctorencasa.view.CustomTextView
@@ -95,24 +94,38 @@
                 android:background="@color/pastel">
 
 
-                <ImageView
-                    android:id="@+id/item_clinic_history_header_doctor_image"
-                    android:layout_alignParentLeft="true"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="10dp"
-                    android:src="@drawable/bg_splash_bottom" />
+                    <ImageView
+
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="10dp"
+                        android:id="@+id/item_clinic_history_header_doctor_image_bg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/bg_doctor_new_call" />
+
+                    <ImageView
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="4dp"
+                        android:id="@+id/item_clinic_history_header_doctor_image"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:src="@drawable/ic_doctor_new_call" />
+
 
                 <com.unidadcoronaria.doctorencasa.view.CustomTextView
-                    android:layout_toRightOf="@+id/item_clinic_history_header_doctor_image"
                     android:id="@+id/item_clinic_history_header_doctor"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:textColor="@color/greyDark"
                     android:layout_centerVertical="true"
+                    android:layout_marginTop="10dp"
+                    android:layout_toRightOf="@+id/item_clinic_history_header_doctor_image_bg"
+                    android:textColor="@color/greyDark"
                     android:textSize="16sp"
                     app:visual_font_name="light"
                     tools:text="Dr Juan Perez" />
@@ -134,15 +147,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:orientation="horizontal"
-        >
+        android:orientation="horizontal">
 
 
         <com.unidadcoronaria.doctorencasa.view.CustomTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
             android:layout_marginLeft="16dp"
+            android:layout_marginTop="20dp"
             android:text="@string/previous_clinic_histories"
             android:textColor="@color/red"
             android:textSize="20sp"

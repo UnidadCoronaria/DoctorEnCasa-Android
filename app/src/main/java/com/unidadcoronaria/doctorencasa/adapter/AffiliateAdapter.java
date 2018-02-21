@@ -4,11 +4,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.unidadcoronaria.doctorencasa.R;
 import com.unidadcoronaria.doctorencasa.domain.Affiliate;
+import com.unidadcoronaria.doctorencasa.domain.GamAffiliate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,11 +24,24 @@ import butterknife.ButterKnife;
 
 public class AffiliateAdapter extends RecyclerView.Adapter<AffiliateAdapter.ProviderHolder> {
 
-    private Affiliate mSelectedAffiliate;
-    private List<Affiliate> mList = new ArrayList<>();
+    private Callback mCallback;
+    private List<GamAffiliate> mList = new ArrayList<>();
+    private GamAffiliate mSelectedAffiliate;
 
-    public AffiliateAdapter(List<Affiliate> mList) {
+    public AffiliateAdapter(List<GamAffiliate> mList, int selectedAffiliatedId, Callback callback) {
         this.mList = mList;
+        this.mCallback = callback;
+        checkSelected(selectedAffiliatedId);
+    }
+
+    private void checkSelected(int selectedAffiliatedId) {
+        if(selectedAffiliatedId != 0){
+            for (GamAffiliate affiliate : mList) {
+                if(affiliate.getAffiliateGamId() == selectedAffiliatedId){
+                    mSelectedAffiliate = affiliate;
+                }
+            }
+        }
     }
 
     @Override
@@ -36,11 +51,33 @@ public class AffiliateAdapter extends RecyclerView.Adapter<AffiliateAdapter.Prov
 
     @Override
     public void onBindViewHolder(ProviderHolder holder, int position) {
-        Affiliate affiliate = mList.get(position);
-        holder.vName.setText(new StringBuilder(affiliate.getFirstName()).append(" ").append(affiliate.getLastName()));
-        holder.vName.setOnClickListener(v -> { mSelectedAffiliate = mList.get(position); notifyDataSetChanged();});
-        holder.vCheck.setOnClickListener(v -> { mSelectedAffiliate = mList.get(position); notifyDataSetChanged();});
-        holder.vCheck.setSelected(mSelectedAffiliate != null && mSelectedAffiliate.equals(affiliate));
+        GamAffiliate affiliate = mList.get(position);
+        if(affiliate.getFirstName() != null){
+            holder.vName.setText(new StringBuilder(affiliate.getFirstName()).append(" ").append(affiliate.getLastName()));
+        }
+        else {
+            holder.vName.setText("Anonimo");
+        }
+
+        holder.vName.setOnClickListener(v ->
+            selectItem(position)
+        );
+        holder.vCheck.setOnClickListener(v ->
+            selectItem(position)
+        );
+        holder.vContainer.setOnClickListener(v ->
+            selectItem(position)
+        );
+        holder.vCheck.setSelected(affiliate.equals(mSelectedAffiliate));
+    }
+
+    private void selectItem(int position){
+        if(mSelectedAffiliate != null && mSelectedAffiliate.equals(mList.get(position))){
+            mSelectedAffiliate = null;
+        } else {
+            mSelectedAffiliate = mList.get(position);
+        }
+        mCallback.onItemSelected(mSelectedAffiliate);
     }
 
     @Override
@@ -48,8 +85,9 @@ public class AffiliateAdapter extends RecyclerView.Adapter<AffiliateAdapter.Prov
         return mList.size();
     }
 
-    public Affiliate getSelectedUser() {
-        return mSelectedAffiliate;
+
+    public interface Callback  {
+        void onItemSelected(GamAffiliate affiliate);
     }
 
     static class ProviderHolder extends RecyclerView.ViewHolder{
@@ -58,7 +96,7 @@ public class AffiliateAdapter extends RecyclerView.Adapter<AffiliateAdapter.Prov
         TextView vName;
 
         @BindView(R.id.item_affiliate_check)
-        ImageView vCheck;
+        ImageButton vCheck;
 
         @BindView(R.id.item_affiliate_container)
         ViewGroup vContainer;

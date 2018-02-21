@@ -1,6 +1,5 @@
 package com.unidadcoronaria.doctorencasa;
 
-import com.unidadcoronaria.doctorencasa.domain.Affiliate;
 import com.unidadcoronaria.doctorencasa.domain.Provider;
 
 /**
@@ -9,7 +8,6 @@ import com.unidadcoronaria.doctorencasa.domain.Provider;
 
 public interface CreateAccountView extends BaseView {
 
-    void navigateToSelectAffiliate(Provider provider);
 
     void navigateToCreateUser(Provider provider);
 

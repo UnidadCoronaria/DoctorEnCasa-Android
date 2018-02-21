@@ -17,7 +17,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/white"
-        android:padding="30dp"
         tools:visibility="gone">
 
         <com.unidadcoronaria.doctorencasa.view.CustomTextView
@@ -62,7 +61,7 @@
         android:gravity="center_horizontal"
         android:orientation="vertical"
         android:visibility="gone"
-        tools:visibility="gone">
+        >
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -74,13 +73,32 @@
                 android:layout_height="match_parent"
                 android:src="@drawable/ic_incoming_call_doctor" />
 
-            <com.wang.avi.AVLoadingIndicatorView
-                android:id="@+id/fragment_new_call_incoming_effect"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="visible"
-                app:indicatorColor="@android:color/white"
-                app:indicatorName="BallScaleMultipleIndicator" />
+                android:layout_margin="0dp"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:padding="0dp">
+
+
+                <com.wang.avi.AVLoadingIndicatorView
+                    android:id="@+id/fragment_new_call_incoming_effect"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="visible"
+                    app:indicatorColor="@android:color/white"
+                    app:indicatorName="BallScaleMultipleIndicator" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_doctor_main" />
+
+
         </FrameLayout>
 
 
@@ -97,13 +115,13 @@
                 android:layout_marginRight="40dp"
                 android:orientation="vertical">
 
-                <android.support.design.widget.FloatingActionButton
+                <ImageView
                     android:id="@+id/fragment_video_call_decline_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:src="@drawable/ic_call_reject"
-                    app:fabSize="normal" />
+                    android:clickable="true"
+                    android:src="@drawable/ic_call_reject" />
 
                 <com.unidadcoronaria.doctorencasa.view.CustomTextView
                     android:layout_width="wrap_content"
@@ -123,14 +141,13 @@
                 android:orientation="vertical">
 
 
-                <android.support.design.widget.FloatingActionButton
+                <ImageView
                     android:id="@+id/fragment_video_call_answer_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:src="@drawable/ic_call_accept"
-                    app:backgroundTint="@color/greenGradientStart"
-                    app:fabSize="normal" />
+                    android:clickable="true"
+                    android:src="@drawable/ic_call_accept" />
 
                 <com.unidadcoronaria.doctorencasa.view.CustomTextView
                     android:layout_width="wrap_content"
@@ -152,8 +169,8 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:layout_marginTop="20dp"
-            android:text="@string/remaining_time_to_answer"
             android:textAlignment="center"
+            android:text="@string/remember_to_accept"
             android:theme="@style/CardTextEditText"
             app:visual_font_name="light" />
 
@@ -205,8 +222,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:src="@drawable/ic_stop_video"
-                  />
+                    android:src="@drawable/selector_video_icon" />
 
             </RelativeLayout>
 
@@ -224,8 +240,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:src="@drawable/ic_call_reject"
-                    />
+                    android:src="@drawable/ic_call_reject" />
 
             </RelativeLayout>
 
@@ -244,8 +259,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:layout_gravity="center"
-                    android:src="@drawable/ic_mute"
-                     />
+                    android:src="@drawable/selector_audio_icon" />
 
             </RelativeLayout>
 

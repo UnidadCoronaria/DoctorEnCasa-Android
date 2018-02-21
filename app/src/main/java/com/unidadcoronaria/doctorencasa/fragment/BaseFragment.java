@@ -15,8 +15,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.unidadcoronaria.doctorencasa.R;
+import com.unidadcoronaria.doctorencasa.activity.LoginActivity;
 import com.unidadcoronaria.doctorencasa.presenter.BasePresenter;
 import com.unidadcoronaria.doctorencasa.service.SinchService;
+import com.unidadcoronaria.doctorencasa.util.SessionUtil;
 
 import javax.inject.Inject;
 
@@ -98,6 +100,14 @@ public abstract class BaseFragment<T extends BasePresenter> extends LifecycleFra
     public void onStop() {
         super.onStop();
         mPresenter.onStop();
+    }
+
+    public void logout(){
+        SessionUtil.logout();
+        Intent intent = LoginActivity.getStartIntent(getActivity());
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        getActivity().finish();
     }
     //endregion
 

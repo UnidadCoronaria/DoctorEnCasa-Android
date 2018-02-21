@@ -17,6 +17,7 @@ repositories {
     maven { url 'https://maven.fabric.io/public' }
     maven { url 'https://maven.google.com' }
     maven { url 'https://jitpack.io' }
+    maven { url 'https://oss.sonatype.org/content/repositories/snapshots/'}
 }
 
 
@@ -36,7 +37,8 @@ android {
     defaultConfig {
         applicationId "com.unidadcoronaria.doctorencasa"
         minSdkVersion 17
-        targetSdkVersion 25
+        targetSdkVersion 26
+        multiDexEnabled true
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -88,9 +90,9 @@ dependencies {
     compile 'com.google.android.gms:play-services:11.8.0'
     compile 'com.jakewharton:butterknife:8.5.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.squareup.retrofit2:retrofit:2.3.0'
-    compile 'com.squareup.retrofit2:converter-gson:2.3.0'
-    compile "com.squareup.retrofit2:adapter-rxjava2:2.3.0"
+    compile 'com.squareup.retrofit2:retrofit:2.4.0-SNAPSHOT'
+    compile 'com.squareup.retrofit2:converter-gson:2.4.0-SNAPSHOT'
+    compile "com.squareup.retrofit2:adapter-rxjava2:2.4.0-SNAPSHOT"
     compile 'com.squareup.okhttp3:logging-interceptor:3.6.0'
     compile ("com.github.ashokslsk:SquareRatingView:1.2"){
         // if you don't use android.app.Fragment you can exclude support for them

@@ -10,9 +10,15 @@
         <item name="android:textColorSecondary">@color/greyLight</item>
     </style>
 
+
+
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar.FullScreen">
+        <!--item name="android:windowBackground">@null</item-->
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="Theme.AppCompat">

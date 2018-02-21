@@ -68,8 +68,10 @@
     <string name="clinic_history">VER MI HISTORIA CLINICA</string>
     <string name="use_your_device_meanwhile">Cuando sea tu turno, te vamos a avisar. Mientras tanto, podes seguir usando tu celular.</string>
     <string name="available_doctor">Hay doctores disponibles para atenderte ahora!</string>
-    <string name="history_error">No pudimos obtener el historial de llamadas.</string>
+    <string name="history_error"><![CDATA[Parece que no estás conectado a internet.\nRevisá tu conexión e intentá nuevamente.]]></string>
+    <string name="remember_to_accept">Tenés 3 minutos para responder a esta llamada, sino perderás el turno y deberás volver a sacar un nuevo turno.</string>
     <string name="remaining_time_to_answer"><![CDATA[Si no atiendes la llamada en los próximos <b>%1$s</b>, perderás el turno y deberás volver a sacar un nuevo turno.]]></string>
+    <string name="remaining_time_to_answer_one"><![CDATA[Si no atiendes la llamada en menos de <b>un minuto</b>, perderás el turno y deberás volver a sacar un nuevo turno.]]></string>
     <string name="logout">Cerrar Sesión</string>
     <string name="settings">Ajustes</string>
     <string name="rank_call">¿Qué te pareció esta videollamada?</string>
@@ -84,6 +86,9 @@
     <string name="next">Siguiente</string>
     <string name="finalize">Finalizar</string>
     <string name="go_back">Volver</string>
+    <string name="filter">Filtar</string>
+    <string name="select_affiliate_list">Selecciona un afiliado</string>
+    <string name="clinic_history_list_error">No pudimos obtener tu historia clinica. Intentalo nuevamente.</string>
     <plurals name="seconds">
         <item quantity="zero">0 segundos</item>
         <item quantity="one">1 segundo</item>

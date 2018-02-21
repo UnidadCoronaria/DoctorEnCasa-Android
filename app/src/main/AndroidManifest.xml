@@ -53,6 +53,7 @@
             android:screenOrientation="portrait"/>
 
         <activity android:name=".activity.NewCallActivity" android:noHistory="true"
+            android:theme="@style/AppTheme.NoActionBar.FullScreen"
             android:screenOrientation="portrait"/>
 
         <activity android:name=".activity.ClinicHistoryDetailActivity"

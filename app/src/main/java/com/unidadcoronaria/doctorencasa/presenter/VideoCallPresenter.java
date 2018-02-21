@@ -19,9 +19,12 @@ import com.unidadcoronaria.doctorencasa.usecase.network.StartCallUseCase;
 import com.unidadcoronaria.doctorencasa.usecase.network.UpdateFCMTokenUseCase;
 import com.unidadcoronaria.doctorencasa.util.SessionUtil;
 
+import java.util.concurrent.Callable;
+
 import javax.inject.Inject;
 
 import io.reactivex.functions.Consumer;
+import retrofit2.HttpException;
 
 /**
  * Created by AGUSTIN.BALA on 5/21/2017.
@@ -44,7 +47,7 @@ public class VideoCallPresenter extends BasePresenter<VideoCallView> {
                               GetQueueStatusUseCase mGetQueueStatusUseCase,
                               CreateCallUseCase mCreateCallUseCase,
                               UpdateFCMTokenUseCase mUpdateFCMTokenUseCase,
-                              RankCallUseCase mRankCallUseCase){
+                              RankCallUseCase mRankCallUseCase) {
         this.mGetAffiliateCallHistoryUseCase = mGetAffiliateCallHistoryUseCase;
         this.mGetQueueStatusUseCase = mGetQueueStatusUseCase;
         this.mCreateCallUseCase = mCreateCallUseCase;
@@ -64,7 +67,7 @@ public class VideoCallPresenter extends BasePresenter<VideoCallView> {
     @Override
     public void onPause() {
         super.onPause();
-        if(isListeningUpdates){
+        if (isListeningUpdates) {
             handler.removeCallbacksAndMessages(null);
             isListeningUpdates = false;
         }
@@ -81,31 +84,32 @@ public class VideoCallPresenter extends BasePresenter<VideoCallView> {
         mRankCallUseCase.unsubscribe();
     }
 
-    public void listenQueueUpdates(){
-        if(!isListeningUpdates){
+    public void listenQueueUpdates() {
+        if (!isListeningUpdates) {
             isListeningUpdates = true;
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                handler.postDelayed(this, 30 * 1000);
-                getAffiliateHistory();
-            }
-        }, 0); // first run instantly
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    handler.postDelayed(this, 30 * 1000);
+                    getAffiliateHistory();
+                }
+            }, 0); // first run instantly
         }
     }
 
-    public void stopListeningQueueUpdates(){
-        if(isListeningUpdates){
+    public void stopListeningQueueUpdates() {
+        if (isListeningUpdates) {
             handler.removeCallbacksAndMessages(null);
         }
     }
 
     private void sendTokenToServer() {
-        if(!SessionUtil.getFCMToken().isEmpty() && !SessionUtil.getSavedFCMToken()){
+        if (!SessionUtil.getFCMToken().isEmpty() && !SessionUtil.getSavedFCMToken()) {
             mUpdateFCMTokenUseCase.setData(SessionUtil.getFCMToken());
             mUpdateFCMTokenUseCase.execute(() -> {
-                Log.i(TAG, "Success saving FCM Token");
-                SessionUtil.saveSavedFCMToken(true);},
+                        Log.i(TAG, "Success saving FCM Token");
+                        SessionUtil.saveSavedFCMToken(true);
+                    },
                     throwable -> Log.e(TAG, "Error saving FCM Token", throwable));
         }
     }
@@ -114,25 +118,51 @@ public class VideoCallPresenter extends BasePresenter<VideoCallView> {
         mGetAffiliateCallHistoryUseCase.execute(o -> {
             view.onGetAffiliateCallHistorySuccess((AffiliateCallHistory) o);
         }, throwable -> {
-            view.onGetAffiliateCallHistoryError();
+            handleException(throwable, () -> {
+                view.onGetAffiliateCallHistoryError();
+                return null;
+            });
         });
     }
 
-    public void getQueueStatus(){
+    public void getQueueStatus() {
         mGetQueueStatusUseCase.execute(o ->
-            view.onGetQueueStatusSuccess((Queue)o)
-        , throwable ->
-            view.onGetQueueStatusError());
+                        view.onGetQueueStatusSuccess((Queue) o)
+                , throwable ->
+                        handleException(throwable, () -> {
+                            view.onGetQueueStatusError();
+                            return null;
+                        }));
     }
 
 
     public void initCall() {
         view.onGetDataStart();
         mCreateCallUseCase.execute(o -> {
-            view.onInitCallSuccess((VideoCall)o);
+            view.onInitCallSuccess((VideoCall) o);
         }, throwable -> {
-            view.onInitCallError();
+            handleException(throwable, () -> {
+                view.onInitCallError();
+                return null;
+            });
         });
+    }
+
+    private void handleException(Throwable throwable, Callable func) {
+        try {
+            if (throwable instanceof HttpException) {
+                // We had non-2XX http error
+                HttpException e = (HttpException) throwable;
+                if (e.response().code() == 408) {
+                    SessionUtil.logout();
+                    view.logout();
+                    return;
+                }
+            }
+            func.call();
+        } catch (Exception e) {
+            Log.e("VideoCallPresenter", e.getMessage());
+        }
     }
 
 }

@@ -11,15 +11,11 @@ import android.widget.TextView;
 import com.unidadcoronaria.doctorencasa.App;
 import com.unidadcoronaria.doctorencasa.ClinicHistoryDetailView;
 import com.unidadcoronaria.doctorencasa.R;
-import com.unidadcoronaria.doctorencasa.SplashView;
 import com.unidadcoronaria.doctorencasa.activity.ClinicHistoryDetailActivity;
-import com.unidadcoronaria.doctorencasa.activity.LoginActivity;
-import com.unidadcoronaria.doctorencasa.activity.MainActivity;
 import com.unidadcoronaria.doctorencasa.di.component.DaggerClinicHistoryComponent;
-import com.unidadcoronaria.doctorencasa.di.component.DaggerSplashComponent;
 import com.unidadcoronaria.doctorencasa.domain.ClinicHistory;
+import com.unidadcoronaria.doctorencasa.domain.Diagnostic;
 import com.unidadcoronaria.doctorencasa.presenter.ClinicHistoryDetailPresenter;
-import com.unidadcoronaria.doctorencasa.presenter.SplashPresenter;
 import com.unidadcoronaria.doctorencasa.util.DateUtil;
 
 import java.util.Date;
@@ -88,11 +84,18 @@ public class ClinicHistoryDetailFragment extends BaseFragment<ClinicHistoryDetai
         View view = super.onCreateView(inflater, container, savedInstanceState);
         mClinicHistory = (ClinicHistory) getArguments().get(ClinicHistoryDetailActivity.CLINIC_HISTORY_KEY);
         if(mClinicHistory != null){
-            vLast.setText(App.getInstance().getString(R.string.previous_clinic_history_of, "Agustin Bala"));
-            vLastDate.setText(DateUtil.getConvertedDayString(new Date()));
-            vDiagnostic.setText(mClinicHistory.getComment());
-            vDoctor.setText("Dr "+"Juan Perez");
-            vDoctorImage.setImageResource(R.drawable.ic_selected_star);
+            vLast.setText(App.getInstance().getString(R.string.previous_clinic_history_of, mClinicHistory.getFirstName() + " " + mClinicHistory.getLastName()));
+            vLastDate.setText(DateUtil.getConvertedDayString(new Date(mClinicHistory.getVideocall().getDate())));
+            String diagnostic = "";
+            for (Diagnostic mClinicDiagnosticItem : mClinicHistory.getDiagnostics()) {
+                if(diagnostic.isEmpty()){
+                    diagnostic = mClinicDiagnosticItem.getName();
+                } else {
+                    diagnostic += " ,"+mClinicDiagnosticItem.getName();
+                }
+            }
+            vDiagnostic.setText(mClinicHistory.getDiagnostics() +" - "+ mClinicHistory.getComment());
+            vDoctor.setText("Dr "+  mClinicHistory.getVideocall().getDoctor().getFirstName()+" "+mClinicHistory.getVideocall().getDoctor().getLastName());
         }
         return view;
     }

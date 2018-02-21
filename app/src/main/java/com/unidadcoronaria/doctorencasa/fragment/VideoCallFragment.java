@@ -2,9 +2,11 @@ package com.unidadcoronaria.doctorencasa.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.Html;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,7 +45,17 @@ public class VideoCallFragment extends BaseFragment<VideoCallPresenter> implemen
     @BindView(R.id.fragment_video_call_button)
     protected Button vButton;
 
+    @BindView(R.id.fragment_video_call_refresh)
+    SwipeRefreshLayout vRefresh;
 
+    @BindView(R.id.fragment_video_call_image)
+    ImageView vMainImage;
+
+    @BindView(R.id.fragment_video_call_error_text)
+    TextView vErrorText;
+
+    @BindView(R.id.fragment_video_call_separator)
+    View vSeparator;
 
     @Override
     protected int makeContentViewResourceId() {
@@ -69,6 +81,15 @@ public class VideoCallFragment extends BaseFragment<VideoCallPresenter> implemen
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mPresenter.setView(this);
+        vRefresh.setOnRefreshListener(() -> {
+            vRefresh.setRefreshing(true);
+            if(vProgress.getVisibility() == View.GONE){
+                vProgress.setVisibility(View.VISIBLE);
+            }
+            vContainer.setVisibility(View.GONE);
+            mPresenter.getAffiliateHistory();
+        });
+        vRefresh.setColorSchemeResources(R.color.red);
     }
 
     @OnClick(R.id.fragment_video_call_button)
@@ -79,10 +100,15 @@ public class VideoCallFragment extends BaseFragment<VideoCallPresenter> implemen
     @Override
     public void onGetAffiliateCallHistorySuccess(AffiliateCallHistory affiliateCallHistory) {
         vProgress.setVisibility(View.GONE);
+        vMainImage.setImageResource(R.drawable.ic_doctor_main);
+        vText.setVisibility(View.VISIBLE);
+        vSeparator.setVisibility(View.VISIBLE);
+        vErrorText.setVisibility(View.GONE);
         if (affiliateCallHistory != null && affiliateCallHistory.getLastVideocall() != null) {
             if(VideoCallStatus.FINALIZADA.equals(affiliateCallHistory.getLastVideocall().getStatus())
                         || VideoCallStatus.EXPIRADA.equals(affiliateCallHistory.getLastVideocall().getStatus())
-                           || VideoCallStatus.CERRADA.equals(affiliateCallHistory.getLastVideocall().getStatus())) {
+                           || VideoCallStatus.CERRADA.equals(affiliateCallHistory.getLastVideocall().getStatus())
+                    || VideoCallStatus.CANCELADA.equals(affiliateCallHistory.getLastVideocall().getStatus())) {
                 vText.setText(getString(R.string.new_consult));
                 vButton.setVisibility(View.VISIBLE);
             } else {
@@ -100,12 +126,16 @@ public class VideoCallFragment extends BaseFragment<VideoCallPresenter> implemen
                             callInProgress();
                         }
                     }
+                    vText.setText(getString(R.string.there_is_a_doctor_for_you));
                 }
             }
         } else {
             vText.setText(R.string.history_error);
         }
         mPresenter.getQueueStatus();
+        if (vRefresh.isRefreshing()){
+            vRefresh.setRefreshing(false);
+        }
     }
 
     private void callInQueueView() {
@@ -139,9 +169,15 @@ public class VideoCallFragment extends BaseFragment<VideoCallPresenter> implemen
             vProgress.setVisibility(View.GONE);
         }
         vContainer.setVisibility(View.VISIBLE);
-        vText.setText(R.string.history_error);
+        vText.setVisibility(View.GONE);
+        vErrorText.setVisibility(View.VISIBLE);
+        vSeparator.setVisibility(View.GONE);
         vButton.setVisibility(View.GONE);
-        mPresenter.getQueueStatus();
+        vInQueueDelay.setVisibility(View.GONE);
+        vMainImage.setImageResource(R.drawable.no_connection);
+        if (vRefresh.isRefreshing()){
+            vRefresh.setRefreshing(false);
+        }
     }
 
     @Override

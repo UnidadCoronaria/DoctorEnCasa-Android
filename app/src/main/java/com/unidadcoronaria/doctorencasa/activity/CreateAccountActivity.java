@@ -9,7 +9,6 @@ import com.unidadcoronaria.doctorencasa.R;
 import com.unidadcoronaria.doctorencasa.domain.Provider;
 import com.unidadcoronaria.doctorencasa.fragment.BaseFragment;
 import com.unidadcoronaria.doctorencasa.fragment.CreateUserFragment;
-import com.unidadcoronaria.doctorencasa.fragment.SelectAffiliateFragment;
 import com.unidadcoronaria.doctorencasa.fragment.SelectProviderFragment;
 import com.unidadcoronaria.doctorencasa.fragment.FragmentContainer;
 
@@ -45,12 +44,6 @@ public class CreateAccountActivity extends BaseActivity implements FragmentConta
 
     public static Intent getStartIntent(Context context){
         return new Intent(context, CreateAccountActivity.class);
-    }
-
-    @Override
-    public void navigateToSelectAffiliate(Provider provider) {
-        showAndHideFragment(SelectProviderFragment.TAG, SelectAffiliateFragment.newInstance(provider));
-        setToolbarTitle(getResources().getString(R.string.search_affiliate));
     }
 
     @Override

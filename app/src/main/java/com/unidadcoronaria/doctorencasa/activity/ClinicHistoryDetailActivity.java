@@ -1,16 +1,11 @@
 package com.unidadcoronaria.doctorencasa.activity;
 
 import android.os.Bundle;
-import android.support.annotation.CallSuper;
-import android.view.Window;
-import android.view.WindowManager;
 
 import com.unidadcoronaria.doctorencasa.R;
 import com.unidadcoronaria.doctorencasa.domain.ClinicHistory;
 import com.unidadcoronaria.doctorencasa.fragment.BaseFragment;
 import com.unidadcoronaria.doctorencasa.fragment.ClinicHistoryDetailFragment;
-import com.unidadcoronaria.doctorencasa.fragment.SplashFragment;
-import com.unidadcoronaria.doctorencasa.service.SinchService;
 
 /**
  * Created by AGUSTIN.BALA on 5/21/2017.
@@ -19,7 +14,7 @@ import com.unidadcoronaria.doctorencasa.service.SinchService;
 public class ClinicHistoryDetailActivity extends BaseActivity {
 
     public static final String CLINIC_HISTORY_KEY = "CLINIC_HISTORY";
-    private ClinicHistory mClinicHistory;
+    private ClinicHistory clinicHistory;
 
     @Override
     protected int getLayout() {
@@ -28,7 +23,7 @@ public class ClinicHistoryDetailActivity extends BaseActivity {
 
     @Override
     protected BaseFragment getFragment() {
-        return ClinicHistoryDetailFragment.getInstance(mClinicHistory);
+        return ClinicHistoryDetailFragment.getInstance(clinicHistory);
     }
 
     @Override
@@ -38,7 +33,7 @@ public class ClinicHistoryDetailActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        mClinicHistory = (ClinicHistory) getIntent().getSerializableExtra(CLINIC_HISTORY_KEY);
+        clinicHistory = (ClinicHistory) getIntent().getSerializableExtra(CLINIC_HISTORY_KEY);
         super.onCreate(savedInstanceState);
         setToolbarTitle(getString(R.string.app_name));
         setBackVisibilityInToolbar(true);

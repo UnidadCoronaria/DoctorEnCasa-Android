@@ -24,4 +24,5 @@ public interface VideoCallView extends BaseView {
 
     void onInitCallError();
 
+    void logout();
 }

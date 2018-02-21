@@ -1,8 +1,7 @@
 package com.unidadcoronaria.doctorencasa.usecase.network;
 
-import com.unidadcoronaria.doctorencasa.domain.Affiliate;
 import com.unidadcoronaria.doctorencasa.domain.ClinicHistory;
-import com.unidadcoronaria.doctorencasa.repository.AffiliateRepository;
+import com.unidadcoronaria.doctorencasa.domain.VideoCall;
 import com.unidadcoronaria.doctorencasa.repository.ClinicHistoryRepository;
 import com.unidadcoronaria.doctorencasa.usecase.SingleItemUseCase;
 import com.unidadcoronaria.doctorencasa.usecase.executor.PostExecutionThread;

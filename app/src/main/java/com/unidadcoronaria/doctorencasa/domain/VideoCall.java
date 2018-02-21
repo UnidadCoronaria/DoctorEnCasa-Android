@@ -100,4 +100,20 @@ public class VideoCall implements Serializable {
     public void setWaitTime(long waitTime) {
         this.waitTime = waitTime;
     }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        VideoCall videoCall = (VideoCall) o;
+
+        return id == videoCall.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
+    }
 }

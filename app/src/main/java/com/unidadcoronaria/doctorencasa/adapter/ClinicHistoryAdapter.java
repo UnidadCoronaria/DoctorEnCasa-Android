@@ -11,6 +11,7 @@ import com.unidadcoronaria.doctorencasa.App;
 import com.unidadcoronaria.doctorencasa.R;
 import com.unidadcoronaria.doctorencasa.domain.Affiliate;
 import com.unidadcoronaria.doctorencasa.domain.ClinicHistory;
+import com.unidadcoronaria.doctorencasa.domain.VideoCall;
 import com.unidadcoronaria.doctorencasa.util.DateUtil;
 
 import java.util.ArrayList;
@@ -51,17 +52,16 @@ public class ClinicHistoryAdapter extends RecyclerView.Adapter<RecyclerView.View
         switch (holder.getItemViewType()) {
             case 0:
                 ClinicHistoryHeaderHolder holderHeader = (ClinicHistoryHeaderHolder)holder;
-                holderHeader.vLast.setText(App.getInstance().getString(R.string.previous_clinic_history_of, "Agustin Bala"));
-                holderHeader.vLastDate.setText(DateUtil.getConvertedDayString(new Date()));
+                holderHeader.vLast.setText(App.getInstance().getString(R.string.previous_clinic_history_of, clinicHistory.getFirstName() + " " + clinicHistory.getLastName()));
+                holderHeader.vLastDate.setText(DateUtil.getConvertedDayString(new Date(clinicHistory.getVideocall().getDate())));
                 holderHeader.vDiagnostic.setText(clinicHistory.getComment());
-                holderHeader.vDoctor.setText("Dr "+"Juan Perez");
-                holderHeader.vDoctorImage.setImageResource(R.drawable.ic_selected_star);
+                holderHeader.vDoctor.setText("Dr "+ clinicHistory.getVideocall().getDoctor().getFirstName()+" "+clinicHistory.getVideocall().getDoctor().getLastName());
                 break;
             default:
                 ClinicHistoryHolder holderItem = (ClinicHistoryHolder)holder;
                 holderItem.vComment.setText(clinicHistory.getComment());
-                holderItem.vDate.setText(DateUtil.getConvertedDayString(new Date()));
-                holderItem.vDoctor.setText("Dr "+"Juan Perez");
+                holderItem.vDate.setText(DateUtil.getConvertedDayString(new Date(clinicHistory.getVideocall().getDate())));
+                holderItem.vDoctor.setText("Dr "+ clinicHistory.getVideocall().getDoctor().getFirstName()+" "+clinicHistory.getVideocall().getDoctor().getLastName());
                 holderItem.vContainer.setOnClickListener(v ->
                     mCallback.onItemClick(clinicHistory));
                 

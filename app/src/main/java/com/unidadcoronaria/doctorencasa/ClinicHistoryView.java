@@ -1,6 +1,7 @@
 package com.unidadcoronaria.doctorencasa;
 
 import com.unidadcoronaria.doctorencasa.domain.ClinicHistory;
+import com.unidadcoronaria.doctorencasa.domain.VideoCall;
 
 import java.util.List;
 
@@ -10,7 +11,9 @@ import java.util.List;
 
 public interface ClinicHistoryView extends BaseView {
 
-    void onClinicHistoryListRetrieved(List<ClinicHistory> clinicHistoryList);
+    void onClinicHistoryListRetrieved(List<ClinicHistory> videoCallList);
 
     void onClinicHistoryListError();
+
+    void logout();
 }

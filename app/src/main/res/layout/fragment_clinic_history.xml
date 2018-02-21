@@ -1,21 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.SwipeRefreshLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_clinic_history_refresh"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
 
-    <include
-        layout="@layout/view_progress"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
+
+        <include
+            layout="@layout/view_progress"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:visibility="visible" />
 
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/fragment_clinic_history_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentTop="true"/>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/fragment_clinic_history_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/fragment_clinic_history_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="36dp"
+            android:layout_alignParentTop="true"
+            android:visibility="gone"
+            tools:visiblity="visible"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/no_connection"
+            />
 
 
+        <com.unidadcoronaria.doctorencasa.view.CustomTextView
+            android:id="@+id/fragment_clinic_history_error"
+            android:layout_below="@+id/fragment_clinic_history_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:text="@string/history_error"
+            android:textAlignment="center"
+            android:theme="@style/CardTextEditText"
+            android:visibility="gone"
+            app:visual_font_name="light"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            tools:visibility="visible" />
 
-</RelativeLayout>
+
+    </RelativeLayout>
+
+</android.support.v4.widget.SwipeRefreshLayout>

@@ -20,23 +20,37 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ImageView
+            <LinearLayout
                 android:id="@+id/fragment_select_provider_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:layout_width="15dp"
-                android:layout_height="30dp"
-                android:layout_marginTop="10dp"
-                android:src="@drawable/ic_stop_video"/>
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:src="@drawable/ic_step_filled" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_step_empty" />
+
+            </LinearLayout>
 
             <com.unidadcoronaria.doctorencasa.view.CustomTextView
                 android:id="@+id/fragment_select_provider_title"
-                android:layout_below="@+id/fragment_select_provider_icon"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/fragment_select_provider_icon"
+                android:layout_marginBottom="20dp"
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="20dp"
+                android:layout_marginTop="20dp"
                 android:text="@string/select_provider"
                 android:textColor="@color/red"
                 android:textSize="20sp"
@@ -44,24 +58,24 @@
 
             <View
                 android:id="@+id/fragment_select_provider_separator"
-                android:layout_below="@+id/fragment_select_provider_title"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
+                android:layout_below="@+id/fragment_select_provider_title"
                 android:background="@color/greyLight" />
 
             <android.support.v7.widget.RecyclerView
-                android:layout_below="@+id/fragment_select_provider_separator"
                 android:id="@+id/fragment_select_provider_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/fragment_select_provider_separator"
                 android:layout_marginBottom="5dp" />
 
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/red"
                 android:layout_alignParentBottom="true"
+                android:background="@color/red"
                 android:orientation="horizontal">
 
                 <com.unidadcoronaria.doctorencasa.view.CustomTextView
@@ -69,13 +83,13 @@
                     android:layout_width="0dp"
                     android:layout_height="50dp"
                     android:layout_weight="1"
-                    android:textColor="@color/white"
-                    app:visual_font_name="regular"
-                    android:textAlignment="center"
-                    android:gravity="center"
-                    android:textSize="20sp"
                     android:background="@drawable/selector_red_button"
-                    android:text="@string/cancel_create_account" />
+                    android:gravity="center"
+                    android:text="@string/cancel_create_account"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    app:visual_font_name="regular" />
 
 
                 <View
@@ -88,8 +102,8 @@
                     android:layout_width="0dp"
                     android:layout_height="50dp"
                     android:layout_weight="1"
-                    android:gravity="center"
                     android:background="@drawable/selector_red_button"
+                    android:gravity="center"
                     android:orientation="horizontal">
 
                     <com.unidadcoronaria.doctorencasa.view.CustomTextView
@@ -97,12 +111,12 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:textColor="@color/selector_button_text"
-                        app:visual_font_name="regular"
-                        android:textSize="20sp"
                         android:enabled="false"
+                        android:text="@string/next"
                         android:textAlignment="center"
-                        android:text="@string/next" />
+                        android:textColor="@color/selector_button_text"
+                        android:textSize="20sp"
+                        app:visual_font_name="regular" />
 
                     <ImageView
                         android:id="@+id/fragment_select_provider_continue_arrow"
@@ -110,8 +124,8 @@
                         android:layout_height="match_parent"
                         android:layout_marginRight="30dp"
                         android:enabled="false"
-                        android:tint="@color/selector_button_text"
-                        android:src="@drawable/ic_arrow_right"/>
+                        android:src="@drawable/ic_arrow_right"
+                        android:backgroundTint="@color/selector_button_text" />
 
                 </LinearLayout>
 
