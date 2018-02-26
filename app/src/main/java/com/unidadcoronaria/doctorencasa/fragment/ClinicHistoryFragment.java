@@ -92,6 +92,7 @@ public class ClinicHistoryFragment extends BaseFragment<ClinicHistoryPresenter> 
             vImage.setVisibility(View.GONE);
         });
         vRefresh.setColorSchemeResources(R.color.red);
+        vProgress.setVisibility(View.VISIBLE);
     }
 
     public static BaseFragment newInstance() {

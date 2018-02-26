@@ -7,15 +7,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <include
-            layout="@layout/view_progress"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:visibility="visible" />
 
 
         <android.support.v7.widget.RecyclerView
@@ -54,7 +50,14 @@
             android:layout_marginRight="40dp"
             tools:visibility="visible" />
 
-
+        <include
+            layout="@layout/view_progress"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="visible"
+            tools:visibility="visible" />
     </RelativeLayout>
+
+
 
 </android.support.v4.widget.SwipeRefreshLayout>

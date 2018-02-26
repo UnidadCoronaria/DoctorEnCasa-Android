@@ -12,6 +12,7 @@ import com.sinch.android.rtc.calling.Call;
 import com.sinch.android.rtc.calling.CallClientListener;
 import com.sinch.android.rtc.video.VideoCallListener;
 import com.sinch.android.rtc.video.VideoController;
+import com.sinch.android.rtc.video.VideoScalingType;
 import com.unidadcoronaria.doctorencasa.App;
 
 /**
@@ -31,19 +32,20 @@ public class SinchCallManager implements CallManager<Call> {
     private String mUserId;
 
 
+    public SinchClient initClient(String userName, StartFailedListener mListener, CallClientListener mIncomingCallClientListener) {
+        mUserId = userName;
+        mSinchClient = Sinch.getSinchClientBuilder().context(App.getInstance()).userId(mUserId)
+                .applicationKey(APP_KEY)
+                .applicationSecret(APP_SECRET)
+                .environmentHost(ENVIRONMENT).build();
+        mSinchClient.setSupportCalling(true);
+        mSinchClient.setSupportActiveConnectionInBackground(true);
+        mSinchClient.startListeningOnActiveConnection();
+        mSinchClient.addSinchClientListener(new ClientListener());
+        mSinchClient.getVideoController().setResizeBehaviour(VideoScalingType.ASPECT_FILL);
 
-    public SinchClient initClient(String userName, StartFailedListener mListener, CallClientListener mIncomingCallClientListener){
-            mUserId = userName;
-            mSinchClient = Sinch.getSinchClientBuilder().context(App.getInstance()).userId(mUserId)
-                    .applicationKey(APP_KEY)
-                    .applicationSecret(APP_SECRET)
-                    .environmentHost(ENVIRONMENT).build();
-            mSinchClient.setSupportCalling(true);
-            mSinchClient.setSupportActiveConnectionInBackground(true);
-            mSinchClient.startListeningOnActiveConnection();
-            mSinchClient.addSinchClientListener(new ClientListener());
-            mSinchClient.getCallClient().addCallClientListener(mIncomingCallClientListener);
-            mSinchClient.start();
+        mSinchClient.getCallClient().addCallClientListener(mIncomingCallClientListener);
+        mSinchClient.start();
         this.mListener = mListener;
         return mSinchClient;
     }
@@ -84,7 +86,7 @@ public class SinchCallManager implements CallManager<Call> {
     }
 
 
-    public void stopClient(){
+    public void stopClient() {
         if (mSinchClient != null) {
             mSinchClient.terminate();
             mSinchClient = null;
@@ -104,7 +106,7 @@ public class SinchCallManager implements CallManager<Call> {
 
         @Override
         public void onClientFailed(SinchClient client, SinchError error) {
-            Log.d(TAG, "SinchClient error "+error.getMessage());
+            Log.d(TAG, "SinchClient error " + error.getMessage());
             if (mListener != null) {
                 mListener.onStartFailed(error);
             }
@@ -123,7 +125,7 @@ public class SinchCallManager implements CallManager<Call> {
         @Override
         public void onClientStopped(SinchClient client) {
             Log.d(TAG, "SinchClient stopped");
-            if(mListener != null){
+            if (mListener != null) {
                 mListener.onStopped();
             }
         }

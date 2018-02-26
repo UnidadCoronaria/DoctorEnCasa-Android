@@ -102,6 +102,7 @@ public class VideoCallFragment extends BaseFragment<VideoCallPresenter> implemen
         vProgress.setVisibility(View.GONE);
         vMainImage.setImageResource(R.drawable.ic_doctor_main);
         vText.setVisibility(View.VISIBLE);
+        vInQueueDelay.setVisibility(View.VISIBLE);
         vSeparator.setVisibility(View.VISIBLE);
         vErrorText.setVisibility(View.GONE);
         if (affiliateCallHistory != null && affiliateCallHistory.getLastVideocall() != null) {
@@ -186,6 +187,7 @@ public class VideoCallFragment extends BaseFragment<VideoCallPresenter> implemen
             vProgress.setVisibility(View.GONE);
         }
         vContainer.setVisibility(View.VISIBLE);
+        vInQueueDelay.setVisibility(View.VISIBLE);
         vInQueueDelay.setText(Html.fromHtml(getString(R.string.in_queue_delay, DateUtil.getWaitingTime(getActivity(), queue.getWaitTime()))));
     }
 
@@ -194,6 +196,8 @@ public class VideoCallFragment extends BaseFragment<VideoCallPresenter> implemen
     public void onGetQueueStatusError() {
         vProgress.setVisibility(View.GONE);
         vContainer.setVisibility(View.VISIBLE);
+        vInQueueDelay.setVisibility(View.GONE);
+
     }
 
     @Override

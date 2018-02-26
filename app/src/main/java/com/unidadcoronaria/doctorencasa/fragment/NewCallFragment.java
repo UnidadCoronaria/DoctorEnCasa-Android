@@ -204,10 +204,12 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
     }
 
     private void resumeVideo() {
+        Toast.makeText(getActivity(), "Video Resumido", Toast.LENGTH_LONG).show();
         mCall.resumeVideo();
     }
 
     private void stopVideo() {
+        Toast.makeText(getActivity(), "Video frenado", Toast.LENGTH_LONG).show();
         mCall.pauseVideo();
     }
 
@@ -215,10 +217,12 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
     protected void onMuteClick() {
         audioManager.setMode(AudioManager.MODE_IN_CALL);
         if (!audioManager.isMicrophoneMute()) {
+            Toast.makeText(getActivity(), "Muteado", Toast.LENGTH_LONG).show();
             audioManager.setMicrophoneMute(true);
             vMuteButton.setSelected(false);
 
         } else {
+            Toast.makeText(getActivity(), "Desmuteado", Toast.LENGTH_LONG).show();
             audioManager.setMicrophoneMute(false);
             vMuteButton.setSelected(true);
         }
@@ -336,7 +340,7 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
             Log.d(TAG, "Call ended. Reason: " + cause.toString());
             mAudioPlayer.stopProgressTone();
             getActivity().setVolumeControlStream(AudioManager.USE_DEFAULT_STREAM_TYPE);
-            String endMsg = "Call ended: " + call.getDetails().toString();
+            Toast.makeText(getActivity(), "Call ended: " + call.getDetails().toString(), Toast.LENGTH_LONG).show();
             showRankDialog();
             mRemainingMinutesHandler.removeCallbacksAndMessages(null);
         }
