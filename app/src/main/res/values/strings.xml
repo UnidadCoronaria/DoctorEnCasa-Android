@@ -47,6 +47,7 @@
     <string name="yes">si</string>
     <string name="permissions_denied">Si no aceptas los permisos que pide la app, no vas a poder realizar la videollamada.\nIntentá realizar la llamada nuevamente y acepta los permisos solicitados.</string>
     <string name="permissions_never_ask"><![CDATA[Para poder realizar la llamada, ingresa a la configuración de tu dispositivo -> Aplicaciones -> Doctor en Casa -> Permisos y acepta todos los permisos.]]></string>
+    <string name="error_starting_call">Hubo un error iniciando la llamada, en breve el médico te llamará nuevamente.</string>
     <string name="starting_call">INICIANDO VIDEOLLAMADA...</string>
     <string name="error_hangup">Hubo un error finalizando la llamada.</string>
     <string name="cancel">CANCELAR</string>
@@ -69,7 +70,7 @@
     <string name="use_your_device_meanwhile">Cuando sea tu turno, te vamos a avisar. Mientras tanto, podes seguir usando tu celular.</string>
     <string name="available_doctor">Hay doctores disponibles para atenderte ahora!</string>
     <string name="history_error"><![CDATA[Parece que no estás conectado a internet.\nRevisá tu conexión e intentá nuevamente.]]></string>
-    <string name="remember_to_accept">Tenés 3 minutos para responder a esta llamada, sino perderás el turno y deberás volver a sacar un nuevo turno.</string>
+    <string name="remember_to_accept">Tenés 45 segundos para responder a esta llamada, sino perderás el turno y deberás volver a sacar un nuevo turno.</string>
     <string name="remaining_time_to_answer"><![CDATA[Si no atiendes la llamada en los próximos <b>%1$s</b>, perderás el turno y deberás volver a sacar un nuevo turno.]]></string>
     <string name="remaining_time_to_answer_one"><![CDATA[Si no atiendes la llamada en menos de <b>un minuto</b>, perderás el turno y deberás volver a sacar un nuevo turno.]]></string>
     <string name="logout">Cerrar Sesión</string>

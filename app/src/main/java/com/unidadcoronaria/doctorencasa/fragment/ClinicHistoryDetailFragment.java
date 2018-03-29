@@ -94,7 +94,7 @@ public class ClinicHistoryDetailFragment extends BaseFragment<ClinicHistoryDetai
                     diagnostic += " ,"+mClinicDiagnosticItem.getName();
                 }
             }
-            vDiagnostic.setText(mClinicHistory.getDiagnostics() +" - "+ mClinicHistory.getComment());
+            vDiagnostic.setText(diagnostic +" - "+ mClinicHistory.getComment());
             vDoctor.setText("Dr "+  mClinicHistory.getVideocall().getDoctor().getFirstName()+" "+mClinicHistory.getVideocall().getDoctor().getLastName());
         }
         return view;

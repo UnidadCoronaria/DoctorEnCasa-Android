@@ -28,16 +28,16 @@ public class AffiliateAdapter extends RecyclerView.Adapter<AffiliateAdapter.Prov
     private List<GamAffiliate> mList = new ArrayList<>();
     private GamAffiliate mSelectedAffiliate;
 
-    public AffiliateAdapter(List<GamAffiliate> mList, int selectedAffiliatedId, Callback callback) {
+    public AffiliateAdapter(List<GamAffiliate> mList, String selectedAffiliatedId, Callback callback) {
         this.mList = mList;
         this.mCallback = callback;
         checkSelected(selectedAffiliatedId);
     }
 
-    private void checkSelected(int selectedAffiliatedId) {
-        if(selectedAffiliatedId != 0){
+    private void checkSelected(String selectedAffiliatedId) {
+        if(!selectedAffiliatedId.isEmpty()){
             for (GamAffiliate affiliate : mList) {
-                if(affiliate.getAffiliateGamId() == selectedAffiliatedId){
+                if(affiliate.getAffiliateGamId().equals(selectedAffiliatedId)){
                     mSelectedAffiliate = affiliate;
                 }
             }

@@ -6,21 +6,21 @@ package com.unidadcoronaria.doctorencasa.domain;
 
 public class GamAffiliate {
 
-    private int affiliateGamId;
+    private String affiliateGamId;
     private String lastName;
     private String firstName;
 
-    public GamAffiliate(int affiliateGamId, String lastName, String firstName) {
+    public GamAffiliate(String affiliateGamId, String lastName, String firstName) {
         this.affiliateGamId = affiliateGamId;
         this.lastName = lastName;
         this.firstName = firstName;
     }
 
-    public int getAffiliateGamId() {
+    public String getAffiliateGamId() {
         return affiliateGamId;
     }
 
-    public void setAffiliateGamId(int affiliateGamId) {
+    public void setAffiliateGamId(String affiliateGamId) {
         this.affiliateGamId = affiliateGamId;
     }
 
@@ -52,6 +52,6 @@ public class GamAffiliate {
 
     @Override
     public int hashCode() {
-        return affiliateGamId;
+        return affiliateGamId != null ? affiliateGamId.hashCode() : 0;
     }
 }

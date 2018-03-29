@@ -54,7 +54,7 @@ public class ClinicHistoryFragment extends BaseFragment<ClinicHistoryPresenter> 
 
     private ClinicHistoryAdapter mClinicHistoryAdapter;
     private SelectAffiliateDialog mSelectAffiliateDialog = new SelectAffiliateDialog();
-    private Integer mSelectedAffiliateId;
+    private String mSelectedAffiliateId;
     private List<ClinicHistory> mOriginalList;
 
     @Override
@@ -144,7 +144,7 @@ public class ClinicHistoryFragment extends BaseFragment<ClinicHistoryPresenter> 
     public void showFilters() {
         if(vImage.getVisibility() == View.GONE){
             mSelectAffiliateDialog.dismiss();
-            mSelectAffiliateDialog.showAffiliateList(getActivity(), getAffiliateList(), (mSelectedAffiliateId != null)?mSelectedAffiliateId:0, this);
+            mSelectAffiliateDialog.showAffiliateList(getActivity(), getAffiliateList(), (mSelectedAffiliateId != null)?mSelectedAffiliateId:"", this);
         }
     }
 
@@ -156,7 +156,7 @@ public class ClinicHistoryFragment extends BaseFragment<ClinicHistoryPresenter> 
                 mAffiliateList.add(new GamAffiliate(clinicHistory.getAffiliateGamId(), clinicHistory.getFirstName(), clinicHistory.getLastName()));
             } else {
                 for (GamAffiliate gamAffiliate : mAffiliateList) {
-                    if (gamAffiliate.getAffiliateGamId() == clinicHistory.getAffiliateGamId()) {
+                    if (gamAffiliate.getAffiliateGamId().equals(clinicHistory.getAffiliateGamId())) {
                         isPresent = true;
                     }
                 }
@@ -170,16 +170,16 @@ public class ClinicHistoryFragment extends BaseFragment<ClinicHistoryPresenter> 
     }
 
     @Override
-    public void onSelectedAffiliate(int affiliateId) {
+    public void onSelectedAffiliate(String affiliateId) {
         mSelectedAffiliateId = affiliateId;
         filterList();
     }
 
     private void filterList() {
         List<ClinicHistory> filteredList = new ArrayList<>();
-        if (mSelectedAffiliateId != null && mSelectedAffiliateId != 0) {
+        if (mSelectedAffiliateId != null && !mSelectedAffiliateId.isEmpty()) {
             for (ClinicHistory clinicHistory : mOriginalList) {
-                if (clinicHistory.getAffiliateGamId() == mSelectedAffiliateId) {
+                if (clinicHistory.getAffiliateGamId().equals(mSelectedAffiliateId)) {
                     filteredList.add(clinicHistory);
                 }
             }

@@ -8,7 +8,7 @@ import java.io.Serializable;
 public class Affiliate implements Serializable {
 
     private Integer id;
-    private Integer affiliateGamId;
+    private String affiliateGamId;
     private Provider provider;
     private String firstName;
     private String lastName;
@@ -139,11 +139,11 @@ public class Affiliate implements Serializable {
         this.lastPasswordResetDate = lastPasswordResetDate;
     }
 
-    public Integer getAffiliateGamId() {
+    public String getAffiliateGamId() {
         return affiliateGamId;
     }
 
-    public void setAffiliateGamId(Integer affiliateGamId) {
+    public void setAffiliateGamId(String affiliateGamId) {
         this.affiliateGamId = affiliateGamId;
     }
 

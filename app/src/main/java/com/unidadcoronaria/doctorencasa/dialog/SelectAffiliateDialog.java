@@ -28,14 +28,14 @@ public class SelectAffiliateDialog implements AffiliateAdapter.Callback {
     private GamAffiliate mSelectedAffiliate;
     private AffiliateAdapter adapter;
 
-    public void showAffiliateList(Context context, List<GamAffiliate> affiliateList, int selectedAffiliateId, Callback mCallback) {
+    public void showAffiliateList(Context context, List<GamAffiliate> affiliateList, String selectedAffiliateId, Callback mCallback) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View dialogView = inflater.inflate(R.layout.view_affiliate_list_dialog, null);
 
         showBaseMessage(context, affiliateList, selectedAffiliateId,  mCallback,  dialogView);
     }
 
-    private void showBaseMessage(Context context,  List<GamAffiliate> affiliateList,  int selectedAffiliateId,
+    private void showBaseMessage(Context context,  List<GamAffiliate> affiliateList,  String selectedAffiliateId,
                                  final Callback mCallback,
                                  final View dialogView) {
 
@@ -60,7 +60,7 @@ public class SelectAffiliateDialog implements AffiliateAdapter.Callback {
             if(mSelectedAffiliate != null){
                 mCallback.onSelectedAffiliate(mSelectedAffiliate.getAffiliateGamId());
             } else {
-                mCallback.onSelectedAffiliate(0);
+                mCallback.onSelectedAffiliate("");
             }
             dismiss();
         });
@@ -86,7 +86,7 @@ public class SelectAffiliateDialog implements AffiliateAdapter.Callback {
 
     public interface Callback{
 
-        void onSelectedAffiliate(int affiliateId);
+        void onSelectedAffiliate(String affiliateId);
         void onNegativeClick();
     }
 

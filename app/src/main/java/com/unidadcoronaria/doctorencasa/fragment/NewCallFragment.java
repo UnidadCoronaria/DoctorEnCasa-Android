@@ -70,6 +70,9 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
     @BindView(R.id.rl_error)
     protected View vErrorContainer;
 
+    @BindView(R.id.rl_error_starting)
+    protected View vErrorStartingContainer;
+
     @BindView(R.id.fragment_new_video_call_calling)
     protected View vStartingContainer;
 
@@ -166,6 +169,7 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
         vErrorContainer.setVisibility(View.GONE);
         vContainer.setVisibility(View.GONE);
         vIncomingContainer.setVisibility(View.VISIBLE);
+        vErrorStartingContainer.setVisibility(View.GONE);
         mAudioPlayer = new AudioPlayer(getActivity());
         mAudioPlayer.playRingtone();
         vIncomingCallEffect.show();
@@ -179,8 +183,19 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
 
     @OnClick(R.id.fragment_video_call_answer_button)
     protected void onAnswerClick() {
-        mAudioPlayer.stopRingtone();
-        mCall.answer();
+        try{
+            mAudioPlayer.stopRingtone();
+            mCall.answer();
+            vMuteButton.setSelected(audioManager.isMicrophoneMute());
+        } catch (Exception e){
+            vProgress.setVisibility(View.GONE);
+            vStartingContainer.setVisibility(View.GONE);
+            vErrorContainer.setVisibility(View.GONE);
+            vContainer.setVisibility(View.GONE);
+            vIncomingContainer.setVisibility(View.GONE);
+            vIncomingCallEffect.hide();
+            vErrorStartingContainer.setVisibility(View.VISIBLE);
+        }
     }
 
     @OnClick(R.id.fragment_video_call_decline_button)
@@ -188,6 +203,7 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
         mAudioPlayer.stopRingtone();
         if (mCall != null) {
             mCall.hangup();
+
 
         }
         getActivity().finish();
@@ -217,12 +233,12 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
     protected void onMuteClick() {
         audioManager.setMode(AudioManager.MODE_IN_CALL);
         if (!audioManager.isMicrophoneMute()) {
-            Toast.makeText(getActivity(), "Muteado", Toast.LENGTH_LONG).show();
+            //Toast.makeText(getActivity(), "Muteado", Toast.LENGTH_LONG).show();
             audioManager.setMicrophoneMute(true);
             vMuteButton.setSelected(false);
 
         } else {
-            Toast.makeText(getActivity(), "Desmuteado", Toast.LENGTH_LONG).show();
+            //Toast.makeText(getActivity(), "Desmuteado", Toast.LENGTH_LONG).show();
             audioManager.setMicrophoneMute(false);
             vMuteButton.setSelected(true);
         }
@@ -336,11 +352,12 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
             mAudioPlayer.stopRingtone();
             vContainer.setVisibility(View.GONE);
             vStartingContainer.setVisibility(View.GONE);
+            vIncomingContainer.setVisibility(View.GONE);
             CallEndCause cause = call.getDetails().getEndCause();
             Log.d(TAG, "Call ended. Reason: " + cause.toString());
             mAudioPlayer.stopProgressTone();
             getActivity().setVolumeControlStream(AudioManager.USE_DEFAULT_STREAM_TYPE);
-            Toast.makeText(getActivity(), "Call ended: " + call.getDetails().toString(), Toast.LENGTH_LONG).show();
+            //Toast.makeText(getActivity(), "Call ended: " + call.getDetails().toString(), Toast.LENGTH_LONG).show();
             showRankDialog();
             mRemainingMinutesHandler.removeCallbacksAndMessages(null);
         }

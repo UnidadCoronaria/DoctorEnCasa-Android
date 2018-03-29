@@ -21,11 +21,11 @@ public class NotificationHelper {
     public static void showNotification(Context context, String callId) {
 
 
-        String text = "Estate atento! El doctor te va a llamar en cualquier momento";
+        String text = "Es tu turno! El doctor te va a llamar en un instante.";
         NotificationManager mNotificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, callId)
-                .setSmallIcon(R.drawable.ic_video_call)
+                .setSmallIcon(R.drawable.notification_icon)
                 .setContentTitle(context.getString(R.string.app_name))
                 .setAutoCancel(true).setContentText(text);
 

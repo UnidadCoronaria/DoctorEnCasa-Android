@@ -22,9 +22,9 @@
 
     <com.ashokslsk.androidabcd.squarerating.SquareRatingView
         android:id="@+id/dialog_rank_ranking"
-        android:layout_below="@+id/dialog_rank_title"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="80dp"
+        android:layout_below="@+id/dialog_rank_title"
         android:layout_marginTop="25dp"
         app:setNumSquare="5"
         app:setRating="0"

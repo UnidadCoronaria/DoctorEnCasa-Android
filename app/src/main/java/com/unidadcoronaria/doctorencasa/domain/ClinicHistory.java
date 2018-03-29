@@ -10,7 +10,7 @@ import java.util.List;
 public class ClinicHistory implements Serializable{
 
     private int id;
-    private int affiliateGamId;
+    private String affiliateGamId;
     private String comment;
     private String lastName;
     private String firstName;
@@ -33,11 +33,11 @@ public class ClinicHistory implements Serializable{
         this.comment = comment;
     }
 
-    public int getAffiliateGamId() {
+    public String getAffiliateGamId() {
         return affiliateGamId;
     }
 
-    public void setAffiliateGamId(int affiliateGamId) {
+    public void setAffiliateGamId(String affiliateGamId) {
         this.affiliateGamId = affiliateGamId;
     }
 

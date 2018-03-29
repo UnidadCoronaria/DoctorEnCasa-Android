@@ -54,13 +54,31 @@
 
     </RelativeLayout>
 
+
+    <RelativeLayout
+        android:id="@+id/rl_error_starting"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        android:padding="30dp"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/error_starting_call"
+            android:textSize="20dp" />
+
+    </RelativeLayout>
+
     <LinearLayout
         android:id="@+id/fragment_new_video_call_incoming"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:visibility="gone"
+        android:visibility="visible"
         >
 
         <FrameLayout
@@ -71,6 +89,7 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginTop="-10dp"
                 android:src="@drawable/ic_incoming_call_doctor" />
 
             <LinearLayout
@@ -96,6 +115,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginBottom="10dp"
                 android:src="@drawable/ic_doctor_main" />
 
 
@@ -167,8 +187,7 @@
             android:id="@+id/fragment_video_call_delay"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="20dp"
+            android:layout_margin="20dp"
             android:textAlignment="center"
             android:text="@string/remember_to_accept"
             android:theme="@style/CardTextEditText"
@@ -182,12 +201,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"
-        tools:visibility="visible">
+        tools:visibility="gone">
 
         <LinearLayout
             android:id="@+id/call_self_camera"
             android:layout_width="150dp"
             android:layout_height="150dp"
+            android:layout_marginTop="10dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:orientation="vertical" />
