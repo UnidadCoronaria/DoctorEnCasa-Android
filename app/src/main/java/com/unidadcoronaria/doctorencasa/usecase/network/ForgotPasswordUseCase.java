@@ -2,6 +2,7 @@ package com.unidadcoronaria.doctorencasa.usecase.network;
 
 import com.unidadcoronaria.doctorencasa.dto.Credential;
 import com.unidadcoronaria.doctorencasa.domain.UserInfo;
+import com.unidadcoronaria.doctorencasa.dto.GenericResponseDTO;
 import com.unidadcoronaria.doctorencasa.repository.AffiliateRepository;
 import com.unidadcoronaria.doctorencasa.usecase.SingleItemUseCase;
 import com.unidadcoronaria.doctorencasa.usecase.executor.PostExecutionThread;
@@ -28,7 +29,7 @@ public class ForgotPasswordUseCase extends SingleItemUseCase {
     }
 
     @Override
-    public Single<String> buildUseCaseObservable() {
+    public Single<GenericResponseDTO> buildUseCaseObservable() {
         return this.mAffiliateRepository.forgotPassword(this.credential);
     }
 

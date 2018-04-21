@@ -8,25 +8,25 @@ public class Credential {
     private String username;
     private String password;
     private String newPassword;
-    private Integer groupNumberId;
+    private Integer groupNumber;
     private Integer providerId;
     private String email;
 
     private Credential(Credential.Builder builder) {
         this.username = builder.username;
         this.password = builder.password;
-        this.groupNumberId = builder.groupNumberId;
+        this.groupNumber = builder.groupNumberId;
         this.providerId = builder.providerId;
         this.email = builder.email;
         this.newPassword = builder.newPassword;
     }
 
-    public Integer getGroupNumberId() {
-        return groupNumberId;
+    public Integer getGroupNumber() {
+        return groupNumber;
     }
 
-    public void setGroupNumberId(Integer groupNumberId) {
-        this.groupNumberId = groupNumberId;
+    public void setGroupNumber(Integer groupNumber) {
+        this.groupNumber = groupNumber;
     }
 
     public Integer getProviderId() {

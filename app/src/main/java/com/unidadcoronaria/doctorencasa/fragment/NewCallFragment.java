@@ -3,7 +3,9 @@ package com.unidadcoronaria.doctorencasa.fragment;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.media.AudioManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -328,8 +330,35 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
 
 
     @Override
-    public void onRankSuccess() {
+    public void onRankSuccess(int ranking) {
         vProgress.setVisibility(View.GONE);
+        if(ranking > 3){
+            getActivity().finish();
+        } else {
+            new AlertDialog.Builder(getActivity())
+                    .setMessage("Calificaste la consulta negativamente, te gustaría comunicarte con una operadora para solicitar una visita domiciliaria?")
+                    .setPositiveButton("No, gracias", (dialog, button) -> getActivity().finish())
+                    .setNegativeButton("Si", (dialog, button) -> callToCentral())
+                    .setCancelable(false)
+                    .show();
+        }
+
+    }
+
+    private void callToCentral() {
+        Intent callIntent = new Intent(Intent.ACTION_CALL);
+        String tel = "tel:";
+        if(SessionUtil.getProvider() == 1){
+            tel += "1142577777";
+        } else {
+            if (SessionUtil.getProvider() == 2){
+                tel += "1157265166";
+            } else if (SessionUtil.getProvider() == 3){
+                tel += "1147330043";
+            }
+        }
+        callIntent.setData(Uri.parse(tel));
+        startActivity(callIntent);
         getActivity().finish();
     }
 
@@ -359,6 +388,7 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
             getActivity().setVolumeControlStream(AudioManager.USE_DEFAULT_STREAM_TYPE);
             //Toast.makeText(getActivity(), "Call ended: " + call.getDetails().toString(), Toast.LENGTH_LONG).show();
             showRankDialog();
+            removeVideoViews();
             mRemainingMinutesHandler.removeCallbacksAndMessages(null);
         }
 

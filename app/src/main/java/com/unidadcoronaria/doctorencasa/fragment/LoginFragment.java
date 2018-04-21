@@ -16,7 +16,9 @@ import com.unidadcoronaria.doctorencasa.activity.CreateAccountActivity;
 import com.unidadcoronaria.doctorencasa.activity.ForgotPasswordActivity;
 import com.unidadcoronaria.doctorencasa.activity.MainActivity;
 import com.unidadcoronaria.doctorencasa.di.component.DaggerLoginComponent;
+import com.unidadcoronaria.doctorencasa.domain.UserInfo;
 import com.unidadcoronaria.doctorencasa.presenter.LoginPresenter;
+import com.unidadcoronaria.doctorencasa.util.SessionUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -112,20 +114,16 @@ public class LoginFragment extends BaseFragment<LoginPresenter> implements Login
     }
 
     @Override
-    public void onSaveAffiliateSuccess(Boolean passwordExpired) {
+    public void onSaveAffiliateSuccess(UserInfo userInfo, Boolean passwordExpired) {
         if(passwordExpired){
             startActivity(ChangePasswordActivity.getStartIntent(getActivity()));
         } else {
+            SessionUtil.saveProvider(userInfo.getUser().getProvider().getId());
             startActivity(MainActivity.getStartIntent(getActivity()));
             getActivity().finish();
         }
     }
 
-    @Override
-    public void onSaveAffiliateError() {
-        vLogin.setEnabled(true);
-        Toast.makeText(getActivity(), "Hubo un error guardando la información del usuario. Por favor, intentelo nuevamente.", Toast.LENGTH_LONG).show();
-    }
 
     @Override
     public void invalidPasswordFormat() {
@@ -145,6 +143,12 @@ public class LoginFragment extends BaseFragment<LoginPresenter> implements Login
         vUsernameLayout.setErrorEnabled(true);
         vPasswordLayout.setError(null);
         vPasswordLayout.setErrorEnabled(false);
+    }
+
+    private void resetView(){
+        vLogin.setEnabled(true);
+        vUsername.setText("");
+        vPassword.setText("");
     }
 
 }

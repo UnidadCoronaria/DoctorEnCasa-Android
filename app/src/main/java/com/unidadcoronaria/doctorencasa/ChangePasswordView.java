@@ -1,5 +1,8 @@
 package com.unidadcoronaria.doctorencasa;
 
+import com.unidadcoronaria.doctorencasa.domain.UserInfo;
+import com.unidadcoronaria.doctorencasa.dto.GenericResponseDTO;
+
 /**
  * Created by AGUSTIN.BALA on 6/4/2017.
  */
@@ -20,9 +23,9 @@ public interface ChangePasswordView extends BaseView {
 
     void notMatchingPassword();
 
-    void onChangePasswordSuccess();
+    void onChangePasswordSuccess(UserInfo userInfo);
 
-    void onChangePasswordError();
+    void onChangePasswordError(GenericResponseDTO errorResponse);
 
     void onChangePasswordStart();
 

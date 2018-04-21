@@ -54,12 +54,6 @@
 
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/item_provider_check"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/selector_check_provider" />
 
     </LinearLayout>
 

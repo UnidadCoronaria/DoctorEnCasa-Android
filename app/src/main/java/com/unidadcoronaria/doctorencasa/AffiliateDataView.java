@@ -1,8 +1,9 @@
 package com.unidadcoronaria.doctorencasa;
 
 import com.unidadcoronaria.doctorencasa.domain.Affiliate;
+import com.unidadcoronaria.doctorencasa.dto.GenericResponseDTO;
 
-import java.util.List;
+import retrofit2.adapter.rxjava2.HttpException;
 
 /**
  * Created by AGUSTIN.BALA on 6/4/2017.
@@ -26,7 +27,7 @@ public interface AffiliateDataView extends BaseView {
 
     void onCreateUserSuccess();
 
-    void onCreateUserError();
+    void onCreateUserError(GenericResponseDTO errorResponse);
 
     void onCreateUserStart();
 

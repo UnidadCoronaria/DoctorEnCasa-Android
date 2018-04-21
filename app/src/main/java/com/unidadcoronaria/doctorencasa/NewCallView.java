@@ -11,7 +11,7 @@ public interface NewCallView extends BaseView {
 
     void initCall(Call call, SinchService.SinchServiceInterface serviceInterface);
 
-    void onRankSuccess();
+    void onRankSuccess(int ranking);
 
     void onRankError();
 ;

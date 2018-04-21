@@ -2,10 +2,13 @@ package com.unidadcoronaria.doctorencasa.presenter;
 
 import com.unidadcoronaria.doctorencasa.ForgotPasswordView;
 import com.unidadcoronaria.doctorencasa.dto.Credential;
+import com.unidadcoronaria.doctorencasa.dto.GenericResponseDTO;
 import com.unidadcoronaria.doctorencasa.usecase.network.ForgotPasswordUseCase;
 import com.unidadcoronaria.doctorencasa.util.ValidationUtil;
 
 import javax.inject.Inject;
+
+import retrofit2.adapter.rxjava2.HttpException;
 
 /**
  * Created by AGUSTIN.BALA on 5/21/2017.
@@ -39,6 +42,10 @@ public class ForgotPasswordPresenter extends BasePresenter<ForgotPasswordView> {
 
         Credential credential = new Credential.Builder().setEmail(email).build();
         mForgotPasswordUseCase.setData(credential);
-        mForgotPasswordUseCase.execute(o -> view.onForgotPasswordSuccess(), throwable -> view.onForgotPasswordError());
+        mForgotPasswordUseCase.execute(o -> view.onForgotPasswordSuccess(),
+                throwable -> {
+                    GenericResponseDTO errorResponse= gson.fromJson(((HttpException) throwable).response().errorBody().string(), GenericResponseDTO.class);
+                    view.onForgotPasswordError(errorResponse);
+                });
     }
 }

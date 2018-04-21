@@ -72,9 +72,6 @@ public class ProviderAdapter extends RecyclerView.Adapter<ProviderAdapter.Provid
         @BindView(R.id.item_provider_name)
         TextView vName;
 
-        @BindView(R.id.item_provider_check)
-        ImageView vCheck;
-
         @BindView(R.id.item_provider_container)
         ViewGroup vContainer;
 

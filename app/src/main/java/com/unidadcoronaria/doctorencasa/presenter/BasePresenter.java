@@ -2,6 +2,7 @@ package com.unidadcoronaria.doctorencasa.presenter;
 
 import android.support.annotation.CallSuper;
 
+import com.google.gson.Gson;
 import com.unidadcoronaria.doctorencasa.BaseView;
 
 /**
@@ -11,6 +12,7 @@ import com.unidadcoronaria.doctorencasa.BaseView;
 public class BasePresenter<V extends BaseView> {
 
     protected V view;
+    protected Gson gson = new Gson();
 
     public V getView() {
         return view;

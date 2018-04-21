@@ -1,10 +1,12 @@
 package com.unidadcoronaria.doctorencasa.util;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 
@@ -40,6 +42,15 @@ public class NotificationHelper {
         Notification notification = builder.build();
         notification.flags |= Notification.FLAG_AUTO_CANCEL;
         notification.defaults |= Notification.DEFAULT_SOUND;
+
+        // Since android Oreo notification channel is needed.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            String channelId = context.getString(R.string.default_notification_channel_id);
+            NotificationChannel channel = new NotificationChannel(channelId, "Doctor en casa", NotificationManager.IMPORTANCE_DEFAULT);
+            channel.setDescription(text);
+            mNotificationManager.createNotificationChannel(channel);
+            builder.setChannelId(channelId);
+        }
 
         mNotificationManager.notify(Integer.parseInt(callId), notification);
     }

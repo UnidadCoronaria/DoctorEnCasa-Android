@@ -35,12 +35,12 @@ public class SinchService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.e("SinchService", "onCreate");
+        Log.d("SinchService", "onCreate");
     }
 
     @Override
     public void onDestroy() {
-        Log.e("SinchService", "onDestroy");
+        Log.d("SinchService", "onDestroy");
         mCallManager.stopClient();
         super.onDestroy();
     }

@@ -5,6 +5,7 @@ import com.unidadcoronaria.doctorencasa.domain.VideoCall;
 import com.unidadcoronaria.doctorencasa.dto.Credential;
 import com.unidadcoronaria.doctorencasa.domain.Affiliate;
 import com.unidadcoronaria.doctorencasa.domain.UserInfo;
+import com.unidadcoronaria.doctorencasa.dto.GenericResponseDTO;
 
 import java.util.List;
 
@@ -40,7 +41,7 @@ public interface AffiliateService {
     Single<UserInfo> createUser(@Body Credential credential);
 
     @PUT("user/password/reset")
-    Single<String> forgotPassword(@Body Credential credential);
+    Single<GenericResponseDTO> forgotPassword(@Body Credential credential);
 
     @PUT("user/password")
     Single<UserInfo> updatePassword(@Body Credential credential);

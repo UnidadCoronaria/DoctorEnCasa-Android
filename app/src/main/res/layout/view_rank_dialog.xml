@@ -2,7 +2,6 @@
 <RelativeLayout android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:background="@android:color/white"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
@@ -15,7 +14,7 @@
         app:visual_font_name="regular"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:textColor="@color/greyDark"
         android:text="@string/rank_call" />
 
@@ -23,9 +22,11 @@
     <com.ashokslsk.androidabcd.squarerating.SquareRatingView
         android:id="@+id/dialog_rank_ranking"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="60dp"
         android:layout_below="@+id/dialog_rank_title"
         android:layout_marginTop="25dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         app:setNumSquare="5"
         app:setRating="0"
         app:setSelectedResource="@drawable/ic_selected_star"
@@ -42,7 +43,7 @@
         android:layout_marginLeft="16dp"
         app:visual_font_name="regular"
         android:layout_alignParentLeft="true"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:textColor="@color/greyDark"
         android:text="@string/add_comments" />
 
@@ -54,7 +55,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="20dp"
         android:layout_below="@+id/dialog_rank_send_comments"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:hint="@string/write_comments"
         app:hintTextAppearance="@style/AppTheme.FloatingLabel"/>
 
@@ -69,7 +70,7 @@
             android:layout_height="70dp"
             android:layout_weight="1"
             android:layout_width="0dp"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:textColor="@color/greyDark"
             android:text="@string/skip" />
 
@@ -79,7 +80,7 @@
             android:layout_height="70dp"
             android:layout_weight="1"
             android:layout_width="0dp"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:textColor="@color/red"
             android:text="@string/send" />
 

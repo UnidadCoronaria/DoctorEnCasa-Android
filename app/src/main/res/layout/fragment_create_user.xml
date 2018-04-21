@@ -9,8 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center_horizontal"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
 
         <include
             layout="@layout/view_progress"
@@ -22,8 +21,8 @@
             android:id="@+id/fragment_create_user_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
             android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
             android:gravity="center"
             android:orientation="horizontal">
@@ -43,13 +42,13 @@
 
         <com.unidadcoronaria.doctorencasa.view.CustomTextView
             android:id="@+id/fragment_create_user_title"
-            android:layout_below="@+id/fragment_create_user_icon"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/fragment_create_user_icon"
+            android:layout_marginBottom="20dp"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
             android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
             android:text="@string/create_account_title"
             android:textColor="@color/red"
             android:textSize="20sp"
@@ -57,15 +56,14 @@
 
         <LinearLayout
             android:id="@+id/fragment_create_user_search_container"
-            android:layout_below="@+id/fragment_create_user_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/fragment_create_user_title"
             android:layout_marginTop="20dp"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:orientation="horizontal"
             android:gravity="center_vertical"
-           >
+            android:orientation="horizontal"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp">
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/fragment_create_user_number_layout"
@@ -73,9 +71,9 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/fragment_create_user_list"
                 android:layout_marginRight="16dp"
+                android:layout_weight="1"
                 app:errorTextAppearance="@style/AppTheme.EditTextError"
-                app:hintTextAppearance="@style/AppTheme.FloatingLabel"
-                android:layout_weight="1">
+                app:hintTextAppearance="@style/AppTheme.FloatingLabel">
 
                 <com.unidadcoronaria.doctorencasa.view.CustomFontTextInputEditText
                     android:id="@+id/fragment_create_user_affiliate_number"
@@ -84,9 +82,9 @@
                     android:hint="@string/affiliate_number"
                     android:inputType="text"
                     android:maxLines="1"
-                    app:visual_font_name="light"
                     android:textColor="@color/greyDark"
-                    android:theme="@style/FormEditText" />
+                    android:theme="@style/FormEditText"
+                    app:visual_font_name="light" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -106,10 +104,10 @@
                 android:id="@+id/fragment_create_user_email_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_alignParentTop="true"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
-                android:layout_alignParentTop="true"
+                android:layout_marginTop="10dp"
                 app:errorTextAppearance="@style/AppTheme.EditTextError"
                 app:hintTextAppearance="@style/AppTheme.FloatingLabel">
 
@@ -121,9 +119,9 @@
                     android:hint="@string/email"
                     android:inputType="text"
                     android:maxLines="1"
-                    app:visual_font_name="light"
                     android:textColor="@color/greyDark"
-                    android:theme="@style/FormEditText" />
+                    android:theme="@style/FormEditText"
+                    app:visual_font_name="light" />
 
 
             </android.support.design.widget.TextInputLayout>
@@ -133,9 +131,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/fragment_create_user_email_layout"
-                android:layout_marginTop="10dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
+                android:layout_marginTop="10dp"
                 app:errorTextAppearance="@style/AppTheme.EditTextError"
                 app:hintTextAppearance="@style/AppTheme.FloatingLabel">
 
@@ -144,12 +142,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/password"
+                    android:imeOptions="actionNext"
                     android:inputType="textPassword"
                     android:maxLines="1"
-                    app:visual_font_name="light"
-                    android:imeOptions="actionNext"
                     android:textColor="@color/greyDark"
-                    android:theme="@style/FormEditText" />
+                    android:theme="@style/FormEditText"
+                    app:visual_font_name="light" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -158,9 +156,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/fragment_create_user_password_layout"
-                android:layout_marginTop="10dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
+                android:layout_marginTop="10dp"
                 app:errorTextAppearance="@style/AppTheme.EditTextError"
                 app:hintTextAppearance="@style/AppTheme.FloatingLabel">
 
@@ -169,12 +167,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/password_repeat"
-                    android:maxLines="1"
-                    app:visual_font_name="light"
                     android:imeOptions="actionDone"
                     android:inputType="textPassword"
+                    android:maxLines="1"
                     android:textColor="@color/greyDark"
-                    android:theme="@style/FormEditText" />
+                    android:theme="@style/FormEditText"
+                    app:visual_font_name="light" />
 
 
             </android.support.design.widget.TextInputLayout>
@@ -183,54 +181,59 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/red"
                 android:layout_alignParentBottom="true"
+                android:background="@color/red"
                 android:orientation="horizontal">
 
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="50dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="30dp"
-                    android:tint="@color/white"
-                    android:src="@drawable/ic_arrow_left"/>
-
-                <com.unidadcoronaria.doctorencasa.view.CustomTextView
-                    android:id="@+id/fragment_create_user_cancel"
-                    android:layout_width="0dp"
-                    android:layout_height="50dp"
-                    android:layout_weight="1"
-                    android:textColor="@color/white"
-                    app:visual_font_name="regular"
-                    android:textAlignment="center"
-                    android:gravity="center"
-                    android:textSize="20sp"
-                    android:background="@drawable/selector_red_button"
-                    android:text="@string/go_back" />
-
-
-
-            </LinearLayout>
-
-
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:layout_margin="10dp"
-                    android:background="@color/white" />
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="50dp"
                     android:layout_weight="1"
                     android:gravity="center"
+                    android:paddingRight="10dp"
+                    android:background="@drawable/selector_red_button"
+                    android:addStatesFromChildren="true"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="30dp"
+                        android:src="@drawable/ic_arrow_left"
+                        android:tint="@color/selector_button_text"
+                       />
+
+                    <com.unidadcoronaria.doctorencasa.view.CustomTextView
+                        android:id="@+id/fragment_create_user_cancel"
+                        android:layout_width="0dp"
+                        android:layout_height="50dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/selector_red_button"
+                        android:gravity="center"
+                        android:text="@string/go_back"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textSize="20sp"
+                        app:visual_font_name="regular" />
+
+
+                </LinearLayout>
+
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/white" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:addStatesFromChildren="true"
+                    android:background="@drawable/selector_red_button"
+                    android:gravity="center"
+                    android:paddingLeft="10dp"
                     android:orientation="horizontal">
 
                     <com.unidadcoronaria.doctorencasa.view.CustomTextView
@@ -238,18 +241,18 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:textColor="@color/white"
-                        app:visual_font_name="regular"
-                        android:textSize="20sp"
-                        android:textAlignment="center"
                         android:background="@drawable/selector_red_button"
-                        android:text="@string/finalize" />
+                        android:textColor="@color/selector_button_text"
+                        android:text="@string/finalize"
+                        android:textAlignment="center"
+                        android:textSize="20sp"
+                        app:visual_font_name="regular" />
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_marginRight="30dp"
-                        android:src="@drawable/ic_arrow_right"/>
+                        android:src="@drawable/ic_arrow_right" />
 
                 </LinearLayout>
 

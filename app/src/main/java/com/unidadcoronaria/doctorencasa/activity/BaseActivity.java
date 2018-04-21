@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.unidadcoronaria.doctorencasa.LoadableActivity;
 import com.unidadcoronaria.doctorencasa.R;
 import com.unidadcoronaria.doctorencasa.fragment.BaseFragment;
 import com.unidadcoronaria.doctorencasa.service.SinchService;
@@ -33,7 +34,7 @@ import butterknife.Optional;
  * @author Agustin.Bala
  * @since 0.0.1
  */
-public abstract class BaseActivity extends AppCompatActivity  implements ServiceConnection {
+public abstract class BaseActivity extends AppCompatActivity  implements ServiceConnection, LoadableActivity {
 
     @Nullable
     @BindView(R.id.toolbar)
@@ -48,6 +49,12 @@ public abstract class BaseActivity extends AppCompatActivity  implements Service
     @Nullable
     @BindView(R.id.toolbar_filter_icon)
     ImageView vToolbarFilterIcon;
+
+
+    @BindView(R.id.rl_progress)
+    @Nullable
+    View vProgress;
+
 
     private SinchService.SinchServiceInterface mSinchServiceInterface;
 
@@ -181,4 +188,14 @@ public abstract class BaseActivity extends AppCompatActivity  implements Service
         return mSinchServiceInterface;
     }
     //endregion
+
+    @Override
+    public void showProgress() {
+        vProgress.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgress() {
+        vProgress.setVisibility(View.GONE);
+    }
 }

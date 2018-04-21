@@ -1,10 +1,14 @@
 package com.unidadcoronaria.doctorencasa.presenter;
 
 import com.unidadcoronaria.doctorencasa.ChangePasswordView;
+import com.unidadcoronaria.doctorencasa.domain.UserInfo;
 import com.unidadcoronaria.doctorencasa.dto.Credential;
+import com.unidadcoronaria.doctorencasa.dto.GenericResponseDTO;
 import com.unidadcoronaria.doctorencasa.usecase.network.UpdateAffiliateUseCase;
 
 import javax.inject.Inject;
+
+import retrofit2.adapter.rxjava2.HttpException;
 
 import static com.unidadcoronaria.doctorencasa.util.ValidationUtil.validPasswordFormat;
 
@@ -67,7 +71,10 @@ public class ChangePasswordPresenter extends BasePresenter<ChangePasswordView> {
         Credential credential = new Credential.Builder().setPassword(currentPassword).setNewPassword(newPassword).build();
         view.onChangePasswordStart();
         mUpdateAffiliateUseCase.setData(credential);
-        mUpdateAffiliateUseCase.execute(o -> view.onChangePasswordSuccess(), throwable -> view.onChangePasswordError());
+        mUpdateAffiliateUseCase.execute(o -> view.onChangePasswordSuccess((UserInfo)o), throwable -> {
+            GenericResponseDTO errorResponse= gson.fromJson(((HttpException) throwable).response().errorBody().string(), GenericResponseDTO.class);
+            view.onChangePasswordError(errorResponse);
+        } );
 
     }
 

@@ -45,10 +45,5 @@ public class ChangePasswordActivity extends BaseActivity {
         finish();
     }
 
-    protected void onServiceConnected() {
-        if(getSinchServiceInterface() != null){
-            getSinchServiceInterface().startClient(SessionUtil.getUsername());
-        }
-    }
 
 }

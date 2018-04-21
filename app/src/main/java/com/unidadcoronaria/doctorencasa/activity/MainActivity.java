@@ -142,16 +142,16 @@ public class MainActivity extends BaseNavActivity implements MainView, SinchCall
 
     @Override
     public void onStartFailed(SinchError error) {
-        Log.e("MainActivity", "onStartFailed");
+        Log.d("MainActivity", "onStartFailed");
     }
 
     @Override
     public void onStopped() {
-        Log.e("MainActivity", "onStopped");
+        Log.d("MainActivity", "onStopped");
     }
 
     @Override
     public void onStarted() {
-        Log.e("MainActivity", "onStarted");
+        Log.d("MainActivity", "onStarted");
     }
 }

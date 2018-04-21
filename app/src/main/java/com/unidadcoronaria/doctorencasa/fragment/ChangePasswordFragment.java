@@ -1,7 +1,7 @@
 package com.unidadcoronaria.doctorencasa.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.design.widget.TextInputLayout;
@@ -12,9 +12,13 @@ import android.widget.Toast;
 
 import com.unidadcoronaria.doctorencasa.App;
 import com.unidadcoronaria.doctorencasa.ChangePasswordView;
+import com.unidadcoronaria.doctorencasa.CreateAccountView;
+import com.unidadcoronaria.doctorencasa.LoadableActivity;
 import com.unidadcoronaria.doctorencasa.R;
 import com.unidadcoronaria.doctorencasa.activity.ChangePasswordActivity;
 import com.unidadcoronaria.doctorencasa.di.component.DaggerCreateAccountComponent;
+import com.unidadcoronaria.doctorencasa.domain.UserInfo;
+import com.unidadcoronaria.doctorencasa.dto.GenericResponseDTO;
 import com.unidadcoronaria.doctorencasa.presenter.ChangePasswordPresenter;
 import com.unidadcoronaria.doctorencasa.util.SessionUtil;
 
@@ -52,14 +56,25 @@ public class ChangePasswordFragment extends BaseFragment<ChangePasswordPresenter
     @BindView(R.id.fragment_change_password_repeat_new_password_layout)
     protected TextInputLayout vNewPasswordRepeatLayout;
 
-    @BindViews({ R.id.fragment_change_password_current_password_layout, R.id.fragment_change_password_new_password_layout,
+    @BindViews({R.id.fragment_change_password_current_password_layout, R.id.fragment_change_password_new_password_layout,
             R.id.fragment_change_password_repeat_new_password_layout})
     protected List<TextInputLayout> textInputLayoutList;
 
+    private LoadableActivity mCallback;
 
-    public static ChangePasswordFragment newInstance(){
-        ChangePasswordFragment instance =  new ChangePasswordFragment();
+
+    public static ChangePasswordFragment newInstance() {
+        ChangePasswordFragment instance = new ChangePasswordFragment();
         return instance;
+    }
+
+    @Override
+    public void onAttach(Context context){
+        super.onAttach(context);
+        if(context instanceof LoadableActivity){
+            mCallback = (LoadableActivity) context;
+        }
+
     }
 
     @Override
@@ -87,7 +102,7 @@ public class ChangePasswordFragment extends BaseFragment<ChangePasswordPresenter
     public void onChangePasswordClick() {
         clearAllErrors();
         mPresenter.changePassword(vCurrentPassword.getText().toString(),
-                                        vNewPassword.getText().toString(), vNewPasswordRepeat.getText().toString());
+                vNewPassword.getText().toString(), vNewPasswordRepeat.getText().toString());
     }
 
     @Override
@@ -126,43 +141,60 @@ public class ChangePasswordFragment extends BaseFragment<ChangePasswordPresenter
     }
 
     @Override
-    public void onChangePasswordSuccess() {
-        new AlertDialog.Builder(getActivity()).setMessage(R.string.updated_password).setPositiveButton(R.string.ok,
-                (dialog, which) -> { SessionUtil.logout(); ((ChangePasswordActivity)getActivity()).logout(); }).setCancelable(false).show();
+    public void onChangePasswordSuccess(UserInfo userInfo) {
+        boolean isExpired = SessionUtil.getIsTokenExpired();
+        SessionUtil.saveIsTokenExpired(false);
+        AlertDialog.Builder dialogConfirmBuilder = new AlertDialog.Builder(getActivity()).setMessage(R.string.updated_password).setPositiveButton(R.string.ok,
+                (dialog, which) -> {
+                    if (isExpired) {
+                        SessionUtil.logout();
+                    }
+                    ((ChangePasswordActivity) getActivity()).logout();
+                }).setCancelable(false);
+
+        AlertDialog alertDialog = dialogConfirmBuilder.create();
+        alertDialog.setOnShowListener(dialog -> alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.red)));
+        alertDialog.show();
+
+
     }
 
     @Override
-    public void onChangePasswordError() {
-        vProgress.setVisibility(View.GONE);
-        Toast.makeText(getActivity(), "Hubo un error actualizando la información del usuario. Por favor, intentelo nuevamente.", Toast.LENGTH_LONG).show();
+    public void onChangePasswordError(GenericResponseDTO errorResponse) {
+        mCallback.hideProgress();
+        if(errorResponse.getCode() == 2001){
+            Toast.makeText(getActivity(), "La contraseña ingresada es incorrecta.", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(getActivity(), "Hubo un error actualizando la información del usuario. Por favor, intentelo nuevamente.", Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
     public void onChangePasswordStart() {
-        vProgress.setVisibility(View.VISIBLE);
+        mCallback.showProgress();
     }
 
-    private void setEmptyErrorMessage(int viewId){
+    private void setEmptyErrorMessage(int viewId) {
         clearAllErrors();
         ButterKnife.apply(textInputLayoutList, (Action<TextInputLayout>) (view, index) -> {
-            if(view.getId() == viewId){
+            if (view.getId() == viewId) {
                 view.setErrorEnabled(true);
                 view.setError(getString(R.string.can_be_empty));
             }
         });
     }
 
-    private void setErrorMessage(int viewId, @StringRes int messageId){
+    private void setErrorMessage(int viewId, @StringRes int messageId) {
         clearAllErrors();
         ButterKnife.apply(textInputLayoutList, (Action<TextInputLayout>) (view, index) -> {
-            if(view.getId() == viewId){
+            if (view.getId() == viewId) {
                 view.setErrorEnabled(true);
                 view.setError(getString(messageId));
             }
         });
     }
 
-    private void clearAllErrors(){
+    private void clearAllErrors() {
         ButterKnife.apply(textInputLayoutList, (Action<TextInputLayout>) (view, index) -> {
             view.setErrorEnabled(false);
             view.setError(null);

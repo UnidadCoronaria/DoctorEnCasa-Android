@@ -55,22 +55,14 @@ public class LoginPresenter extends BasePresenter<LoginView> {
             UserInfo userInfo = (UserInfo) o;
             SessionUtil.saveToken(userInfo.getToken());
             SessionUtil.saveUsername(userInfo.getUser().getUsername());
-            view.onSaveAffiliateSuccess(userInfo.getUser().getPasswordExpired());
+            SessionUtil.saveIsTokenExpired(userInfo.getUser().getPasswordExpired());
+            view.onSaveAffiliateSuccess(userInfo, userInfo.getUser().getPasswordExpired());
         }, throwable -> {
             Log.e("LoginPresenter", "Error performing login " + throwable.toString());
             view.onLoginError();
         });
     }
 
-    @Deprecated
-    private void saveAffiliate(UserInfo userInfo) {
-        mSaveUserUseCase.setAffiliate(userInfo.getUser());
-        mSaveUserUseCase.execute(() -> {
-            SessionUtil.saveToken(userInfo.getToken());
-            SessionUtil.saveUsername(userInfo.getUser().getUsername());
-            view.onSaveAffiliateSuccess(userInfo.getUser().getPasswordExpired());
-             }, throwable -> view.onSaveAffiliateError());
-    }
 
     @Override
     public void onStop() {

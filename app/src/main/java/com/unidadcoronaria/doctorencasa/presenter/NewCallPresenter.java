@@ -38,7 +38,7 @@ public class NewCallPresenter extends BasePresenter<NewCallView> {
         dto.setComment(comment);
         dto.setScore(ranking);
         mRankCallUseCase.setData(dto);
-        mRankCallUseCase.execute(o ->  view.onRankSuccess(), throwable -> view.onRankError());
+        mRankCallUseCase.execute(o ->  view.onRankSuccess(ranking), throwable -> view.onRankError());
     }
 
 }

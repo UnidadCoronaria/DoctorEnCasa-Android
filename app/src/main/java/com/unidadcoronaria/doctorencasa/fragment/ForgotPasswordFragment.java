@@ -7,14 +7,15 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.unidadcoronaria.doctorencasa.App;
+import com.unidadcoronaria.doctorencasa.LoadableActivity;
 import com.unidadcoronaria.doctorencasa.ForgotPasswordView;
 import com.unidadcoronaria.doctorencasa.R;
 import com.unidadcoronaria.doctorencasa.di.component.DaggerLoginComponent;
+import com.unidadcoronaria.doctorencasa.dto.GenericResponseDTO;
 import com.unidadcoronaria.doctorencasa.presenter.ForgotPasswordPresenter;
 
 import butterknife.BindView;
@@ -33,6 +34,7 @@ public class ForgotPasswordFragment extends BaseFragment<ForgotPasswordPresenter
     protected TextView vEmail;
     @BindView(R.id.fragment_forgot_password_email_layout)
     protected TextInputLayout vEmailLayout;
+    private LoadableActivity mCallback;
 
     @Override
     protected int makeContentViewResourceId() {
@@ -56,9 +58,17 @@ public class ForgotPasswordFragment extends BaseFragment<ForgotPasswordPresenter
         mPresenter.setView(this);
     }
 
+    @Override
+    public void onAttach(Context mContext) {
+        super.onAttach(mContext);
+        if(mContext instanceof LoadableActivity){
+            this.mCallback = (LoadableActivity) mContext;
+        }
+    }
+
     @OnClick(R.id.fragment_forgot_password_button)
     public void attemptForgotPassword(){
-        vProgress.setVisibility(View.VISIBLE);
+        mCallback.showProgress();
         vEmailLayout.setError(null);
         vEmailLayout.setErrorEnabled(false);
         hideSoftKeyboard();
@@ -67,7 +77,7 @@ public class ForgotPasswordFragment extends BaseFragment<ForgotPasswordPresenter
 
     @Override
     public void onEmptyEmail() {
-        vProgress.setVisibility(View.GONE);
+        mCallback.hideProgress();
         vEmailLayout.requestFocus();
         vEmailLayout.setError(getString(R.string.can_be_empty));
         vEmailLayout.setErrorEnabled(true);
@@ -75,23 +85,31 @@ public class ForgotPasswordFragment extends BaseFragment<ForgotPasswordPresenter
 
     @Override
     public void onInvalidFormatEmail() {
-        vProgress.setVisibility(View.GONE);
+        mCallback.hideProgress();
         vEmailLayout.requestFocus();
         vEmailLayout.setError(getString(R.string.error_invalid_email_format));
         vEmailLayout.setErrorEnabled(true);
     }
 
     @Override
-    public void onForgotPasswordError() {
-        vProgress.setVisibility(View.GONE);
-        Toast.makeText(getActivity(), "Hubo un error intentando recuperar la contraseña. Por favor, intentelo nuevamente.", Toast.LENGTH_LONG).show();
+    public void onForgotPasswordError(GenericResponseDTO errorResponse) {
+        mCallback.hideProgress();
+        if(errorResponse.getCode() == 1001){
+            Toast.makeText(getActivity(), "El mail ingresado no tiene una cuenta asociada.", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(getActivity(), "Hubo un error intentando recuperar la contraseña. Por favor, intentelo nuevamente.", Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
     public void onForgotPasswordSuccess() {
-        vProgress.setVisibility(View.GONE);
-        new AlertDialog.Builder(getActivity()).setMessage(R.string.email_sent).setPositiveButton(R.string.ok,
-                (dialog, which) -> getActivity().finish() ).setCancelable(false).show();
+        mCallback.hideProgress();
+        AlertDialog.Builder dialogConfirmBuilder = new AlertDialog.Builder(getActivity()).setMessage(R.string.email_sent).setPositiveButton(R.string.ok,
+                (dialog, which) -> getActivity().finish() ).setCancelable(false);
+
+        AlertDialog alertDialog = dialogConfirmBuilder.create();
+        alertDialog.setOnShowListener(dialog -> alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.red)));
+        alertDialog.show();
     }
 
     private void hideSoftKeyboard() {

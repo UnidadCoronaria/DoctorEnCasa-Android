@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.unidadcoronaria.doctorencasa.CreateAccountView;
+import com.unidadcoronaria.doctorencasa.LoadableActivity;
 import com.unidadcoronaria.doctorencasa.R;
 import com.unidadcoronaria.doctorencasa.domain.Provider;
 import com.unidadcoronaria.doctorencasa.fragment.BaseFragment;
@@ -56,4 +57,6 @@ public class CreateAccountActivity extends BaseActivity implements FragmentConta
     public void setBackVisibilityInToolbar(boolean isBackVisible) {
         super.setBackVisibilityInToolbar(isBackVisible);
     }
+
+
 }

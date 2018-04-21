@@ -6,6 +6,7 @@ import com.unidadcoronaria.doctorencasa.domain.Affiliate;
 import com.unidadcoronaria.doctorencasa.domain.AffiliateCallHistory;
 import com.unidadcoronaria.doctorencasa.dto.Credential;
 import com.unidadcoronaria.doctorencasa.domain.UserInfo;
+import com.unidadcoronaria.doctorencasa.dto.GenericResponseDTO;
 import com.unidadcoronaria.doctorencasa.network.rest.AffiliateService;
 
 
@@ -44,7 +45,7 @@ public class AffiliateRepository {
         return mAffiliateService.createUser(credential);
     }
 
-    public Single<String> forgotPassword(Credential credential) {
+    public Single<GenericResponseDTO> forgotPassword(Credential credential) {
         return mAffiliateService.forgotPassword(credential);
     }
 

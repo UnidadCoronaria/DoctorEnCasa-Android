@@ -60,8 +60,10 @@ public class VideoCallPresenter extends BasePresenter<VideoCallView> {
     public void onResume() {
         super.onResume();
         view.onGetDataStart();
+        handler.removeCallbacksAndMessages(null);
         sendTokenToServer();
         listenQueueUpdates();
+        getAffiliateHistory();
     }
 
     @Override
@@ -90,10 +92,10 @@ public class VideoCallPresenter extends BasePresenter<VideoCallView> {
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    handler.postDelayed(this, 30 * 1000);
                     getAffiliateHistory();
+                    handler.postDelayed(this, 30 * 1000);
                 }
-            }, 0); // first run instantly
+            }, 1000); // first run instantly
         }
     }
 

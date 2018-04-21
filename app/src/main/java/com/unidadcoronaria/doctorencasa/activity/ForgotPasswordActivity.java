@@ -3,7 +3,9 @@ package com.unidadcoronaria.doctorencasa.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
+import com.unidadcoronaria.doctorencasa.LoadableActivity;
 import com.unidadcoronaria.doctorencasa.R;
 import com.unidadcoronaria.doctorencasa.fragment.BaseFragment;
 import com.unidadcoronaria.doctorencasa.fragment.ForgotPasswordFragment;
@@ -26,7 +28,7 @@ public class ForgotPasswordActivity extends BaseActivity {
 
     @Override
     protected int getLayout() {
-        return R.layout.activity_create_account;
+        return R.layout.activity_forgot_password;
     }
 
     @Override
@@ -38,6 +40,7 @@ public class ForgotPasswordActivity extends BaseActivity {
     protected boolean showToolbar() {
         return true;
     }
+
 
 
 }

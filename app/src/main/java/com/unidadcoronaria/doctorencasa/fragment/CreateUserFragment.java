@@ -15,12 +15,14 @@ import android.widget.Toast;
 
 import com.unidadcoronaria.doctorencasa.App;
 import com.unidadcoronaria.doctorencasa.CreateAccountView;
+import com.unidadcoronaria.doctorencasa.LoadableActivity;
 import com.unidadcoronaria.doctorencasa.R;
 import com.unidadcoronaria.doctorencasa.AffiliateDataView;
 import com.unidadcoronaria.doctorencasa.activity.MainActivity;
 import com.unidadcoronaria.doctorencasa.di.component.DaggerCreateAccountComponent;
 import com.unidadcoronaria.doctorencasa.domain.Affiliate;
 import com.unidadcoronaria.doctorencasa.domain.Provider;
+import com.unidadcoronaria.doctorencasa.dto.GenericResponseDTO;
 import com.unidadcoronaria.doctorencasa.presenter.CreateUserPresenter;
 
 import java.util.List;
@@ -30,6 +32,7 @@ import butterknife.BindViews;
 import butterknife.ButterKnife;
 import butterknife.ButterKnife.Action;
 import butterknife.OnClick;
+import retrofit2.adapter.rxjava2.HttpException;
 
 /**
  * Created by AGUSTIN.BALA on 5/21/2017.
@@ -78,6 +81,8 @@ public class CreateUserFragment extends BaseFragment<CreateUserPresenter> implem
     private int mAffiliateGroupId;
     private CreateAccountView mCallback;
     private String mPreviousNumberValue;
+    private LoadableActivity mLoadableCallback;
+
 
 
     public static CreateUserFragment newInstance(Provider provider){
@@ -137,6 +142,10 @@ public class CreateUserFragment extends BaseFragment<CreateUserPresenter> implem
         if(context instanceof CreateAccountView){
             mCallback = (CreateAccountView) context;
         }
+        if(context instanceof LoadableActivity){
+            mLoadableCallback = (LoadableActivity) context;
+        }
+
     }
 
     @Override
@@ -154,8 +163,12 @@ public class CreateUserFragment extends BaseFragment<CreateUserPresenter> implem
     @OnClick(R.id.fragment_create_user_continue)
     public void onCreateAccountClick() {
         clearAllErrors();
-        mPresenter.createAccount(mAffiliateGroupId, mProvider.getId(),
+        if(mAffiliateGroupId != 0){
+            mPresenter.createAccount(mAffiliateGroupId, mProvider.getId(),
                         vEmail.getText().toString(), vPassword.getText().toString(), vPasswordRepeat.getText().toString(), vEmail.getText().toString());
+        } else {
+            Toast.makeText(getActivity(), "El número de socio no existe para la empresa seleccionada.", Toast.LENGTH_LONG).show();
+        }
     }
 
 
@@ -203,19 +216,26 @@ public class CreateUserFragment extends BaseFragment<CreateUserPresenter> implem
     }
 
     @Override
-    public void onCreateUserError() {
-        vProgress.setVisibility(View.GONE);
-        Toast.makeText(getActivity(), "Hubo un error guardando la información del usuario. Por favor, intentelo nuevamente.", Toast.LENGTH_LONG).show();
+    public void onCreateUserError(GenericResponseDTO errorResponse) {
+        mLoadableCallback.hideProgress();
+        if(errorResponse.getCode() == 1000){
+            Toast.makeText(getActivity(), "El mail ya se encuentra registrado.", Toast.LENGTH_LONG).show();
+        } else if(errorResponse.getCode() == 2000){
+            Toast.makeText(getActivity(), "El afiliado ya tiene una cuenta asociada.", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(getActivity(), "Hubo un error guardando la información del usuario. Por favor, intentelo nuevamente.", Toast.LENGTH_LONG).show();
+        }
+
     }
 
     @Override
     public void onCreateUserStart() {
-        vProgress.setVisibility(View.VISIBLE);
+        mLoadableCallback.showProgress();
     }
 
     @Override
     public void onGroupOwnerRetrieved(Affiliate affiliate) {
-        vProgress.setVisibility(View.GONE);
+        mLoadableCallback.hideProgress();
         if (affiliate != null) {
             mAffiliateGroupId = affiliate.getGroupNumber();
             vAffiliateNumber.setText(vAffiliateNumber.getText().toString().split(" - ")[0]+" - "+affiliate.getFirstName()+" "+affiliate.getLastName());
@@ -225,14 +245,14 @@ public class CreateUserFragment extends BaseFragment<CreateUserPresenter> implem
 
     @Override
     public void onEmptyAffiliateNumber() {
-        vProgress.setVisibility(View.GONE);
+        mLoadableCallback.hideProgress();
         vAffiliateNumberLayout.setError(getString(R.string.no_affiliate_number));
         vAffiliateNumberLayout.setErrorEnabled(true);
     }
 
     @Override
     public void onGroupOwnerError() {
-        vProgress.setVisibility(View.GONE);
+        mLoadableCallback.hideProgress();
         mAffiliateGroupId = 0;
         vAffiliateNumber.setText(vAffiliateNumber.getText().toString().split(" - ")[0]);
         vAffiliateNumber.setSelection(vAffiliateNumber.getText().toString().length());
