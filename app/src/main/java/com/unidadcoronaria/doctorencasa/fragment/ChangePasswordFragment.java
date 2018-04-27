@@ -162,7 +162,7 @@ public class ChangePasswordFragment extends BaseFragment<ChangePasswordPresenter
     @Override
     public void onChangePasswordError(GenericResponseDTO errorResponse) {
         mCallback.hideProgress();
-        if(errorResponse.getCode() == 2001){
+        if(errorResponse.getCode() == 1003){
             Toast.makeText(getActivity(), "La contraseña ingresada es incorrecta.", Toast.LENGTH_LONG).show();
         } else {
             Toast.makeText(getActivity(), "Hubo un error actualizando la información del usuario. Por favor, intentelo nuevamente.", Toast.LENGTH_LONG).show();

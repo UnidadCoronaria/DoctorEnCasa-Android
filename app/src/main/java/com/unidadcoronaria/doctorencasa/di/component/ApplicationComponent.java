@@ -1,7 +1,6 @@
 package com.unidadcoronaria.doctorencasa.di.component;
 
 import com.google.gson.Gson;
-import com.unidadcoronaria.doctorencasa.database.DoctorEnCasaDB;
 import com.unidadcoronaria.doctorencasa.di.module.ApplicationModule;
 import com.unidadcoronaria.doctorencasa.di.module.HTTPModule;
 import com.unidadcoronaria.doctorencasa.usecase.executor.PostExecutionThread;

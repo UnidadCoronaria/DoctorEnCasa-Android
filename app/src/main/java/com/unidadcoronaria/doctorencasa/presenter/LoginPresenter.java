@@ -5,7 +5,6 @@ import android.util.Log;
 import com.unidadcoronaria.doctorencasa.LoginView;
 import com.unidadcoronaria.doctorencasa.dto.Credential;
 import com.unidadcoronaria.doctorencasa.domain.UserInfo;
-import com.unidadcoronaria.doctorencasa.usecase.database.SaveUserUseCase;
 import com.unidadcoronaria.doctorencasa.usecase.network.LoginUseCase;
 import com.unidadcoronaria.doctorencasa.util.SessionUtil;
 
@@ -21,12 +20,10 @@ import static com.unidadcoronaria.doctorencasa.util.ValidationUtil.validUsername
 public class LoginPresenter extends BasePresenter<LoginView> {
 
     private LoginUseCase mLoginUseCase;
-    private SaveUserUseCase mSaveUserUseCase;
 
     @Inject
-    public LoginPresenter(LoginUseCase mLoginUseCase, SaveUserUseCase mSaveUserUseCase) {
+    public LoginPresenter(LoginUseCase mLoginUseCase) {
         this.mLoginUseCase = mLoginUseCase;
-        this.mSaveUserUseCase = mSaveUserUseCase;
     }
 
     public void login(String username, String password) {
@@ -68,7 +65,6 @@ public class LoginPresenter extends BasePresenter<LoginView> {
     public void onStop() {
         super.onStop();
         mLoginUseCase.unsubscribe();
-        mSaveUserUseCase.unsubscribe();
     }
 
 }

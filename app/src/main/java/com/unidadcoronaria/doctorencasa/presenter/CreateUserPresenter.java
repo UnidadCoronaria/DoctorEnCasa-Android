@@ -5,7 +5,6 @@ import com.unidadcoronaria.doctorencasa.domain.Affiliate;
 import com.unidadcoronaria.doctorencasa.domain.UserInfo;
 import com.unidadcoronaria.doctorencasa.dto.Credential;
 import com.unidadcoronaria.doctorencasa.dto.GenericResponseDTO;
-import com.unidadcoronaria.doctorencasa.usecase.database.SaveUserUseCase;
 import com.unidadcoronaria.doctorencasa.usecase.network.CreateUserUseCase;
 import com.unidadcoronaria.doctorencasa.usecase.network.GetGroupOwnerUseCase;
 import com.unidadcoronaria.doctorencasa.util.SessionUtil;
@@ -24,13 +23,11 @@ import static com.unidadcoronaria.doctorencasa.util.ValidationUtil.validPassword
 public class CreateUserPresenter extends BasePresenter<AffiliateDataView> {
 
     private CreateUserUseCase mCreateUserUseCase;
-    private SaveUserUseCase mSaveUserUseCase;
     private GetGroupOwnerUseCase mGetGroupOwnerUseCase;
 
     @Inject
-    public CreateUserPresenter(CreateUserUseCase mCreateUserUseCase, SaveUserUseCase mSaveUserUseCase, GetGroupOwnerUseCase mGetGroupOwnerUseCase) {
+    public CreateUserPresenter(CreateUserUseCase mCreateUserUseCase, GetGroupOwnerUseCase mGetGroupOwnerUseCase) {
         this.mCreateUserUseCase = mCreateUserUseCase;
-        this.mSaveUserUseCase = mSaveUserUseCase;
         this.mGetGroupOwnerUseCase = mGetGroupOwnerUseCase;
     }
 
@@ -38,7 +35,6 @@ public class CreateUserPresenter extends BasePresenter<AffiliateDataView> {
     public void onStop() {
         super.onStop();
         this.mCreateUserUseCase.unsubscribe();
-        this.mSaveUserUseCase.unsubscribe();
         this.mGetGroupOwnerUseCase.unsubscribe();
     }
 

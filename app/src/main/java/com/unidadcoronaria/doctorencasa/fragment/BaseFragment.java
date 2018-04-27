@@ -1,15 +1,12 @@
 package com.unidadcoronaria.doctorencasa.fragment;
 
 import android.app.Activity;
-import android.arch.lifecycle.LifecycleFragment;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.support.annotation.CallSuper;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +14,6 @@ import android.view.ViewGroup;
 import com.unidadcoronaria.doctorencasa.R;
 import com.unidadcoronaria.doctorencasa.activity.LoginActivity;
 import com.unidadcoronaria.doctorencasa.presenter.BasePresenter;
-import com.unidadcoronaria.doctorencasa.service.SinchService;
 import com.unidadcoronaria.doctorencasa.util.SessionUtil;
 
 import javax.inject.Inject;
@@ -29,7 +25,7 @@ import butterknife.ButterKnife;
  * @author Agustin.Bala
  * @since 0.0.1
  */
-public abstract class BaseFragment<T extends BasePresenter> extends LifecycleFragment {
+public abstract class BaseFragment<T extends BasePresenter> extends Fragment {
 
     @BindView(R.id.rl_progress)
     @Nullable

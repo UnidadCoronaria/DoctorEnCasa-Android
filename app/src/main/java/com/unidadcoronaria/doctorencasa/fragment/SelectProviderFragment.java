@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -110,7 +111,12 @@ public class SelectProviderFragment extends BaseFragment<SelectProviderPresenter
     @Override
     public void onProviderListError() {
         vProgress.setVisibility(View.GONE);
-        Log.e("onProviderListError","Error getting list of provider");
+        AlertDialog.Builder dialogConfirmBuilder = new AlertDialog.Builder(getActivity()).setMessage(R.string.provider_error).setPositiveButton(R.string.ok,
+                (dialog, which) -> getActivity().finish() ).setCancelable(false);
+
+        AlertDialog alertDialog = dialogConfirmBuilder.create();
+        alertDialog.setOnShowListener(dialog -> alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.red)));
+        alertDialog.show();
     }
 
     @Override

@@ -115,6 +115,7 @@ public class LoginFragment extends BaseFragment<LoginPresenter> implements Login
 
     @Override
     public void onSaveAffiliateSuccess(UserInfo userInfo, Boolean passwordExpired) {
+        resetView();
         if(passwordExpired){
             startActivity(ChangePasswordActivity.getStartIntent(getActivity()));
         } else {

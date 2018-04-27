@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -52,6 +53,13 @@ public class ClinicHistoryFragment extends BaseFragment<ClinicHistoryPresenter> 
     @BindView(R.id.fragment_clinic_history_image)
     ImageView vImage;
 
+    @BindView(R.id.fragment_clinic_history_empty)
+    TextView vEmptyText;
+
+    @BindView(R.id.fragment_clinic_history_empty_image)
+    ImageView vEmptyImage;
+
+
     private ClinicHistoryAdapter mClinicHistoryAdapter;
     private SelectAffiliateDialog mSelectAffiliateDialog = new SelectAffiliateDialog();
     private String mSelectedAffiliateId;
@@ -90,6 +98,8 @@ public class ClinicHistoryFragment extends BaseFragment<ClinicHistoryPresenter> 
             vClinicHistoryList.setVisibility(View.GONE);
             vError.setVisibility(View.GONE);
             vImage.setVisibility(View.GONE);
+            vEmptyText.setVisibility(View.GONE);
+            vEmptyImage.setVisibility(View.GONE);
         });
         vRefresh.setColorSchemeResources(R.color.red);
         vProgress.setVisibility(View.VISIBLE);
@@ -115,11 +125,19 @@ public class ClinicHistoryFragment extends BaseFragment<ClinicHistoryPresenter> 
         mClinicHistoryAdapter = new ClinicHistoryAdapter(videoCallList, this);
         vClinicHistoryList.setAdapter(mClinicHistoryAdapter);
         vProgress.setVisibility(View.GONE);
-        vClinicHistoryList.setVisibility(View.VISIBLE);
         vError.setVisibility(View.GONE);
         vImage.setVisibility(View.GONE);
         if(vRefresh.isRefreshing()){
             vRefresh.setRefreshing(false);
+        }
+        if(videoCallList.isEmpty()){
+            vEmptyImage.setVisibility(View.VISIBLE);
+            vEmptyText.setVisibility(View.VISIBLE);
+            vClinicHistoryList.setVisibility(View.GONE);
+        } else {
+            vEmptyImage.setVisibility(View.GONE);
+            vEmptyText.setVisibility(View.GONE);
+            vClinicHistoryList.setVisibility(View.VISIBLE);
         }
     }
 
@@ -128,6 +146,8 @@ public class ClinicHistoryFragment extends BaseFragment<ClinicHistoryPresenter> 
         vProgress.setVisibility(View.GONE);
         vError.setVisibility(View.VISIBLE);
         vImage.setVisibility(View.VISIBLE);
+        vEmptyText.setVisibility(View.GONE);
+        vEmptyImage.setVisibility(View.GONE);
         vClinicHistoryList.setVisibility(View.GONE);
         if(vRefresh.isRefreshing()){
             vRefresh.setRefreshing(false);
@@ -142,9 +162,18 @@ public class ClinicHistoryFragment extends BaseFragment<ClinicHistoryPresenter> 
     }
 
     public void showFilters() {
-        if(vImage.getVisibility() == View.GONE){
+        if(vImage.getVisibility() == View.GONE && vEmptyImage.getVisibility() ==View.GONE ){
             mSelectAffiliateDialog.dismiss();
             mSelectAffiliateDialog.showAffiliateList(getActivity(), getAffiliateList(), (mSelectedAffiliateId != null)?mSelectedAffiliateId:"", this);
+        } else {
+            if(vEmptyImage.getVisibility() ==View.VISIBLE){
+                AlertDialog.Builder dialogConfirmBuilder = new AlertDialog.Builder(getActivity()).setMessage(R.string.empty_filters).setPositiveButton(R.string.ok,
+                        (dialog, which) -> dialog.dismiss() ).setCancelable(false);
+
+                AlertDialog alertDialog = dialogConfirmBuilder.create();
+                alertDialog.setOnShowListener(dialog -> alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.red)));
+                alertDialog.show();
+            }
         }
     }
 

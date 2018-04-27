@@ -27,6 +27,7 @@ import com.sinch.android.rtc.calling.CallListener;
 import com.sinch.android.rtc.video.VideoCallListener;
 import com.sinch.android.rtc.video.VideoController;
 import com.unidadcoronaria.doctorencasa.App;
+import com.unidadcoronaria.doctorencasa.BuildConfig;
 import com.unidadcoronaria.doctorencasa.NewCallView;
 import com.unidadcoronaria.doctorencasa.R;
 import com.unidadcoronaria.doctorencasa.di.component.DaggerVideoCallComponent;
@@ -185,11 +186,11 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
 
     @OnClick(R.id.fragment_video_call_answer_button)
     protected void onAnswerClick() {
-        try{
+        try {
             mAudioPlayer.stopRingtone();
             mCall.answer();
             vMuteButton.setSelected(audioManager.isMicrophoneMute());
-        } catch (Exception e){
+        } catch (Exception e) {
             vProgress.setVisibility(View.GONE);
             vStartingContainer.setVisibility(View.GONE);
             vErrorContainer.setVisibility(View.GONE);
@@ -213,7 +214,7 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
 
     @OnClick(R.id.fragment_video_call_stop_video)
     protected void onStopVideoClick() {
-        if(vStopVideoButton.isSelected()){
+        if (vStopVideoButton.isSelected()) {
             resumeVideo();
         } else {
             stopVideo();
@@ -222,12 +223,16 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
     }
 
     private void resumeVideo() {
-        Toast.makeText(getActivity(), "Video Resumido", Toast.LENGTH_LONG).show();
+        if (BuildConfig.DEBUG) {
+            Toast.makeText(getActivity(), "Video Resumido", Toast.LENGTH_LONG).show();
+        }
         mCall.resumeVideo();
     }
 
     private void stopVideo() {
-        Toast.makeText(getActivity(), "Video frenado", Toast.LENGTH_LONG).show();
+        if (BuildConfig.DEBUG) {
+            Toast.makeText(getActivity(), "Video frenado", Toast.LENGTH_LONG).show();
+        }
         mCall.pauseVideo();
     }
 
@@ -235,12 +240,10 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
     protected void onMuteClick() {
         audioManager.setMode(AudioManager.MODE_IN_CALL);
         if (!audioManager.isMicrophoneMute()) {
-            //Toast.makeText(getActivity(), "Muteado", Toast.LENGTH_LONG).show();
             audioManager.setMicrophoneMute(true);
             vMuteButton.setSelected(false);
 
         } else {
-            //Toast.makeText(getActivity(), "Desmuteado", Toast.LENGTH_LONG).show();
             audioManager.setMicrophoneMute(false);
             vMuteButton.setSelected(true);
         }
@@ -331,16 +334,18 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
 
     @Override
     public void onRankSuccess(int ranking) {
+
         vProgress.setVisibility(View.GONE);
-        if(ranking > 3){
+        if (ranking > 3) {
             getActivity().finish();
         } else {
-            new AlertDialog.Builder(getActivity())
-                    .setMessage("Calificaste la consulta negativamente, te gustaría comunicarte con una operadora para solicitar una visita domiciliaria?")
-                    .setPositiveButton("No, gracias", (dialog, button) -> getActivity().finish())
-                    .setNegativeButton("Si", (dialog, button) -> callToCentral())
-                    .setCancelable(false)
-                    .show();
+            AlertDialog.Builder dialogConfirmBuilder = new AlertDialog.Builder(getActivity()).setMessage("Calificaste la consulta negativamente, te gustaría comunicarte con una operadora para solicitar una visita domiciliaria?")
+                    .setPositiveButton("No", (dialog, which) -> getActivity().finish())
+                    .setNegativeButton("Si", (dialog, button) -> callToCentral()).setCancelable(false);
+
+            AlertDialog alertDialog = dialogConfirmBuilder.create();
+            alertDialog.setOnShowListener(dialog -> alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.red)));
+            alertDialog.show();
         }
 
     }
@@ -348,12 +353,12 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
     private void callToCentral() {
         Intent callIntent = new Intent(Intent.ACTION_CALL);
         String tel = "tel:";
-        if(SessionUtil.getProvider() == 1){
+        if (SessionUtil.getProvider() == 1) {
             tel += "1142577777";
         } else {
-            if (SessionUtil.getProvider() == 2){
+            if (SessionUtil.getProvider() == 2) {
                 tel += "1157265166";
-            } else if (SessionUtil.getProvider() == 3){
+            } else if (SessionUtil.getProvider() == 3) {
                 tel += "1147330043";
             }
         }
@@ -386,7 +391,6 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
             Log.d(TAG, "Call ended. Reason: " + cause.toString());
             mAudioPlayer.stopProgressTone();
             getActivity().setVolumeControlStream(AudioManager.USE_DEFAULT_STREAM_TYPE);
-            //Toast.makeText(getActivity(), "Call ended: " + call.getDetails().toString(), Toast.LENGTH_LONG).show();
             showRankDialog();
             removeVideoViews();
             mRemainingMinutesHandler.removeCallbacksAndMessages(null);
@@ -410,17 +414,17 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
             vCallRemainingTime.setText(getString(R.string.remaining_time_to_answer, "3 minutos"));
             mRemainingMinutesHandler.postDelayed(() -> {
                 mRemainingMinutes--;
-                if(mRemainingMinutes <= 0){
+                if (mRemainingMinutes <= 0) {
                     onHangoutClick();
                     mRemainingMinutesHandler.removeCallbacksAndMessages(null);
                 } else {
-                    if(mRemainingMinutes == 2){
+                    if (mRemainingMinutes == 2) {
                         vCallRemainingTime.setText(getString(R.string.remaining_time_to_answer, "2 minutos"));
                     } else {
                         vCallRemainingTime.setText(getString(R.string.remaining_time_to_answer_one));
                     }
                 }
-            }, 60*1000);
+            }, 60 * 1000);
         }
 
         @Override
@@ -436,12 +440,16 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
 
         @Override
         public void onVideoTrackPaused(Call call) {
-            Toast.makeText(getActivity(), "Video paused", Toast.LENGTH_LONG).show();
+            if (BuildConfig.DEBUG) {
+                Toast.makeText(getActivity(), "Video paused", Toast.LENGTH_LONG).show();
+            }
         }
 
         @Override
         public void onVideoTrackResumed(Call call) {
-            Toast.makeText(getActivity(), "Video resumed", Toast.LENGTH_LONG).show();
+            if (BuildConfig.DEBUG) {
+                Toast.makeText(getActivity(), "Video resumed", Toast.LENGTH_LONG).show();
+            }
         }
     };
 }

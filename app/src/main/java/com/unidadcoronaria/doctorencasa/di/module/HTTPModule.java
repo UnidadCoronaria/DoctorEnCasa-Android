@@ -42,7 +42,7 @@ public class HTTPModule {
 
             Request.Builder builder = originalRequest.newBuilder().header("Content-Type",
                     "application/json");
-            if(SessionUtil.isAuthenticated()){
+            if(!SessionUtil.getToken().isEmpty() ){
                 //builder.header("Authorization", "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJtZ29uemFsZXoiLCJhdWRpZW5jZSI6IndlYiIsImNyZWF0ZWQiOjE1MTA5NTgzOTk4NjIsImV4cCI6MTUxMTU2MzE5OX0.t8cDFOTAdO1OVLKXg9fOsgaBEfiqP87rhrxiD0i-2IR7xYWKVWYNDzbUYt9YgI1GccQ242zMTOxJUpzfIeBH3Q");
                 builder.header("Authorization", SessionUtil.getToken());
             }

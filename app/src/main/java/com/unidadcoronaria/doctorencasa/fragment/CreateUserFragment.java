@@ -218,9 +218,9 @@ public class CreateUserFragment extends BaseFragment<CreateUserPresenter> implem
     @Override
     public void onCreateUserError(GenericResponseDTO errorResponse) {
         mLoadableCallback.hideProgress();
-        if(errorResponse.getCode() == 1000){
+        if(errorResponse.getCode() == 1000 || errorResponse.getCode() == 1001){
             Toast.makeText(getActivity(), "El mail ya se encuentra registrado.", Toast.LENGTH_LONG).show();
-        } else if(errorResponse.getCode() == 2000){
+        } else if(errorResponse.getCode() == 1002){
             Toast.makeText(getActivity(), "El afiliado ya tiene una cuenta asociada.", Toast.LENGTH_LONG).show();
         } else {
             Toast.makeText(getActivity(), "Hubo un error guardando la información del usuario. Por favor, intentelo nuevamente.", Toast.LENGTH_LONG).show();

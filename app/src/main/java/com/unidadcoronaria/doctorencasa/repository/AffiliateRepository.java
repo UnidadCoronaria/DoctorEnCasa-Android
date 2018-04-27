@@ -1,7 +1,6 @@
 package com.unidadcoronaria.doctorencasa.repository;
 
 
-import com.unidadcoronaria.doctorencasa.dao.UserDAO;
 import com.unidadcoronaria.doctorencasa.domain.Affiliate;
 import com.unidadcoronaria.doctorencasa.domain.AffiliateCallHistory;
 import com.unidadcoronaria.doctorencasa.dto.Credential;
@@ -24,7 +23,6 @@ import io.reactivex.Single;
 public class AffiliateRepository {
 
     private final AffiliateService mAffiliateService;
-    private UserDAO mUserDAO;
 
 
     @Inject
@@ -53,24 +51,8 @@ public class AffiliateRepository {
         return mAffiliateService.updatePassword(credential);
     }
 
-    public Single<Affiliate> fetchAffiliate() {
-        return Single.fromCallable(() -> {
-            Affiliate mAffiliate = mUserDAO.load();
-            return mAffiliate;
-        });
-    }
-
-    public Completable insert(Affiliate affiliate) {
-        return Completable.fromAction(() -> mUserDAO.save(affiliate));
-    }
-
     public Single<List<Affiliate>> getAffiliateData(String affiliateNumber, int mProviderId) {
         return mAffiliateService.getAffiliateData(mProviderId, affiliateNumber);
-    }
-
-    public Completable delete() {
-        return Completable.fromAction(() ->
-                mUserDAO.delete(mUserDAO.load()));
     }
 
     public Single<Affiliate> getUser() {

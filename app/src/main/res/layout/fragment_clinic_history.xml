@@ -56,6 +56,36 @@
             android:layout_height="match_parent"
             android:visibility="visible"
             tools:visibility="visible" />
+
+        <ImageView
+            android:id="@+id/fragment_clinic_history_empty_image"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="36dp"
+            android:layout_alignParentTop="true"
+            android:visibility="gone"
+            tools:visiblity="visible"
+            android:layout_centerHorizontal="true"
+            android:tint="@color/red"
+            android:src="@drawable/ic_clinical_history"
+            />
+
+        <com.unidadcoronaria.doctorencasa.view.CustomTextView
+            android:id="@+id/fragment_clinic_history_empty"
+            android:layout_below="@+id/fragment_clinic_history_empty_image"
+            android:layout_marginTop="50dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_centerInParent="true"
+            android:textAlignment="center"
+            android:theme="@style/CardTextEditText"
+            android:text="@string/history_empty"
+            app:visual_font_name="light"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"/>
+
     </RelativeLayout>
 
 

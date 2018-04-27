@@ -94,7 +94,7 @@ public class ForgotPasswordFragment extends BaseFragment<ForgotPasswordPresenter
     @Override
     public void onForgotPasswordError(GenericResponseDTO errorResponse) {
         mCallback.hideProgress();
-        if(errorResponse.getCode() == 1001){
+        if(errorResponse.getCode() == 1004){
             Toast.makeText(getActivity(), "El mail ingresado no tiene una cuenta asociada.", Toast.LENGTH_LONG).show();
         } else {
             Toast.makeText(getActivity(), "Hubo un error intentando recuperar la contraseña. Por favor, intentelo nuevamente.", Toast.LENGTH_LONG).show();
