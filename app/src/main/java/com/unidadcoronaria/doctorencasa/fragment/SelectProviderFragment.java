@@ -46,6 +46,9 @@ public class SelectProviderFragment extends BaseFragment<SelectProviderPresenter
     @BindView(R.id.fragment_select_provider_continue_arrow)
     protected View vContinueArrow;
 
+    @BindView(R.id.fragment_select_provider_continue_arrow_disabled)
+    protected View vContinueArrowDisabled;
+
     private ProviderAdapter vProviderAdapter;
     private CreateAccountView mCallback;
 
@@ -123,6 +126,8 @@ public class SelectProviderFragment extends BaseFragment<SelectProviderPresenter
     public void onItemSelected() {
         vContinue.setEnabled(true);
         vContinueArrow.setEnabled(true);
+        vContinueArrow.setVisibility(View.VISIBLE);
+        vContinueArrowDisabled.setVisibility(View.GONE);
     }
 }
 

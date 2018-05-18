@@ -62,6 +62,7 @@
     <string name="calls_quantity">Realizaste %1$d consultas en los últimos 30 días</string>
     <string name="queue_delay">Existe una demora de %1$s para ser atendido</string>
     <string name="init_call">SACAR TURNO</string>
+    <string name="in_queue_no_delay">¡Hay médicos disponibles para atenderte en este momento!</string>
     <string name="in_queue_delay"><![CDATA[La demora estimada para que el doctor te atienda es de <b>%1$s.</b>]]></string>
     <string name="last_consult">ÚLTIMA CONSULTA</string>
     <string name="new_consult">Sacá un turno para ser atendido por uno de nuestro doctores.</string>
@@ -71,7 +72,7 @@
     <string name="clinic_history">VER MI HISTORIA CLINICA</string>
     <string name="use_your_device_meanwhile">Cuando sea tu turno, te vamos a avisar. Mientras tanto, podes seguir usando tu celular.</string>
     <string name="available_doctor">Hay doctores disponibles para atenderte ahora!</string>
-    <string name="history_empty">Todavia no tenés ninguna historia clínica!</string>
+    <string name="history_empty">Luego de la primer consulta, tendrás tu historia clínica.</string>
     <string name="history_error"><![CDATA[Parece que no estás conectado a internet.\nRevisá tu conexión e intentá nuevamente.]]></string>
     <string name="remember_to_accept">Tenés 45 segundos para responder a esta llamada, sino perderás el turno y deberás volver a sacar un nuevo turno.</string>
     <string name="remaining_time_to_answer"><![CDATA[Si no atiendes la llamada en los próximos <b>%1$s</b>, perderás el turno y deberás volver a sacar un nuevo turno.]]></string>

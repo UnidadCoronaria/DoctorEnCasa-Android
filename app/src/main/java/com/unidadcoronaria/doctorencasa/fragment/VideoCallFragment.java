@@ -132,7 +132,12 @@ public class VideoCallFragment extends BaseFragment<VideoCallPresenter> implemen
                 }
             }
         } else {
-            vText.setText(R.string.history_error);
+            if(affiliateCallHistory != null){
+                vText.setText(getString(R.string.new_consult));
+                vButton.setVisibility(View.VISIBLE);
+            } else {
+                vText.setText(R.string.history_error);
+            }
         }
         mPresenter.getQueueStatus();
         if (vRefresh.isRefreshing()){
@@ -189,7 +194,11 @@ public class VideoCallFragment extends BaseFragment<VideoCallPresenter> implemen
         }
         vContainer.setVisibility(View.VISIBLE);
         vInQueueDelay.setVisibility(View.VISIBLE);
-        vInQueueDelay.setText(Html.fromHtml(getString(R.string.in_queue_delay, DateUtil.getWaitingTime(getActivity(), queue.getWaitTime()))));
+        if(queue.getWaitTime() > 0){
+            vInQueueDelay.setText(Html.fromHtml(getString(R.string.in_queue_delay, DateUtil.getWaitingTime(getActivity(), queue.getWaitTime()))));
+        } else {
+            vInQueueDelay.setText(getString(R.string.in_queue_no_delay));
+        }
     }
 
 

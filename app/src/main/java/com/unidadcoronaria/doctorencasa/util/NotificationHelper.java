@@ -9,7 +9,9 @@ import android.content.Intent;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
+import android.support.v4.content.res.ResourcesCompat;
 
+import com.unidadcoronaria.doctorencasa.App;
 import com.unidadcoronaria.doctorencasa.R;
 import com.unidadcoronaria.doctorencasa.activity.MainActivity;
 
@@ -28,7 +30,7 @@ public class NotificationHelper {
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, callId)
                 .setSmallIcon(R.drawable.notification_icon)
-                .setContentTitle(context.getString(R.string.app_name))
+                .setContentTitle(context.getString(R.string.app_name)).setColor(ResourcesCompat.getColor(App.getInstance().getResources(), R.color.red, null))
                 .setAutoCancel(true).setContentText(text);
 
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);

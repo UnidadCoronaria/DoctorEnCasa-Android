@@ -214,12 +214,16 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
 
     @OnClick(R.id.fragment_video_call_stop_video)
     protected void onStopVideoClick() {
-        if (vStopVideoButton.isSelected()) {
-            resumeVideo();
-        } else {
-            stopVideo();
+        final VideoController vc = mServiceInterface.getVideoController();
+        if (vc != null) {
+            if (vStopVideoButton.isSelected()) {
+                //resumeVideo();
+            } else {
+                //stopVideo();
+            }
+            vc.toggleCaptureDevicePosition();
+            vStopVideoButton.setSelected(!vStopVideoButton.isSelected());
         }
-        vStopVideoButton.setSelected(!vStopVideoButton.isSelected());
     }
 
     private void resumeVideo() {
@@ -344,7 +348,8 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
                     .setNegativeButton("Si", (dialog, button) -> callToCentral()).setCancelable(false);
 
             AlertDialog alertDialog = dialogConfirmBuilder.create();
-            alertDialog.setOnShowListener(dialog -> alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.red)));
+            alertDialog.setOnShowListener(dialog -> { alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.red));
+                alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.red)) ;});
             alertDialog.show();
         }
 

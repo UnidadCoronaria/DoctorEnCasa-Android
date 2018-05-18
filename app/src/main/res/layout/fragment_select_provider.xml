@@ -126,9 +126,17 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_marginRight="30dp"
-                        android:enabled="false"
-                        android:src="@drawable/ic_arrow_right"
-                        android:tint="@color/selector_button_text" />
+                        android:src="@drawable/next_disable"
+                        android:visibility="gone"
+                        android:tint="@color/white" />
+
+                    <ImageView
+                        android:id="@+id/fragment_select_provider_continue_arrow_disabled"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="30dp"
+                        android:src="@drawable/next_disable"
+                       />
 
                 </LinearLayout>
 
