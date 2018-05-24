@@ -6,7 +6,7 @@ import java.io.Serializable;
  * Created by agustin on 6/2/18.
  */
 
-public class Diagnostic implements Serializable {
+public class Reason implements Serializable {
 
     private int id;
     private String name;

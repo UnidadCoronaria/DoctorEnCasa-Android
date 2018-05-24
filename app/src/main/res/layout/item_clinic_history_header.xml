@@ -24,7 +24,10 @@
             android:layout_height="wrap_content"
             android:background="@color/pastel"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="10dp"
+            >
 
 
             <com.unidadcoronaria.doctorencasa.view.CustomTextView
@@ -47,6 +50,34 @@
                 app:visual_font_name="light"
                 tools:text="23/02/2018" />
 
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/greyLight" />
+
+
+
+            <com.unidadcoronaria.doctorencasa.view.CustomTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/reason"
+                android:textColor="@color/greyDark"
+                android:textSize="18sp"
+                app:visual_font_name="light" />
+
+            <com.unidadcoronaria.doctorencasa.view.CustomTextView
+                android:id="@+id/item_clinic_history_header_reason"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/greyDark"
+                android:textSize="16sp"
+                app:visual_font_name="light"
+                tools:text="Accumsan ad commodo cras curabitur erat est facilisis feugiat iaculis ipsum lacinia litora lorem mollis nam nec netus nostra platea posuere rhoncus" />
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
@@ -58,13 +89,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="@string/diagnostic"
+                android:text="@string/recommendation"
                 android:textColor="@color/greyDark"
                 android:textSize="18sp"
                 app:visual_font_name="light" />
 
             <com.unidadcoronaria.doctorencasa.view.CustomTextView
-                android:id="@+id/item_clinic_history_header_diagnostic"
+                android:id="@+id/item_clinic_history_header_recommendation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -154,7 +185,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp"
             android:text="@string/previous_clinic_histories"
             android:textColor="@color/red"
             android:textSize="20sp"

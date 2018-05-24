@@ -11,11 +11,11 @@ public class ClinicHistory implements Serializable{
 
     private int id;
     private String affiliateGamId;
-    private String comment;
+    private String recommendation;
     private String lastName;
     private String firstName;
     private VideoCall videocall;
-    private List<Diagnostic> diagnostics;
+    private List<Reason> reasons;
 
     public int getId() {
         return id;
@@ -25,13 +25,7 @@ public class ClinicHistory implements Serializable{
         this.id = id;
     }
 
-    public String getComment() {
-        return comment;
-    }
 
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
 
     public String getAffiliateGamId() {
         return affiliateGamId;
@@ -65,13 +59,19 @@ public class ClinicHistory implements Serializable{
         this.videocall = videocall;
     }
 
-    public List<Diagnostic> getDiagnostics() {
-        return diagnostics;
+    public String getRecommendation() {
+        return recommendation;
     }
 
-    public void setDiagnostics(List<Diagnostic> diagnostics) {
-        this.diagnostics = diagnostics;
+    public void setRecommendation(String recommendation) {
+        this.recommendation = recommendation;
     }
 
+    public List<Reason> getReasons() {
+        return reasons;
+    }
 
+    public void setReasons(List<Reason> reasons) {
+        this.reasons = reasons;
+    }
 }

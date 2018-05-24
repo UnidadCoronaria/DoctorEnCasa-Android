@@ -14,9 +14,9 @@ import com.unidadcoronaria.doctorencasa.R;
 import com.unidadcoronaria.doctorencasa.activity.ClinicHistoryDetailActivity;
 import com.unidadcoronaria.doctorencasa.di.component.DaggerClinicHistoryComponent;
 import com.unidadcoronaria.doctorencasa.domain.ClinicHistory;
-import com.unidadcoronaria.doctorencasa.domain.Diagnostic;
 import com.unidadcoronaria.doctorencasa.presenter.ClinicHistoryDetailPresenter;
 import com.unidadcoronaria.doctorencasa.util.DateUtil;
+import com.unidadcoronaria.doctorencasa.util.StringUtil;
 
 import java.util.Date;
 
@@ -37,8 +37,11 @@ public class ClinicHistoryDetailFragment extends BaseFragment<ClinicHistoryDetai
     @BindView(R.id.fragment_clinic_history_detail_last_date)
     TextView vLastDate;
 
-    @BindView(R.id.fragment_clinic_history_detail_diagnostic)
-    TextView vDiagnostic;
+    @BindView(R.id.fragment_clinic_history_detail_recommendation)
+    TextView vRecommendation;
+
+    @BindView(R.id.fragment_clinic_history_detail_reason)
+    TextView vReason;
 
     @BindView(R.id.fragment_clinic_history_detail_doctor)
     TextView vDoctor;
@@ -86,15 +89,8 @@ public class ClinicHistoryDetailFragment extends BaseFragment<ClinicHistoryDetai
         if(mClinicHistory != null){
             vLast.setText(App.getInstance().getString(R.string.previous_clinic_history_of, mClinicHistory.getFirstName() + " " + mClinicHistory.getLastName()));
             vLastDate.setText(DateUtil.getConvertedDayString(new Date(mClinicHistory.getVideocall().getDate())));
-            String diagnostic = "";
-            for (Diagnostic mClinicDiagnosticItem : mClinicHistory.getDiagnostics()) {
-                if(diagnostic.isEmpty()){
-                    diagnostic = mClinicDiagnosticItem.getName();
-                } else {
-                    diagnostic += " ,"+mClinicDiagnosticItem.getName();
-                }
-            }
-            vDiagnostic.setText(diagnostic +" - "+ mClinicHistory.getComment());
+            vReason.setText(StringUtil.splitReasonList(mClinicHistory.getReasons()));
+            vRecommendation.setText(mClinicHistory.getRecommendation());
             vDoctor.setText("Dr "+  mClinicHistory.getVideocall().getDoctor().getFirstName()+" "+mClinicHistory.getVideocall().getDoctor().getLastName());
         }
         return view;

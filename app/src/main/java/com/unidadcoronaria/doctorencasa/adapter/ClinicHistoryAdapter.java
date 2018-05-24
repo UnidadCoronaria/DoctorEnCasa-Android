@@ -11,8 +11,10 @@ import com.unidadcoronaria.doctorencasa.App;
 import com.unidadcoronaria.doctorencasa.R;
 import com.unidadcoronaria.doctorencasa.domain.Affiliate;
 import com.unidadcoronaria.doctorencasa.domain.ClinicHistory;
+import com.unidadcoronaria.doctorencasa.domain.Reason;
 import com.unidadcoronaria.doctorencasa.domain.VideoCall;
 import com.unidadcoronaria.doctorencasa.util.DateUtil;
+import com.unidadcoronaria.doctorencasa.util.StringUtil;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -54,12 +56,14 @@ public class ClinicHistoryAdapter extends RecyclerView.Adapter<RecyclerView.View
                 ClinicHistoryHeaderHolder holderHeader = (ClinicHistoryHeaderHolder)holder;
                 holderHeader.vLast.setText(App.getInstance().getString(R.string.previous_clinic_history_of, clinicHistory.getFirstName() + " " + clinicHistory.getLastName()));
                 holderHeader.vLastDate.setText(DateUtil.getConvertedDayString(new Date(clinicHistory.getVideocall().getDate())));
-                holderHeader.vDiagnostic.setText(clinicHistory.getComment());
+                holderHeader.vRecommendation.setText(clinicHistory.getRecommendation());
+                holderHeader.vReason.setText(StringUtil.splitReasonList(clinicHistory.getReasons()));
                 holderHeader.vDoctor.setText("Dr "+ clinicHistory.getVideocall().getDoctor().getFirstName()+" "+clinicHistory.getVideocall().getDoctor().getLastName());
                 break;
             default:
                 ClinicHistoryHolder holderItem = (ClinicHistoryHolder)holder;
-                holderItem.vComment.setText(clinicHistory.getComment());
+                holderItem.vReason.setText(StringUtil.splitReasonList(clinicHistory.getReasons()));
+                holderItem.vRecommendation.setText(clinicHistory.getRecommendation());
                 holderItem.vDate.setText(DateUtil.getConvertedDayString(new Date(clinicHistory.getVideocall().getDate())));
                 holderItem.vDoctor.setText("Dr "+ clinicHistory.getVideocall().getDoctor().getFirstName()+" "+clinicHistory.getVideocall().getDoctor().getLastName());
                 holderItem.vContainer.setOnClickListener(v ->
@@ -70,7 +74,6 @@ public class ClinicHistoryAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     }
 
-
     @Override
     public int getItemViewType(int position) {
         return position;
@@ -80,6 +83,7 @@ public class ClinicHistoryAdapter extends RecyclerView.Adapter<RecyclerView.View
     public int getItemCount() {
         return mList.size();
     }
+
 
     public interface Callback{
 
@@ -94,8 +98,11 @@ public class ClinicHistoryAdapter extends RecyclerView.Adapter<RecyclerView.View
         @BindView(R.id.item_clinic_history_header_last_date)
         TextView vLastDate;
 
-        @BindView(R.id.item_clinic_history_header_diagnostic)
-        TextView vDiagnostic;
+        @BindView(R.id.item_clinic_history_header_reason)
+        TextView vReason;
+
+        @BindView(R.id.item_clinic_history_header_recommendation)
+        TextView vRecommendation;
 
         @BindView(R.id.item_clinic_history_header_doctor)
         TextView vDoctor;
@@ -112,8 +119,11 @@ public class ClinicHistoryAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     static class ClinicHistoryHolder extends RecyclerView.ViewHolder{
 
-        @BindView(R.id.item_clinic_history_comment)
-        TextView vComment;
+        @BindView(R.id.item_clinic_history_recommendation)
+        TextView vRecommendation;
+
+        @BindView(R.id.item_clinic_history_reason)
+        TextView vReason;
 
         @BindView(R.id.item_clinic_history_doctor)
         TextView vDoctor;
