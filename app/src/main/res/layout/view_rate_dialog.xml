@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@android:color/white"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <com.unidadcoronaria.doctorencasa.view.CustomTextView
+        android:id="@+id/dialog_rank_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="16dp"
+        app:visual_font_name="regular"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:textSize="16sp"
+        android:textColor="@color/greyDark"
+        android:text="@string/rate_app" />
+
+
+
+    <com.unidadcoronaria.doctorencasa.view.CustomTextView
+        android:id="@+id/dialog_rank_send_comments"
+        android:layout_below="@+id/dialog_rank_ranking"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:layout_marginLeft="16dp"
+        app:visual_font_name="regular"
+        android:layout_alignParentLeft="true"
+        android:textSize="16sp"
+        android:textColor="@color/greyDark"
+        android:text="@string/rate_message" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_below="@id/dialog_rank_comment"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.unidadcoronaria.doctorencasa.view.CustomTextView
+            android:id="@+id/affirmative_button"
+            android:background="@drawable/selector_transparent_button"
+            android:layout_height="70dp"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:textSize="16sp"
+            android:textColor="@color/greyDark"
+            android:text="@string/rate_now" />
+
+        <com.unidadcoronaria.doctorencasa.view.CustomTextView
+            android:id="@+id/negative_button"
+            android:background="@drawable/selector_transparent_button"
+            android:layout_height="70dp"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:textSize="16sp"
+            android:textColor="@color/greyDark"
+            android:text="@string/no_rate" />
+
+        <com.unidadcoronaria.doctorencasa.view.CustomTextView
+            android:id="@+id/neutral_button"
+            android:background="@drawable/selector_transparent_button"
+            android:layout_height="70dp"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:textSize="16sp"
+            android:textColor="@color/greyDark"
+            android:text="@string/remember_later" />
+
+    </LinearLayout>
+</RelativeLayout>

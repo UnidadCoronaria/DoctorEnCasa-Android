@@ -28,19 +28,16 @@ public abstract class BaseNavActivity extends BaseActivity implements NavBarView
     @BindView(R.id.bottom_navigation)
     BottomNavigationView vNavigationView;
 
-    private int currentTab;
+    private int currentTab = R.id.nav_videocall;
     private ClinicHistoryFragment clinicHistoryFragment;
 
     //region BaseActivity implementation
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         configureNav();
-        vToolbarFilterIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(clinicHistoryFragment != null){
-                    clinicHistoryFragment.showFilters();
-                }
+        vToolbarFilterIcon.setOnClickListener(v -> {
+            if(clinicHistoryFragment != null){
+                clinicHistoryFragment.showFilters();
             }
         });
     }

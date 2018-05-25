@@ -4,6 +4,7 @@ import com.unidadcoronaria.doctorencasa.activity.MainActivity;
 import com.unidadcoronaria.doctorencasa.di.PerActivity;
 import com.unidadcoronaria.doctorencasa.di.module.UserModule;
 import com.unidadcoronaria.doctorencasa.fragment.SettingsFragment;
+import com.unidadcoronaria.doctorencasa.fragment.TermsAndConditionsFragment;
 
 import dagger.Component;
 
@@ -17,4 +18,6 @@ public interface SettingsComponent {
     void inject(SettingsFragment settingsFragment);
 
     void inject(MainActivity mainActivity);
+
+    void inject(TermsAndConditionsFragment termsAndConditionsFragment);
 }

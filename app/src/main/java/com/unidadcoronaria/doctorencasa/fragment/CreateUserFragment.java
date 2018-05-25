@@ -7,10 +7,13 @@ import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.design.widget.TextInputLayout;
 import android.text.Editable;
+import android.text.Html;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.unidadcoronaria.doctorencasa.App;
@@ -19,6 +22,7 @@ import com.unidadcoronaria.doctorencasa.LoadableActivity;
 import com.unidadcoronaria.doctorencasa.R;
 import com.unidadcoronaria.doctorencasa.AffiliateDataView;
 import com.unidadcoronaria.doctorencasa.activity.MainActivity;
+import com.unidadcoronaria.doctorencasa.activity.TermsAndConditionsActivity;
 import com.unidadcoronaria.doctorencasa.di.component.DaggerCreateAccountComponent;
 import com.unidadcoronaria.doctorencasa.domain.Affiliate;
 import com.unidadcoronaria.doctorencasa.domain.Provider;
@@ -70,9 +74,14 @@ public class CreateUserFragment extends BaseFragment<CreateUserPresenter> implem
     @BindView(R.id.fragment_create_user_data_container)
     protected View vAffiliateDataContainer;
 
+    @BindView(R.id.fragment_create_user_terms_check)
+    protected CheckBox vCheckTerms;
+
+    @BindView(R.id.fragment_create_user_terms_check_text)
+    protected TextView vTerms;
 
 
-    @BindViews({ R.id.fragment_create_user_email_layout,
+    @BindViews({R.id.fragment_create_user_email_layout,
             R.id.fragment_create_user_password_layout, R.id.fragment_create_user_password_repeat_layout})
     protected List<TextInputLayout> textInputLayoutList;
 
@@ -84,9 +93,8 @@ public class CreateUserFragment extends BaseFragment<CreateUserPresenter> implem
     private LoadableActivity mLoadableCallback;
 
 
-
-    public static CreateUserFragment newInstance(Provider provider){
-        CreateUserFragment instance =  new CreateUserFragment();
+    public static CreateUserFragment newInstance(Provider provider) {
+        CreateUserFragment instance = new CreateUserFragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable(PROVIDER_KEY, provider);
         instance.setArguments(bundle);
@@ -112,9 +120,10 @@ public class CreateUserFragment extends BaseFragment<CreateUserPresenter> implem
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mPresenter.setView(this);
-        if(getArguments() != null && getArguments().containsKey(PROVIDER_KEY)){
+        if (getArguments() != null && getArguments().containsKey(PROVIDER_KEY)) {
             mProvider = (Provider) getArguments().get(PROVIDER_KEY);
         }
+        vTerms.setText(Html.fromHtml(getString(R.string.terms_accept)));
         vAffiliateNumber.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -123,7 +132,7 @@ public class CreateUserFragment extends BaseFragment<CreateUserPresenter> implem
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length() > 4 && !s.toString().equals(mPreviousNumberValue)){
+                if (s.length() > 4 && !s.toString().equals(mPreviousNumberValue)) {
                     mPreviousNumberValue = s.toString();
                     mPresenter.getAffiliateGroupData(vAffiliateNumber.getText().toString().split(" - ")[0], mProvider.getId());
                 }
@@ -137,12 +146,12 @@ public class CreateUserFragment extends BaseFragment<CreateUserPresenter> implem
     }
 
     @Override
-    public void onAttach(Context context){
+    public void onAttach(Context context) {
         super.onAttach(context);
-        if(context instanceof CreateAccountView){
+        if (context instanceof CreateAccountView) {
             mCallback = (CreateAccountView) context;
         }
-        if(context instanceof LoadableActivity){
+        if (context instanceof LoadableActivity) {
             mLoadableCallback = (LoadableActivity) context;
         }
 
@@ -156,19 +165,27 @@ public class CreateUserFragment extends BaseFragment<CreateUserPresenter> implem
     }
 
     @OnClick(R.id.fragment_create_user_cancel)
-    public void onBackClick(){
+    public void onBackClick() {
         getFragmentManager().popBackStack();
     }
 
     @OnClick(R.id.fragment_create_user_continue)
     public void onCreateAccountClick() {
         clearAllErrors();
-        if(mAffiliateGroupId != 0){
+        if (mAffiliateGroupId != 0) {
             mPresenter.createAccount(mAffiliateGroupId, mProvider.getId(),
-                        vEmail.getText().toString(), vPassword.getText().toString(), vPasswordRepeat.getText().toString(), vEmail.getText().toString());
+                    vEmail.getText().toString(), vPassword.getText().toString(), vPasswordRepeat.getText().toString(), vEmail.getText().toString(), vCheckTerms.isChecked());
         } else {
             Toast.makeText(getActivity(), "El número de socio no existe para la empresa seleccionada.", Toast.LENGTH_LONG).show();
         }
+    }
+
+
+
+    @OnClick(R.id.fragment_create_user_terms_check_text)
+    public void onTermsClick() {
+        startActivity(TermsAndConditionsActivity.getStartIntent(getActivity()));
+
     }
 
 
@@ -218,9 +235,9 @@ public class CreateUserFragment extends BaseFragment<CreateUserPresenter> implem
     @Override
     public void onCreateUserError(GenericResponseDTO errorResponse) {
         mLoadableCallback.hideProgress();
-        if(errorResponse.getCode() == 1000 || errorResponse.getCode() == 1001){
+        if (errorResponse.getCode() == 1000 || errorResponse.getCode() == 1001) {
             Toast.makeText(getActivity(), "El mail ya se encuentra registrado.", Toast.LENGTH_LONG).show();
-        } else if(errorResponse.getCode() == 1002){
+        } else if (errorResponse.getCode() == 1002) {
             Toast.makeText(getActivity(), "El afiliado ya tiene una cuenta asociada.", Toast.LENGTH_LONG).show();
         } else {
             Toast.makeText(getActivity(), "Hubo un error guardando la información del usuario. Por favor, intentelo nuevamente.", Toast.LENGTH_LONG).show();
@@ -238,7 +255,7 @@ public class CreateUserFragment extends BaseFragment<CreateUserPresenter> implem
         mLoadableCallback.hideProgress();
         if (affiliate != null) {
             mAffiliateGroupId = affiliate.getGroupNumber();
-            vAffiliateNumber.setText(vAffiliateNumber.getText().toString().split(" - ")[0]+" - "+affiliate.getFirstName()+" "+affiliate.getLastName());
+            vAffiliateNumber.setText(vAffiliateNumber.getText().toString().split(" - ")[0] + " - " + affiliate.getFirstName() + " " + affiliate.getLastName());
             vAffiliateNumber.setSelection(vAffiliateNumber.getText().toString().length());
         }
     }
@@ -256,30 +273,34 @@ public class CreateUserFragment extends BaseFragment<CreateUserPresenter> implem
         mAffiliateGroupId = 0;
         vAffiliateNumber.setText(vAffiliateNumber.getText().toString().split(" - ")[0]);
         vAffiliateNumber.setSelection(vAffiliateNumber.getText().toString().length());
-        //Toast.makeText(getActivity(), "Hubo un error obteniendo la información del afiliado", Toast.LENGTH_LONG).show();
     }
 
-    private void setEmptyErrorMessage(int viewId){
+    @Override
+    public void notAcceptedTerms() {
+        Toast.makeText(getActivity(), "No te olvides de aceptar los términos y condiciones", Toast.LENGTH_LONG).show();
+    }
+
+    private void setEmptyErrorMessage(int viewId) {
         clearAllErrors();
         ButterKnife.apply(textInputLayoutList, (Action<TextInputLayout>) (view, index) -> {
-            if(view.getId() == viewId){
+            if (view.getId() == viewId) {
                 view.setErrorEnabled(true);
                 view.setError(getString(R.string.can_be_empty));
             }
         });
     }
 
-    private void setErrorMessage(int viewId, @StringRes int messageId){
+    private void setErrorMessage(int viewId, @StringRes int messageId) {
         clearAllErrors();
         ButterKnife.apply(textInputLayoutList, (Action<TextInputLayout>) (view, index) -> {
-            if(view.getId() == viewId){
+            if (view.getId() == viewId) {
                 view.setErrorEnabled(true);
                 view.setError(getString(messageId));
             }
         });
     }
 
-    private void clearAllErrors(){
+    private void clearAllErrors() {
         ButterKnife.apply(textInputLayoutList, (Action<TextInputLayout>) (view, index) -> {
             view.setErrorEnabled(false);
             view.setError(null);
@@ -287,11 +308,11 @@ public class CreateUserFragment extends BaseFragment<CreateUserPresenter> implem
     }
 
     private void hideSoftKeyboard() {
-            View view = this.getView().getRootView();
-            if (view != null) {
-               InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-            }
+        View view = this.getView().getRootView();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
     }
 
 }

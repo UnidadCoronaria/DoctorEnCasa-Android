@@ -3,17 +3,17 @@ package com.unidadcoronaria.doctorencasa.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.text.Html;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.unidadcoronaria.doctorencasa.App;
 import com.unidadcoronaria.doctorencasa.R;
 import com.unidadcoronaria.doctorencasa.VideoCallView;
+import com.unidadcoronaria.doctorencasa.activity.ChangePasswordActivity;
 import com.unidadcoronaria.doctorencasa.di.component.DaggerVideoCallComponent;
 import com.unidadcoronaria.doctorencasa.domain.AffiliateCallHistory;
 import com.unidadcoronaria.doctorencasa.domain.Queue;
@@ -21,6 +21,7 @@ import com.unidadcoronaria.doctorencasa.domain.VideoCall;
 import com.unidadcoronaria.doctorencasa.domain.VideoCallStatus;
 import com.unidadcoronaria.doctorencasa.presenter.VideoCallPresenter;
 import com.unidadcoronaria.doctorencasa.util.DateUtil;
+import com.unidadcoronaria.doctorencasa.util.SessionUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -226,7 +227,18 @@ public class VideoCallFragment extends BaseFragment<VideoCallPresenter> implemen
     @Override
     public void onInitCallError() {
         vProgress.setVisibility(View.GONE);
-        Toast.makeText(getActivity(), "Hubo un error iniciando la consulta, por favor volvé a intentarlo.", Toast.LENGTH_LONG).show();
+        AlertDialog.Builder dialogConfirmBuilder = new AlertDialog.Builder(getActivity()).setMessage(R.string.videocall_service_disabled).setPositiveButton(R.string.ok,
+                (dialog, which) -> {
+                    if(vProgress.getVisibility() == View.GONE){
+                        vProgress.setVisibility(View.VISIBLE);
+                    }
+                    vContainer.setVisibility(View.GONE);
+                    mPresenter.getAffiliateHistory();
+                }).setCancelable(false);
+
+        AlertDialog alertDialog = dialogConfirmBuilder.create();
+        alertDialog.setOnShowListener(dialog -> alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.red)));
+        alertDialog.show();
     }
 
 }

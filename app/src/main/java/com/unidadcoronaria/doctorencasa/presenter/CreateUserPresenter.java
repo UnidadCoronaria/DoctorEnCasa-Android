@@ -39,7 +39,7 @@ public class CreateUserPresenter extends BasePresenter<AffiliateDataView> {
     }
 
     public void createAccount(Integer affiliateNumber, Integer selectedProvider,
-                              String username, String password, String passwordRepeat, String email) {
+                              String username, String password, String passwordRepeat, String email, boolean isTermsChecked) {
 
         if (email.isEmpty()) {
             view.isEmailEmpty();
@@ -73,6 +73,11 @@ public class CreateUserPresenter extends BasePresenter<AffiliateDataView> {
 
         if (!password.equals(passwordRepeat)) {
             view.notMatchingPassword();
+            return;
+        }
+
+        if(!isTermsChecked){
+            view.notAcceptedTerms();
             return;
         }
 

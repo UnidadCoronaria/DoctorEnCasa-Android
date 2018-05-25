@@ -37,4 +37,6 @@ public interface AffiliateDataView extends BaseView {
 
     void onGroupOwnerError();
 
+    void notAcceptedTerms();
+
 }

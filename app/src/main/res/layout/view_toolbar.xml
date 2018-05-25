@@ -5,9 +5,8 @@
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
     android:layout_height="56dp"
-    android:layout_marginLeft="0dp"
+    android:paddingRight="20dp"
     android:background="@color/colorPrimary"
-    android:paddingLeft="0dp"
     android:theme="@style/AppTheme.AppBarOverlay"
     app:layout_scrollFlags="enterAlways|scroll"
     app:popupTheme="@style/AppTheme.PopupOverlay">
@@ -46,7 +45,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="20dp"
             android:layout_gravity="center_vertical"
             android:layout_toRightOf="@+id/toolbar_title"
             android:visibility="gone"

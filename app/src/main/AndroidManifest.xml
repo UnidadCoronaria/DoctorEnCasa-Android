@@ -66,6 +66,8 @@
         <activity android:name=".activity.ClinicHistoryDetailActivity"
             android:screenOrientation="portrait"/>
 
+        <activity android:name=".activity.TermsAndConditionsActivity"
+            android:screenOrientation="portrait"/>
 
         <service
             android:name=".service.SinchService"/>

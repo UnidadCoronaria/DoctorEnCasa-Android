@@ -1,17 +1,18 @@
 package com.unidadcoronaria.doctorencasa.fragment;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.unidadcoronaria.doctorencasa.App;
-import com.unidadcoronaria.doctorencasa.SettingsView;
 import com.unidadcoronaria.doctorencasa.R;
+import com.unidadcoronaria.doctorencasa.SettingsView;
 import com.unidadcoronaria.doctorencasa.activity.ChangePasswordActivity;
-import com.unidadcoronaria.doctorencasa.activity.LoginActivity;
+import com.unidadcoronaria.doctorencasa.activity.TermsAndConditionsActivity;
 import com.unidadcoronaria.doctorencasa.di.component.DaggerSettingsComponent;
 import com.unidadcoronaria.doctorencasa.presenter.SettingsPresenter;
-import com.unidadcoronaria.doctorencasa.util.SessionUtil;
 
 import butterknife.OnClick;
 
@@ -56,5 +57,27 @@ public class SettingsFragment extends BaseFragment<SettingsPresenter> implements
     @OnClick(R.id.fragment_settings_change_pasword_button)
     public void changePassword(){
         startActivity(ChangePasswordActivity.getStartIntent(getActivity()));
+    }
+
+    @OnClick(R.id.fragment_settings_rate_app_button)
+    public void rateApp(){
+        Uri uri = Uri.parse("market://details?id=" + getActivity().getPackageName());
+        Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
+        // To count with Play market backstack, After pressing back button,
+        // to taken back to our application, we need to add following flags to intent.
+        goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY |
+                Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
+                Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+        try {
+            startActivity(goToMarket);
+        } catch (ActivityNotFoundException e) {
+            startActivity(new Intent(Intent.ACTION_VIEW,
+                    Uri.parse("http://play.google.com/store/apps/details?id=" + getActivity().getPackageName())));
+        }
+    }
+
+    @OnClick(R.id.fragment_settings_terms_button)
+    public void termsAndConditions(){
+        startActivity(TermsAndConditionsActivity.getStartIntent(getActivity()));
     }
 }
