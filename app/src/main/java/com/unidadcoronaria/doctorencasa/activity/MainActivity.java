@@ -84,10 +84,6 @@ public class MainActivity extends BaseNavActivity implements MainView, SinchCall
     }
 
     private void checkRateApp() {
-        LayoutInflater inflater = (LayoutInflater)this.getSystemService(LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.view_rate_dialog, null);
-        // callback listener.
-
         // Show a dialog if meets conditions
         AppRate.showRateDialogIfMeetsConditions(this);
     }
@@ -138,7 +134,8 @@ public class MainActivity extends BaseNavActivity implements MainView, SinchCall
         Toast.makeText(this, getString(R.string.permissions_never_ask), Toast.LENGTH_SHORT).show();
     }
 
-    private void logout() {
+    @Override
+    public void logout() {
         SessionUtil.logout();
         Intent intent = LoginActivity.getStartIntent(this);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

@@ -97,6 +97,9 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
     @BindView(R.id.fragment_video_call_delay)
     protected TextView vCallRemainingTime;
 
+    @BindView(R.id.fragment_new_video_call_rank_background)
+    protected View vRankBackground;
+
     private Call mCall;
     private RankDialog mRankDialog = new RankDialog();
     private AudioPlayer mAudioPlayer;
@@ -140,6 +143,7 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
     @Override
     public void onDestroy() {
         super.onDestroy();
+        this.onHangoutClick();
         if (mCall != null) {
             mCall.removeCallListener(mCallListener);
         }
@@ -156,6 +160,7 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
         }
     }
 
+
     @SuppressLint("NeedOnRequestPermissionsResult")
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -168,6 +173,7 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
             Manifest.permission.READ_PHONE_STATE})
     protected void acceptCall() {
         vProgress.setVisibility(View.GONE);
+        vRankBackground.setVisibility(View.GONE);
         vStartingContainer.setVisibility(View.GONE);
         vErrorContainer.setVisibility(View.GONE);
         vContainer.setVisibility(View.GONE);
@@ -196,6 +202,7 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
             vErrorContainer.setVisibility(View.GONE);
             vContainer.setVisibility(View.GONE);
             vIncomingContainer.setVisibility(View.GONE);
+            vRankBackground.setVisibility(View.GONE);
             vIncomingCallEffect.hide();
             vErrorStartingContainer.setVisibility(View.VISIBLE);
         }
@@ -206,8 +213,6 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
         mAudioPlayer.stopRingtone();
         if (mCall != null) {
             mCall.hangup();
-
-
         }
         getActivity().finish();
     }
@@ -216,11 +221,6 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
     protected void onStopVideoClick() {
         final VideoController vc = mServiceInterface.getVideoController();
         if (vc != null) {
-            if (vStopVideoButton.isSelected()) {
-                //resumeVideo();
-            } else {
-                //stopVideo();
-            }
             vc.toggleCaptureDevicePosition();
             vStopVideoButton.setSelected(!vStopVideoButton.isSelected());
         }
@@ -228,7 +228,7 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
 
     private void resumeVideo() {
         if (BuildConfig.DEBUG) {
-            Toast.makeText(getActivity(), "Video Resumido", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), "Video resumido", Toast.LENGTH_LONG).show();
         }
         mCall.resumeVideo();
     }
@@ -257,10 +257,11 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
     @Override
     public void onStop() {
         super.onStop();
-        //TODO removeVideoViews();
+        removeVideoViews();
     }
 
     private void showRankDialog() {
+        vRankBackground.setVisibility(View.VISIBLE);
         mRankDialog.dismiss();
         mRankDialog.showRankMessage(getActivity(),
                 new RankDialog.Callback() {
@@ -286,6 +287,7 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
             vStartingContainer.setVisibility(View.GONE);
             vContainer.setVisibility(View.VISIBLE);
             vIncomingContainer.setVisibility(View.GONE);
+            vRankBackground.setVisibility(View.GONE);
             vStopVideoButton.setSelected(true);
             vMuteButton.setSelected(true);
         }
@@ -296,8 +298,6 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
         if (vc != null) {
             vFrame.removeView(vc.getRemoteView());
             vSelfCamera.removeView(vc.getLocalView());
-            vContainer.setVisibility(View.GONE);
-            vHangoutButton.setVisibility(View.VISIBLE);
         }
     }
 
@@ -317,6 +317,7 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
     @OnPermissionDenied({Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO,
             Manifest.permission.READ_PHONE_STATE, Manifest.permission.MODIFY_AUDIO_SETTINGS})
     void showDeniedForCamera() {
+        vRankBackground.setVisibility(View.GONE);
         vErrorContainer.setVisibility(View.VISIBLE);
         vProgress.setVisibility(View.GONE);
         vContainer.setVisibility(View.GONE);
@@ -328,6 +329,7 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
     @OnNeverAskAgain({Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO,
             Manifest.permission.READ_PHONE_STATE, Manifest.permission.MODIFY_AUDIO_SETTINGS})
     void showNeverAskForCamera() {
+        vRankBackground.setVisibility(View.GONE);
         vErrorContainer.setVisibility(View.VISIBLE);
         vProgress.setVisibility(View.GONE);
         vStartingContainer.setVisibility(View.GONE);
@@ -338,7 +340,6 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
 
     @Override
     public void onRankSuccess(int ranking) {
-
         vProgress.setVisibility(View.GONE);
         if (ranking > 3) {
             getActivity().finish();
@@ -398,6 +399,8 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
             getActivity().setVolumeControlStream(AudioManager.USE_DEFAULT_STREAM_TYPE);
             showRankDialog();
             removeVideoViews();
+            vContainer.setVisibility(View.GONE);
+            vHangoutButton.setVisibility(View.VISIBLE);
             mRemainingMinutesHandler.removeCallbacksAndMessages(null);
         }
 

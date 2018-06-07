@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.unidadcoronaria.doctorencasa.App;
 import com.unidadcoronaria.doctorencasa.R;
@@ -19,6 +20,7 @@ import com.unidadcoronaria.doctorencasa.domain.AffiliateCallHistory;
 import com.unidadcoronaria.doctorencasa.domain.Queue;
 import com.unidadcoronaria.doctorencasa.domain.VideoCall;
 import com.unidadcoronaria.doctorencasa.domain.VideoCallStatus;
+import com.unidadcoronaria.doctorencasa.dto.GenericResponseDTO;
 import com.unidadcoronaria.doctorencasa.presenter.VideoCallPresenter;
 import com.unidadcoronaria.doctorencasa.util.DateUtil;
 import com.unidadcoronaria.doctorencasa.util.SessionUtil;
@@ -197,8 +199,10 @@ public class VideoCallFragment extends BaseFragment<VideoCallPresenter> implemen
         vInQueueDelay.setVisibility(View.VISIBLE);
         if(queue.getWaitTime() > 0){
             vInQueueDelay.setText(Html.fromHtml(getString(R.string.in_queue_delay, DateUtil.getWaitingTime(getActivity(), queue.getWaitTime()))));
-        } else {
+        } else if(queue.getWaitTime() == 0){
             vInQueueDelay.setText(getString(R.string.in_queue_no_delay));
+        } else {
+            vInQueueDelay.setText(getString(R.string.in_queue_no_doctor));
         }
     }
 
@@ -225,20 +229,24 @@ public class VideoCallFragment extends BaseFragment<VideoCallPresenter> implemen
 
 
     @Override
-    public void onInitCallError() {
-        vProgress.setVisibility(View.GONE);
-        AlertDialog.Builder dialogConfirmBuilder = new AlertDialog.Builder(getActivity()).setMessage(R.string.videocall_service_disabled).setPositiveButton(R.string.ok,
-                (dialog, which) -> {
-                    if(vProgress.getVisibility() == View.GONE){
-                        vProgress.setVisibility(View.VISIBLE);
-                    }
-                    vContainer.setVisibility(View.GONE);
-                    mPresenter.getAffiliateHistory();
-                }).setCancelable(false);
+    public void onInitCallError(GenericResponseDTO responseDTO) {
+        if(responseDTO.getCode() == 1005){
+            vProgress.setVisibility(View.GONE);
+            AlertDialog.Builder dialogConfirmBuilder = new AlertDialog.Builder(getActivity()).setMessage(R.string.videocall_service_disabled).setPositiveButton(R.string.ok,
+                    (dialog, which) -> {
+                        if(vProgress.getVisibility() == View.GONE){
+                            vProgress.setVisibility(View.VISIBLE);
+                        }
+                        vContainer.setVisibility(View.GONE);
+                        mPresenter.getAffiliateHistory();
+                    }).setCancelable(false);
 
-        AlertDialog alertDialog = dialogConfirmBuilder.create();
-        alertDialog.setOnShowListener(dialog -> alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.red)));
-        alertDialog.show();
+            AlertDialog alertDialog = dialogConfirmBuilder.create();
+            alertDialog.setOnShowListener(dialog -> alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.red)));
+            alertDialog.show();
+        } else {
+            Toast.makeText(getActivity(), "Hubo un error iniciando la consulta, por favor volvé a intentarlo.", Toast.LENGTH_LONG).show();
+        }
     }
 
 }

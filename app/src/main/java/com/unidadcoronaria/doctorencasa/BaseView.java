@@ -6,4 +6,5 @@ package com.unidadcoronaria.doctorencasa;
  */
 public interface BaseView {
 
+    void logout();
 }

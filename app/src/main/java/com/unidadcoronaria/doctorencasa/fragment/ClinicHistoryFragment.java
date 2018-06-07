@@ -2,6 +2,7 @@ package com.unidadcoronaria.doctorencasa.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
@@ -40,6 +41,7 @@ public class ClinicHistoryFragment extends BaseFragment<ClinicHistoryPresenter> 
 
 
     public static final String TAG = "ClinicHistoryFragment";
+    private static final String BUNDLE_RECYCLER_LAYOUT = "CLINIC_HISTORY_LIST";
 
     @BindView(R.id.fragment_clinic_history_list)
     RecyclerView vClinicHistoryList;
@@ -103,19 +105,12 @@ public class ClinicHistoryFragment extends BaseFragment<ClinicHistoryPresenter> 
         });
         vRefresh.setColorSchemeResources(R.color.red);
         vProgress.setVisibility(View.VISIBLE);
+        mPresenter.init();
     }
 
     public static BaseFragment newInstance() {
         ClinicHistoryFragment instance = new ClinicHistoryFragment();
         return instance;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (mSelectedAffiliateId == null) {
-            mPresenter.init();
-        }
     }
 
 
@@ -223,5 +218,22 @@ public class ClinicHistoryFragment extends BaseFragment<ClinicHistoryPresenter> 
     @Override
     public void onNegativeClick() {
 
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+
+        if(savedInstanceState != null)
+        {
+            Parcelable savedRecyclerLayoutState = savedInstanceState.getParcelable(BUNDLE_RECYCLER_LAYOUT);
+            vClinicHistoryList.getLayoutManager().onRestoreInstanceState(savedRecyclerLayoutState);
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(BUNDLE_RECYCLER_LAYOUT, vClinicHistoryList.getLayoutManager().onSaveInstanceState());
     }
 }

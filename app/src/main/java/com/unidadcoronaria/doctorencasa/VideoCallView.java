@@ -3,6 +3,7 @@ package com.unidadcoronaria.doctorencasa;
 import com.unidadcoronaria.doctorencasa.domain.AffiliateCallHistory;
 import com.unidadcoronaria.doctorencasa.domain.Queue;
 import com.unidadcoronaria.doctorencasa.domain.VideoCall;
+import com.unidadcoronaria.doctorencasa.dto.GenericResponseDTO;
 
 /**
  * Created by AGUSTIN.BALA on 5/29/2017.
@@ -22,7 +23,7 @@ public interface VideoCallView extends BaseView {
 
     void onInitCallSuccess(VideoCall videoCall);
 
-    void onInitCallError();
+    void onInitCallError(GenericResponseDTO response);
 
     void logout();
 }

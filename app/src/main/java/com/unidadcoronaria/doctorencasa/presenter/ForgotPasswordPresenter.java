@@ -4,7 +4,10 @@ import com.unidadcoronaria.doctorencasa.ForgotPasswordView;
 import com.unidadcoronaria.doctorencasa.dto.Credential;
 import com.unidadcoronaria.doctorencasa.dto.GenericResponseDTO;
 import com.unidadcoronaria.doctorencasa.usecase.network.ForgotPasswordUseCase;
+import com.unidadcoronaria.doctorencasa.util.ErrorUtil;
 import com.unidadcoronaria.doctorencasa.util.ValidationUtil;
+
+import java.util.concurrent.Callable;
 
 import javax.inject.Inject;
 
@@ -43,9 +46,11 @@ public class ForgotPasswordPresenter extends BasePresenter<ForgotPasswordView> {
         Credential credential = new Credential.Builder().setEmail(email).build();
         mForgotPasswordUseCase.setData(credential);
         mForgotPasswordUseCase.execute(o -> view.onForgotPasswordSuccess(),
-                throwable -> {
-                    GenericResponseDTO errorResponse= gson.fromJson(((HttpException) throwable).response().errorBody().string(), GenericResponseDTO.class);
-                    view.onForgotPasswordError(errorResponse);
-                });
+                throwable ->
+                    checkTokenExpired(throwable, () -> {
+                        view.onForgotPasswordError(ErrorUtil.getError(throwable));
+                        return null;
+                    })
+                );
     }
 }

@@ -64,6 +64,7 @@
     <string name="queue_delay">Existe una demora de %1$s para ser atendido</string>
     <string name="init_call">SACAR TURNO</string>
     <string name="in_queue_no_delay">¡Hay médicos disponibles para atenderte en este momento!</string>
+    <string name="in_queue_no_doctor">¡Hay una espera estimada de 10 minutos!</string>
     <string name="in_queue_delay"><![CDATA[La demora estimada para que el doctor te atienda es de <b>%1$s.</b>]]></string>
     <string name="last_consult">ÚLTIMA CONSULTA</string>
     <string name="new_consult">Sacá un turno para ser atendido por uno de nuestro doctores.</string>

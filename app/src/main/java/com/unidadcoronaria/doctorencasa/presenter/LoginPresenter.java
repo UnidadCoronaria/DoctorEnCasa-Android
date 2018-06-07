@@ -10,6 +10,8 @@ import com.unidadcoronaria.doctorencasa.util.SessionUtil;
 
 import javax.inject.Inject;
 
+import retrofit2.HttpException;
+
 import static com.unidadcoronaria.doctorencasa.util.ValidationUtil.validPasswordFormat;
 import static com.unidadcoronaria.doctorencasa.util.ValidationUtil.validUsernameFormat;
 
@@ -55,9 +57,24 @@ public class LoginPresenter extends BasePresenter<LoginView> {
             SessionUtil.saveIsTokenExpired(userInfo.getUser().getPasswordExpired());
             view.onSaveAffiliateSuccess(userInfo, userInfo.getUser().getPasswordExpired());
         }, throwable -> {
-            Log.e("LoginPresenter", "Error performing login " + throwable.toString());
-            view.onLoginError();
+            checkLoginError(throwable);
+
         });
+    }
+
+    private void checkLoginError(Throwable throwable) {
+
+        try {
+            if (throwable instanceof HttpException) {
+                // We had non-2XX http error
+                HttpException e = (HttpException) throwable;
+                if (e.code() == 401) {
+                    view.onLoginError();
+                }
+            }
+        } catch (Exception e) {
+            Log.e("LoginPresenter", "Error performing login " + throwable.toString());
+        }
     }
 
 

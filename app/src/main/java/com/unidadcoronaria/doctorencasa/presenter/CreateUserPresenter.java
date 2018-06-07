@@ -7,6 +7,7 @@ import com.unidadcoronaria.doctorencasa.dto.Credential;
 import com.unidadcoronaria.doctorencasa.dto.GenericResponseDTO;
 import com.unidadcoronaria.doctorencasa.usecase.network.CreateUserUseCase;
 import com.unidadcoronaria.doctorencasa.usecase.network.GetGroupOwnerUseCase;
+import com.unidadcoronaria.doctorencasa.util.ErrorUtil;
 import com.unidadcoronaria.doctorencasa.util.SessionUtil;
 
 import javax.inject.Inject;
@@ -93,8 +94,7 @@ public class CreateUserPresenter extends BasePresenter<AffiliateDataView> {
             SessionUtil.saveProvider(userInfo.getUser().getProvider().getId());
             view.onCreateUserSuccess();
         }, throwable -> {
-            GenericResponseDTO errorResponse= gson.fromJson(((HttpException) throwable).response().errorBody().string(), GenericResponseDTO.class);
-            view.onCreateUserError(errorResponse);
+            view.onCreateUserError(ErrorUtil.getError(throwable));
         });
 
     }

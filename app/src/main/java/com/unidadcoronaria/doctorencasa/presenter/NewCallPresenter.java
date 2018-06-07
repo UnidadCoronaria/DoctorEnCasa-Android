@@ -7,6 +7,9 @@ import com.unidadcoronaria.doctorencasa.usecase.network.GetVideocallUseCase;
 import com.unidadcoronaria.doctorencasa.usecase.network.HangupUseCase;
 import com.unidadcoronaria.doctorencasa.usecase.network.RankCallUseCase;
 import com.unidadcoronaria.doctorencasa.usecase.network.StartCallUseCase;
+import com.unidadcoronaria.doctorencasa.util.ErrorUtil;
+
+import java.util.concurrent.Callable;
 
 import javax.inject.Inject;
 
@@ -38,7 +41,10 @@ public class NewCallPresenter extends BasePresenter<NewCallView> {
         dto.setComment(comment);
         dto.setScore(ranking);
         mRankCallUseCase.setData(dto);
-        mRankCallUseCase.execute(o ->  view.onRankSuccess(ranking), throwable -> view.onRankError());
+        mRankCallUseCase.execute(o ->  view.onRankSuccess(ranking), throwable -> checkTokenExpired(throwable, () -> {
+            view.onRankError();
+            return null;
+        }));
     }
 
 }

@@ -5,6 +5,9 @@ import com.unidadcoronaria.doctorencasa.domain.UserInfo;
 import com.unidadcoronaria.doctorencasa.dto.Credential;
 import com.unidadcoronaria.doctorencasa.dto.GenericResponseDTO;
 import com.unidadcoronaria.doctorencasa.usecase.network.UpdateAffiliateUseCase;
+import com.unidadcoronaria.doctorencasa.util.ErrorUtil;
+
+import java.util.concurrent.Callable;
 
 import javax.inject.Inject;
 
@@ -71,10 +74,12 @@ public class ChangePasswordPresenter extends BasePresenter<ChangePasswordView> {
         Credential credential = new Credential.Builder().setPassword(currentPassword).setNewPassword(newPassword).build();
         view.onChangePasswordStart();
         mUpdateAffiliateUseCase.setData(credential);
-        mUpdateAffiliateUseCase.execute(o -> view.onChangePasswordSuccess((UserInfo)o), throwable -> {
-            GenericResponseDTO errorResponse= gson.fromJson(((HttpException) throwable).response().errorBody().string(), GenericResponseDTO.class);
-            view.onChangePasswordError(errorResponse);
-        } );
+        mUpdateAffiliateUseCase.execute(o -> view.onChangePasswordSuccess((UserInfo)o), throwable ->
+            checkTokenExpired(throwable, () -> {
+                view.onChangePasswordError(ErrorUtil.getError(throwable));
+                return null;
+            })
+        );
 
     }
 

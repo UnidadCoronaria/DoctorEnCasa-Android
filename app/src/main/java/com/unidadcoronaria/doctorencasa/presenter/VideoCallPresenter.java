@@ -1,30 +1,21 @@
 package com.unidadcoronaria.doctorencasa.presenter;
 
 import android.os.Handler;
-import android.support.annotation.CallSuper;
 import android.util.Log;
 
 import com.unidadcoronaria.doctorencasa.VideoCallView;
 import com.unidadcoronaria.doctorencasa.domain.AffiliateCallHistory;
 import com.unidadcoronaria.doctorencasa.domain.Queue;
 import com.unidadcoronaria.doctorencasa.domain.VideoCall;
-import com.unidadcoronaria.doctorencasa.dto.VideoCallDTO;
 import com.unidadcoronaria.doctorencasa.usecase.network.CreateCallUseCase;
 import com.unidadcoronaria.doctorencasa.usecase.network.GetAffiliateCallHistoryUseCase;
 import com.unidadcoronaria.doctorencasa.usecase.network.GetQueueStatusUseCase;
-import com.unidadcoronaria.doctorencasa.usecase.network.GetVideocallUseCase;
-import com.unidadcoronaria.doctorencasa.usecase.network.HangupUseCase;
 import com.unidadcoronaria.doctorencasa.usecase.network.RankCallUseCase;
-import com.unidadcoronaria.doctorencasa.usecase.network.StartCallUseCase;
 import com.unidadcoronaria.doctorencasa.usecase.network.UpdateFCMTokenUseCase;
+import com.unidadcoronaria.doctorencasa.util.ErrorUtil;
 import com.unidadcoronaria.doctorencasa.util.SessionUtil;
 
-import java.util.concurrent.Callable;
-
 import javax.inject.Inject;
-
-import io.reactivex.functions.Consumer;
-import retrofit2.HttpException;
 
 /**
  * Created by AGUSTIN.BALA on 5/21/2017.
@@ -99,12 +90,6 @@ public class VideoCallPresenter extends BasePresenter<VideoCallView> {
         }
     }
 
-    public void stopListeningQueueUpdates() {
-        if (isListeningUpdates) {
-            handler.removeCallbacksAndMessages(null);
-        }
-    }
-
     private void sendTokenToServer() {
         if (!SessionUtil.getFCMToken().isEmpty() && !SessionUtil.getSavedFCMToken()) {
             mUpdateFCMTokenUseCase.setData(SessionUtil.getFCMToken());
@@ -120,7 +105,7 @@ public class VideoCallPresenter extends BasePresenter<VideoCallView> {
         mGetAffiliateCallHistoryUseCase.execute(o -> {
             view.onGetAffiliateCallHistorySuccess((AffiliateCallHistory) o);
         }, throwable -> {
-            handleException(throwable, () -> {
+            checkTokenExpired(throwable, () -> {
                 view.onGetAffiliateCallHistoryError();
                 return null;
             });
@@ -131,7 +116,7 @@ public class VideoCallPresenter extends BasePresenter<VideoCallView> {
         mGetQueueStatusUseCase.execute(o ->
                         view.onGetQueueStatusSuccess((Queue) o)
                 , throwable ->
-                        handleException(throwable, () -> {
+                        checkTokenExpired(throwable, () -> {
                             view.onGetQueueStatusError();
                             return null;
                         }));
@@ -143,28 +128,11 @@ public class VideoCallPresenter extends BasePresenter<VideoCallView> {
         mCreateCallUseCase.execute(o -> {
             view.onInitCallSuccess((VideoCall) o);
         }, throwable -> {
-            handleException(throwable, () -> {
-                view.onInitCallError();
+            checkTokenExpired(throwable, () -> {
+                view.onInitCallError(ErrorUtil.getError(throwable));
                 return null;
             });
         });
-    }
-
-    private void handleException(Throwable throwable, Callable func) {
-        try {
-            if (throwable instanceof HttpException) {
-                // We had non-2XX http error
-                HttpException e = (HttpException) throwable;
-                if (e.response().code() == 408) {
-                    SessionUtil.logout();
-                    view.logout();
-                    return;
-                }
-            }
-            func.call();
-        } catch (Exception e) {
-            Log.e("VideoCallPresenter", e.getMessage());
-        }
     }
 
 }

@@ -12,6 +12,7 @@ import com.unidadcoronaria.doctorencasa.fragment.BaseFragment;
 import com.unidadcoronaria.doctorencasa.fragment.CreateUserFragment;
 import com.unidadcoronaria.doctorencasa.fragment.SelectProviderFragment;
 import com.unidadcoronaria.doctorencasa.fragment.FragmentContainer;
+import com.unidadcoronaria.doctorencasa.util.SessionUtil;
 
 /**
  * Created by AGUSTIN.BALA on 5/21/2017.
@@ -58,5 +59,14 @@ public class CreateAccountActivity extends BaseActivity implements FragmentConta
         super.setBackVisibilityInToolbar(isBackVisible);
     }
 
+
+    @Override
+    public void logout() {
+        SessionUtil.logout();
+        Intent intent = LoginActivity.getStartIntent(this);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
+    }
 
 }
