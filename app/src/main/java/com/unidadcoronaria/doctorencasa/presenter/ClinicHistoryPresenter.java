@@ -21,7 +21,7 @@ public class ClinicHistoryPresenter extends BasePresenter<ClinicHistoryView> {
         this.mGetAffiliateCallHistoryUseCase = mGetAffiliateCallHistoryUseCase;
     }
 
-    public void nninit() {
+    public void init() {
         mGetAffiliateCallHistoryUseCase.execute(
                 o -> view.onClinicHistoryListRetrieved((List<ClinicHistory>) o),
                 throwable -> checkTokenExpired(throwable, () -> {
