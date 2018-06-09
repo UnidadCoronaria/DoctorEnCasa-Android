@@ -18,7 +18,7 @@
 
             <include
                 layout="@layout/view_progress"
-                tools:visibility="visible" />
+                tools:visibility="gone" />
 
             <LinearLayout
                 android:id="@+id/fragment_video_call_container"
@@ -26,14 +26,14 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:padding="16dp"
-                tools:visibility="gone">
+                tools:visibility="visible">
 
                 <ImageView
                     android:id="@+id/fragment_video_call_image"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="@dimen/new_call_margin_top"
                     />
 
 
@@ -41,7 +41,7 @@
                     android:id="@+id/fragment_video_call_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="@dimen/new_call_margin_top"
                     android:textAlignment="center"
                     android:theme="@style/CardTextEditText"
                     app:visual_font_name="light"
@@ -51,7 +51,7 @@
                     android:id="@+id/fragment_video_call_error_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="50dp"
+                    android:layout_marginTop="@dimen/new_call_error_margin_top"
                     android:textAlignment="center"
                     android:theme="@style/CardTextEditText"
                     app:visual_font_name="light"
@@ -64,7 +64,7 @@
                     android:id="@+id/fragment_video_call_button"
                     style="@style/FormButton"
                     android:layout_gravity="center"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="@dimen/new_call_margin_top"
                     android:text="@string/init_call" />
 
 

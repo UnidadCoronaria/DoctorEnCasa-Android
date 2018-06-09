@@ -184,7 +184,7 @@ public abstract class BaseActivity extends AppCompatActivity  implements Service
         // for subclasses
     }
 
-    protected SinchService.SinchServiceInterface getSinchServiceInterface() {
+    public SinchService.SinchServiceInterface getSinchServiceInterface() {
         return mSinchServiceInterface;
     }
     //endregion
