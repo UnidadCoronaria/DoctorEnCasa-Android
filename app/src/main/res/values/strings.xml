@@ -101,6 +101,7 @@ Los productos y servicios que se ofrecen por medio del Sitio (en adelante los "P
     <string name="previous_clinic_histories">Consultas anteriores:</string>
     <string name="previous_clinic_history_of">Última consulta de %1$s</string>
     <string name="reason">Motivo:</string>
+    <string name="anamnesis">Anamnesis:</string>
     <string name="recommendation">Recomendaciones:</string>
     <string name="attended_by">Atendido por:</string>
     <string name="select_provider">1- Seleccioná la empresa a la cual pertenecés.</string>

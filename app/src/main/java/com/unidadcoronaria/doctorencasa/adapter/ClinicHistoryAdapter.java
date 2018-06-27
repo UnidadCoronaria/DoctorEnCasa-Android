@@ -30,7 +30,7 @@ import butterknife.ButterKnife;
 public class ClinicHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private final Callback mCallback;
-    private List<ClinicHistory> mList = new ArrayList<>();
+    private List<ClinicHistory> mList;
 
     public ClinicHistoryAdapter(List<ClinicHistory> mList, Callback callback) {
         this.mList = mList;
@@ -59,6 +59,8 @@ public class ClinicHistoryAdapter extends RecyclerView.Adapter<RecyclerView.View
                 holderHeader.vRecommendation.setText(clinicHistory.getRecommendation());
                 holderHeader.vReason.setText(StringUtil.splitReasonList(clinicHistory.getReasons()));
                 holderHeader.vDoctor.setText("Dr "+ clinicHistory.getVideocall().getDoctor().getFirstName()+" "+clinicHistory.getVideocall().getDoctor().getLastName());
+                holderHeader.vContainer.setOnClickListener(v ->
+                        mCallback.onItemClick(clinicHistory));
                 break;
             default:
                 ClinicHistoryHolder holderItem = (ClinicHistoryHolder)holder;
@@ -109,6 +111,9 @@ public class ClinicHistoryAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         @BindView(R.id.item_clinic_history_header_doctor_image)
         ImageView vDoctorImage;
+
+        @BindView(R.id.item_clinic_history_header_container)
+        View vContainer;
 
 
         public ClinicHistoryHeaderHolder(View itemView) {

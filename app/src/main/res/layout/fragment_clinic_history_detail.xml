@@ -82,6 +82,33 @@
                 android:layout_marginTop="10dp"
                 android:background="@color/greyLight" />
 
+
+            <com.unidadcoronaria.doctorencasa.view.CustomTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/anamnesis"
+                android:textColor="@color/greyDark"
+                android:textSize="18sp"
+                app:visual_font_name="light" />
+
+            <com.unidadcoronaria.doctorencasa.view.CustomTextView
+                android:id="@+id/fragment_clinic_history_detail_anamnesis"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/greyDark"
+                android:textSize="16sp"
+                app:visual_font_name="light"
+                tools:text="Accumsan ad commodo cras curabitur erat est facilisis feugiat iaculis ipsum lacinia litora lorem mollis nam nec netus nostra platea posuere rhoncus" />
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/greyLight" />
+
             <com.unidadcoronaria.doctorencasa.view.CustomTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

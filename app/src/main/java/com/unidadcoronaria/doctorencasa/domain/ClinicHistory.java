@@ -16,6 +16,7 @@ public class ClinicHistory implements Serializable{
     private String firstName;
     private VideoCall videocall;
     private List<Reason> reasons;
+    private String anamnesis;
 
     public int getId() {
         return id;
@@ -73,5 +74,13 @@ public class ClinicHistory implements Serializable{
 
     public void setReasons(List<Reason> reasons) {
         this.reasons = reasons;
+    }
+
+    public String getAnamnesis() {
+        return anamnesis;
+    }
+
+    public void setAnamnesis(String anamnesis) {
+        this.anamnesis = anamnesis;
     }
 }

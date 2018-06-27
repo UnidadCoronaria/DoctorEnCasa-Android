@@ -43,6 +43,9 @@ public class ClinicHistoryDetailFragment extends BaseFragment<ClinicHistoryDetai
     @BindView(R.id.fragment_clinic_history_detail_reason)
     TextView vReason;
 
+    @BindView(R.id.fragment_clinic_history_detail_anamnesis)
+    TextView vAnamnesis;
+
     @BindView(R.id.fragment_clinic_history_detail_doctor)
     TextView vDoctor;
 
@@ -91,6 +94,7 @@ public class ClinicHistoryDetailFragment extends BaseFragment<ClinicHistoryDetai
             vLastDate.setText(DateUtil.getConvertedDayString(new Date(mClinicHistory.getVideocall().getDate())));
             vReason.setText(StringUtil.splitReasonList(mClinicHistory.getReasons()));
             vRecommendation.setText(mClinicHistory.getRecommendation());
+            vAnamnesis.setText(mClinicHistory.getAnamnesis());
             vDoctor.setText("Dr "+  mClinicHistory.getVideocall().getDoctor().getFirstName()+" "+mClinicHistory.getVideocall().getDoctor().getLastName());
         }
         return view;
