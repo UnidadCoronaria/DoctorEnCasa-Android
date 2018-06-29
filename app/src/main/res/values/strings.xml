@@ -76,9 +76,10 @@
     <string name="available_doctor">Hay doctores disponibles para atenderte ahora!</string>
     <string name="history_empty">Luego de la primer consulta, tendrás tu historia clínica.</string>
     <string name="history_error"><![CDATA[Parece que no estás conectado a internet.\nRevisá tu conexión e intentá nuevamente.]]></string>
-    <string name="remember_to_accept">Tenés 45 segundos para responder a esta llamada, sino perderás el turno y deberás volver a sacar un nuevo turno.</string>
+    <string name="remember_to_accept">Tenés 60 segundos para responder a esta llamada, sino perderás el turno y deberás volver a sacar un nuevo turno.</string>
     <string name="remaining_time_to_answer"><![CDATA[Si no atiendes la llamada en los próximos <b>%1$s</b>, perderás el turno y deberás volver a sacar un nuevo turno.]]></string>
     <string name="remaining_time_to_answer_one"><![CDATA[Si no atiendes la llamada en menos de <b>un minuto</b>, perderás el turno y deberás volver a sacar un nuevo turno.]]></string>
+    <string name="no_response">No contestaste la llamada a tiempo. Podés volver a sacar un turno cuando estés disponible.</string>
     <string name="logout">Cerrar Sesión</string>
     <string name="rate_app">Calificanos</string>
     <string name="remember_later">Recordar más tarde</string>

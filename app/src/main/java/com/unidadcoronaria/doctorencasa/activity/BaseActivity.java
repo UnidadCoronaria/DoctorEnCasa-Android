@@ -1,18 +1,13 @@
 package com.unidadcoronaria.doctorencasa.activity;
 
-import android.app.Activity;
-import android.content.ComponentName;
-import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.support.annotation.CallSuper;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -20,7 +15,6 @@ import android.widget.TextView;
 import com.unidadcoronaria.doctorencasa.LoadableActivity;
 import com.unidadcoronaria.doctorencasa.R;
 import com.unidadcoronaria.doctorencasa.fragment.BaseFragment;
-import com.unidadcoronaria.doctorencasa.service.SinchService;
 import com.unidadcoronaria.doctorencasa.util.FragmentNavigationUtil;
 
 import butterknife.BindView;
@@ -34,7 +28,7 @@ import butterknife.Optional;
  * @author Agustin.Bala
  * @since 0.0.1
  */
-public abstract class BaseActivity extends AppCompatActivity  implements ServiceConnection, LoadableActivity {
+public abstract class BaseActivity extends AppCompatActivity  implements LoadableActivity {
 
     @Nullable
     @BindView(R.id.toolbar)
@@ -55,9 +49,6 @@ public abstract class BaseActivity extends AppCompatActivity  implements Service
     @Nullable
     View vProgress;
 
-
-    private SinchService.SinchServiceInterface mSinchServiceInterface;
-
     //region Lifecycle implementation
     @Override
     @CallSuper
@@ -73,8 +64,6 @@ public abstract class BaseActivity extends AppCompatActivity  implements Service
         if (savedInstanceState == null && getFragment() != null) {
             FragmentNavigationUtil.addFragment(getSupportFragmentManager(), R.id.activity_base_fragment, getFragment());
         }
-        getApplicationContext().bindService(new Intent(this, SinchService.class), this,
-                Activity.BIND_AUTO_CREATE);
     }
 
     @Override
@@ -157,36 +146,6 @@ public abstract class BaseActivity extends AppCompatActivity  implements Service
     protected abstract BaseFragment getFragment();
 
     protected abstract boolean showToolbar();
-    //endregion
-
-    //region SinchService
-    @Override
-    public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
-        if (SinchService.class.getName().equals(componentName.getClassName())) {
-            mSinchServiceInterface = (SinchService.SinchServiceInterface) iBinder;
-            onServiceConnected();
-        }
-    }
-
-    @Override
-    public void onServiceDisconnected(ComponentName componentName) {
-        if (SinchService.class.getName().equals(componentName.getClassName())) {
-            mSinchServiceInterface = null;
-            onServiceDisconnected();
-        }
-    }
-
-    protected void onServiceConnected() {
-        // for subclasses
-    }
-
-    protected void onServiceDisconnected() {
-        // for subclasses
-    }
-
-    public SinchService.SinchServiceInterface getSinchServiceInterface() {
-        return mSinchServiceInterface;
-    }
     //endregion
 
     @Override

@@ -1,18 +1,13 @@
 package com.unidadcoronaria.doctorencasa;
 
-import android.app.Application;
-import android.content.Intent;
 import android.support.multidex.MultiDexApplication;
 
 import com.crashlytics.android.Crashlytics;
 import com.facebook.stetho.Stetho;
-import com.unidadcoronaria.doctorencasa.activity.TermsAndConditionsActivity;
 import com.unidadcoronaria.doctorencasa.di.component.ApplicationComponent;
 import com.unidadcoronaria.doctorencasa.di.component.DaggerApplicationComponent;
-import com.unidadcoronaria.doctorencasa.service.SinchService;
 
 import hotchemi.android.rate.AppRate;
-import hotchemi.android.rate.OnClickButtonListener;
 import io.fabric.sdk.android.Fabric;
 
 /**

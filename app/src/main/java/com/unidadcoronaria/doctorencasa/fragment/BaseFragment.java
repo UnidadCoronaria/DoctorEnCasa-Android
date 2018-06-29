@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.unidadcoronaria.doctorencasa.R;
-import com.unidadcoronaria.doctorencasa.activity.BaseActivity;
 import com.unidadcoronaria.doctorencasa.activity.LoginActivity;
 import com.unidadcoronaria.doctorencasa.presenter.BasePresenter;
 import com.unidadcoronaria.doctorencasa.util.SessionUtil;
@@ -104,7 +103,6 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment {
         Intent intent = LoginActivity.getStartIntent(getActivity());
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
-        ((BaseActivity)getActivity()).getSinchServiceInterface().stopClient();
         getActivity().finish();
     }
     //endregion

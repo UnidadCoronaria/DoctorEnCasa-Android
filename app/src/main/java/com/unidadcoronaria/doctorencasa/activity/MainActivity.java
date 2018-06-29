@@ -6,32 +6,21 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.Toast;
 
-import com.sinch.android.rtc.SinchError;
 import com.unidadcoronaria.doctorencasa.App;
-import com.unidadcoronaria.doctorencasa.R;
 import com.unidadcoronaria.doctorencasa.MainView;
+import com.unidadcoronaria.doctorencasa.R;
 import com.unidadcoronaria.doctorencasa.di.component.DaggerSettingsComponent;
 import com.unidadcoronaria.doctorencasa.fragment.BaseFragment;
 import com.unidadcoronaria.doctorencasa.fragment.VideoCallFragment;
 import com.unidadcoronaria.doctorencasa.presenter.MainPresenter;
-import com.unidadcoronaria.doctorencasa.streaming.SinchCallManager;
 import com.unidadcoronaria.doctorencasa.util.SessionUtil;
 
 import javax.inject.Inject;
 
 import hotchemi.android.rate.AppRate;
-import hotchemi.android.rate.OnClickButtonListener;
 import permissions.dispatcher.NeedsPermission;
 import permissions.dispatcher.OnNeverAskAgain;
 import permissions.dispatcher.OnPermissionDenied;
@@ -43,15 +32,17 @@ import permissions.dispatcher.RuntimePermissions;
  * Created by AGUSTIN.BALA on 5/21/2017.
  */
 @RuntimePermissions
-public class MainActivity extends BaseNavActivity implements MainView, SinchCallManager.StartFailedListener {
-
+public class MainActivity extends BaseNavActivity implements MainView {
 
     @Inject
     MainPresenter mPresenter;
 
 
     public static Intent getStartIntent(Context context){
-        return new Intent(context, MainActivity.class);
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        return intent;
     }
 
     @Override
@@ -79,8 +70,6 @@ public class MainActivity extends BaseNavActivity implements MainView, SinchCall
         setToolbarTitle(getString(R.string.app_name));
         DaggerSettingsComponent.builder().applicationComponent(App.getInstance().getApplicationComponent()).build().inject(this);
         mPresenter.setView(this);
-
-       checkRateApp();
     }
 
     private void checkRateApp() {
@@ -89,8 +78,18 @@ public class MainActivity extends BaseNavActivity implements MainView, SinchCall
     }
 
     @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        // getIntent() should always return the most recent
+        setIntent(intent);
+    }
+
+    @Override
     public void onResume(){
         super.onResume();
+        if(!SessionUtil.isCallInProgress()){
+            checkRateApp();
+        }
         MainActivityPermissionsDispatcher.checkPermissionsWithPermissionCheck(this);
     }
 
@@ -106,7 +105,9 @@ public class MainActivity extends BaseNavActivity implements MainView, SinchCall
     @NeedsPermission({Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO, Manifest.permission.MODIFY_AUDIO_SETTINGS,
             Manifest.permission.READ_PHONE_STATE})
     protected void checkPermissions() {
-
+        if(SessionUtil.isCallInProgress()){
+            startActivity(NewCallActivity.getStartIntent(this));
+        }
     }
 
     //region Permissions Handling
@@ -143,27 +144,4 @@ public class MainActivity extends BaseNavActivity implements MainView, SinchCall
         finish();
     }
 
-
-    protected void onServiceConnected() {
-        if(getSinchServiceInterface() != null){
-            getSinchServiceInterface().setStartListener(this);
-            getSinchServiceInterface().startClient(SessionUtil.getUsername());
-        }
-    }
-
-
-    @Override
-    public void onStartFailed(SinchError error) {
-        Log.d("MainActivity", "onStartFailed");
-    }
-
-    @Override
-    public void onStopped() {
-        Log.d("MainActivity", "onStopped");
-    }
-
-    @Override
-    public void onStarted() {
-        Log.d("MainActivity", "onStarted");
-    }
 }

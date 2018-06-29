@@ -12,6 +12,7 @@ import com.unidadcoronaria.doctorencasa.App;
 import com.unidadcoronaria.doctorencasa.activity.MainActivity;
 import com.unidadcoronaria.doctorencasa.activity.NewCallActivity;
 import com.unidadcoronaria.doctorencasa.util.NotificationHelper;
+import com.unidadcoronaria.doctorencasa.util.SessionUtil;
 
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
@@ -42,9 +43,15 @@ public class NotificationService extends FirebaseMessagingService {
         // Also if you intend on generating your own notifications as a result of a received FCM
         // message, here is where that should be initiated. See sendNotification method below.
         this.remoteMessage = remoteMessage;
-        if(remoteMessage.getData().get("videocallId") != null) {
+        if (remoteMessage.getData().get("token") != null &&
+                remoteMessage.getData().get("roomName") != null) {
+            SessionUtil.saveRoomName(remoteMessage.getData().get("roomName"));
+            SessionUtil.saveTwilioToken(remoteMessage.getData().get("token"));
+            App.getInstance().startActivity(MainActivity.getStartIntent(App.getInstance()));
+        } else {
             NotificationHelper.showNotification(App.getInstance(), remoteMessage.getData().get("videocallId").toString());
         }
+
     }
 
 

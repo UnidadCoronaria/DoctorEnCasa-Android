@@ -14,7 +14,6 @@ import android.widget.Toast;
 import com.unidadcoronaria.doctorencasa.App;
 import com.unidadcoronaria.doctorencasa.R;
 import com.unidadcoronaria.doctorencasa.VideoCallView;
-import com.unidadcoronaria.doctorencasa.activity.ChangePasswordActivity;
 import com.unidadcoronaria.doctorencasa.di.component.DaggerVideoCallComponent;
 import com.unidadcoronaria.doctorencasa.domain.AffiliateCallHistory;
 import com.unidadcoronaria.doctorencasa.domain.Queue;
@@ -23,7 +22,6 @@ import com.unidadcoronaria.doctorencasa.domain.VideoCallStatus;
 import com.unidadcoronaria.doctorencasa.dto.GenericResponseDTO;
 import com.unidadcoronaria.doctorencasa.presenter.VideoCallPresenter;
 import com.unidadcoronaria.doctorencasa.util.DateUtil;
-import com.unidadcoronaria.doctorencasa.util.SessionUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -99,6 +97,10 @@ public class VideoCallFragment extends BaseFragment<VideoCallPresenter> implemen
     @OnClick(R.id.fragment_video_call_button)
     protected void onButtonClick() {
         mPresenter.initCall();
+        /*Log.d(TAG, "Incoming call");
+        Intent intent = new Intent(getActivity(), NewCallActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        getActivity().startActivity(intent);*/
     }
 
     @Override
