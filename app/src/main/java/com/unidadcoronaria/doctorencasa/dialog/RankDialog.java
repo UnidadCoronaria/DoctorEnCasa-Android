@@ -21,10 +21,12 @@ public class RankDialog {
     private AlertDialog alertDialog;
 
     public void showRankMessage(Context context, Callback mCallback) {
+        if(context != null ){
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View dialogView = inflater.inflate(R.layout.view_rank_dialog, null);
 
         showBaseMessage(context, mCallback,  dialogView);
+        }
     }
 
     private void showBaseMessage(Context context,

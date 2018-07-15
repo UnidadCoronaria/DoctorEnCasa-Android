@@ -87,7 +87,7 @@ public class MainActivity extends BaseNavActivity implements MainView {
     @Override
     public void onResume(){
         super.onResume();
-        if(!SessionUtil.isCallInProgress()){
+        if(!SessionUtil.isCallPending()){
             checkRateApp();
         }
         MainActivityPermissionsDispatcher.checkPermissionsWithPermissionCheck(this);
@@ -105,7 +105,7 @@ public class MainActivity extends BaseNavActivity implements MainView {
     @NeedsPermission({Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO, Manifest.permission.MODIFY_AUDIO_SETTINGS,
             Manifest.permission.READ_PHONE_STATE})
     protected void checkPermissions() {
-        if(SessionUtil.isCallInProgress()){
+        if(SessionUtil.isCallPending()){
             startActivity(NewCallActivity.getStartIntent(this));
         }
     }

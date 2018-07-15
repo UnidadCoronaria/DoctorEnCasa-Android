@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/red"
-        android:visibility="gone"/>
+        android:visibility="visible"/>
 
 
     <RelativeLayout
@@ -58,24 +58,6 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="@string/permissions_never_ask"
-            android:textSize="20dp" />
-
-    </RelativeLayout>
-
-
-    <RelativeLayout
-        android:id="@+id/rl_error_starting"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@android:color/white"
-        android:padding="30dp"
-        android:visibility="gone">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="@string/error_starting_call"
             android:textSize="20dp" />
 
     </RelativeLayout>
@@ -214,9 +196,10 @@
 
         <com.twilio.video.VideoView
             android:id="@+id/call_self_camera"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_width="90dp"
+            android:layout_height="120dp"
             android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:orientation="vertical" />
@@ -228,8 +211,35 @@
             android:layout_alignParentTop="true"
             android:orientation="vertical" />
 
+        <LinearLayout
+            android:id="@+id/fragment_video_call_container_all_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_above="@+id/fragment_video_call_container_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_marginBottom="20dp"
+            android:orientation="horizontal">
+
+
+            <ImageView
+                android:id="@+id/fragment_video_call_hangup_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_call_reject" />
+
+        </RelativeLayout>
+
 
         <LinearLayout
+            android:id="@+id/fragment_video_call_container_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
@@ -266,11 +276,11 @@
 
 
                 <ImageView
-                    android:id="@+id/fragment_video_call_hangup_button"
+                    android:id="@+id/fragment_video_call_stop_video"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:src="@drawable/ic_call_reject" />
+                    android:src="@drawable/selector_video_icon" />
 
             </RelativeLayout>
 
@@ -294,7 +304,7 @@
             </RelativeLayout>
 
         </LinearLayout>
-
+        </LinearLayout>
 
     </RelativeLayout>
 

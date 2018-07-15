@@ -95,9 +95,10 @@ public class SessionUtil {
         return SharedPreferencesHelper.getString(App.getInstance(), KEY_TOKEN_TWILIO);
     }
 
-    public static Boolean isCallInProgress(){
-        return !getTwilioToken().isEmpty() && !getRoomName().isEmpty();
+    public static Boolean isCallPending(){
+        return !getRoomName().isEmpty() && !getTwilioToken().isEmpty();
     }
+
 
     public static void finishCall(){
         saveTwilioToken(DEFAULT_VALUE);

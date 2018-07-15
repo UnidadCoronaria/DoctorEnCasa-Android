@@ -17,6 +17,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.TranslateAnimation;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,6 +48,7 @@ import com.unidadcoronaria.doctorencasa.di.component.DaggerVideoCallComponent;
 import com.unidadcoronaria.doctorencasa.dialog.RankDialog;
 import com.unidadcoronaria.doctorencasa.presenter.NewCallPresenter;
 import com.unidadcoronaria.doctorencasa.streaming.AudioPlayer;
+import com.unidadcoronaria.doctorencasa.streaming.RemoteParticipantListener;
 import com.unidadcoronaria.doctorencasa.util.CameraCapturerCompat;
 import com.unidadcoronaria.doctorencasa.util.SessionUtil;
 import com.wang.avi.AVLoadingIndicatorView;
@@ -85,9 +87,6 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
     @BindView(R.id.rl_error)
     protected View vErrorContainer;
 
-    @BindView(R.id.rl_error_starting)
-    protected View vErrorStartingContainer;
-
     @BindView(R.id.fragment_new_video_call_calling)
     protected View vStartingContainer;
 
@@ -97,8 +96,14 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
     @BindView(R.id.fragment_video_call_hangup_button)
     protected View vHangoutButton;
 
-    @BindView(R.id.fragment_video_call_switch_video)
+    @BindView(R.id.fragment_video_call_stop_video)
     protected View vStopVideoButton;
+
+    @BindView(R.id.fragment_video_call_switch_video)
+    protected View vSwitchVideoButton;
+
+    @BindView(R.id.fragment_video_call_container_all_button)
+    protected View vButtonContainer;
 
     @BindView(R.id.fragment_video_call_mute)
     protected View vMuteButton;
@@ -116,7 +121,7 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
     private AudioPlayer mAudioPlayer;
     private AudioManager audioManager;
     private Handler mRemainingMinutesHandler = new Handler();
-    private int mRemainingMinutes = 3;
+    private Handler mHideButtonsHandler = new Handler();
 
 
     @Override
@@ -148,13 +153,15 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
         audioManager = (AudioManager) App.getInstance().getSystemService(Context.AUDIO_SERVICE);
         audioManager.setMode(AudioManager.MODE_IN_CALL);
         audioManager.setSpeakerphoneOn(true);
-        vMuteButton.setSelected(!audioManager.isMicrophoneMute());
-        if(SessionUtil.isCallInProgress()){
+        vMuteButton.setSelected(audioManager.isMicrophoneMute());
+        if (SessionUtil.isCallPending()) {
             roomName = SessionUtil.getRoomName();
             token = SessionUtil.getTwilioToken();
+            createAudioAndVideoTracks();
+            NewCallFragmentPermissionsDispatcher.acceptCallWithPermissionCheck(this);
+        } else {
+            showSingleOptionDialog(getString(R.string.videocall_not_available));
         }
-        createAudioAndVideoTracks();
-        NewCallFragmentPermissionsDispatcher.acceptCallWithPermissionCheck(this);
     }
 
     @Override
@@ -167,7 +174,10 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
     public void onDestroy() {
         destroyVideoTracks();
         mRemainingMinutesHandler.removeCallbacksAndMessages(null);
-        SessionUtil.finishCall();
+        mHideButtonsHandler.removeCallbacksAndMessages(null);
+        if (room != null) {
+            room.disconnect();
+        }
         super.onDestroy();
     }
 
@@ -195,7 +205,6 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
         vErrorContainer.setVisibility(View.GONE);
         vContainer.setVisibility(View.GONE);
         vIncomingContainer.setVisibility(View.VISIBLE);
-        vErrorStartingContainer.setVisibility(View.GONE);
         mAudioPlayer = new AudioPlayer(getActivity());
         mAudioPlayer.playRingtone();
         vIncomingCallEffect.show();
@@ -208,25 +217,23 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
         if (room != null) {
             room.disconnect();
         }
+        onCallEnded();
     }
 
     @OnClick(R.id.fragment_video_call_answer_button)
     protected void onAnswerClick() {
-        try {
-            mAudioPlayer.stopRingtone();
-            vMuteButton.setSelected(audioManager.isMicrophoneMute());
-            connectToRoom(roomName);
-            SessionUtil.finishCall();
-        } catch (Exception e) {
-            vProgress.setVisibility(View.GONE);
-            vStartingContainer.setVisibility(View.GONE);
-            vErrorContainer.setVisibility(View.GONE);
-            vContainer.setVisibility(View.GONE);
-            vIncomingContainer.setVisibility(View.GONE);
-            vRankBackground.setVisibility(View.GONE);
-            vIncomingCallEffect.hide();
-            vErrorStartingContainer.setVisibility(View.VISIBLE);
+        mAudioPlayer.stopRingtone();
+        vMuteButton.setSelected(audioManager.isMicrophoneMute());
+        connectToRoom(roomName);
+        SessionUtil.finishCall();
+    }
+
+    @OnClick(R.id.call_frame)
+    protected void onVideoClick() {
+        if (vButtonContainer.getVisibility() == View.INVISIBLE) {
+            showInAnimation(vButtonContainer);
         }
+        startHideButtonsHandler();
     }
 
     @OnClick(R.id.fragment_video_call_decline_button)
@@ -245,11 +252,12 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
         }
     }
 
-    protected void onStopVideo(){
+    @OnClick(R.id.fragment_video_call_stop_video)
+    protected void onStopVideo() {
         if (localVideoTrack != null) {
             boolean enable = !localVideoTrack.isEnabled();
             localVideoTrack.enable(enable);
-            //change button status
+            vStopVideoButton.setSelected(enable);
         }
     }
 
@@ -258,10 +266,9 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
         if (localAudioTrack != null) {
             boolean enable = !localAudioTrack.isEnabled();
             localAudioTrack.enable(enable);
-            vMuteButton.setSelected(!enable);
+            vMuteButton.setSelected(enable);
         }
     }
-
 
 
     private void showRankDialog() {
@@ -289,8 +296,8 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
     void showRationaleForCamera(final PermissionRequest request) {
         new AlertDialog.Builder(getActivity())
                 .setMessage(getString(R.string.permissions_need_acepted))
-                .setPositiveButton(getString(R.string.yes), (dialog, button) -> request.proceed())
-                .setNegativeButton(getString(R.string.no), (dialog, button) -> request.cancel())
+                .setPositiveButton(getString(R.string.yes).toUpperCase(), (dialog, button) -> request.proceed())
+                .setNegativeButton(getString(R.string.no).toUpperCase(), (dialog, button) -> request.cancel())
                 .show();
     }
 
@@ -368,8 +375,6 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
     //endregion
 
     private void onCallEnded() {
-        Log.d(TAG, "Call ended");
-        SessionUtil.finishCall();
         mAudioPlayer.stopRingtone();
         vContainer.setVisibility(View.GONE);
         vStartingContainer.setVisibility(View.GONE);
@@ -377,12 +382,11 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
         vContainer.setVisibility(View.GONE);
         vHangoutButton.setVisibility(View.VISIBLE);
         mRemainingMinutesHandler.removeCallbacksAndMessages(null);
+        mHideButtonsHandler.removeCallbacksAndMessages(null);
         showRankDialog();
     }
 
     private void onCallEstablished() {
-        Log.d(TAG, "Call established");
-        SessionUtil.finishCall();
         vHangoutButton.setVisibility(View.VISIBLE);
         vStartingContainer.setVisibility(View.GONE);
         vContainer.setVisibility(View.VISIBLE);
@@ -390,19 +394,72 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
         vRankBackground.setVisibility(View.GONE);
         vStopVideoButton.setSelected(true);
         vMuteButton.setSelected(true);
+        vSwitchVideoButton.setSelected(true);
         mRemainingMinutesHandler.removeCallbacksAndMessages(null);
+        startHideButtonsHandler();
     }
 
     public void onCallProgressing() {
         Log.d(TAG, "Call progressing");
         //vCallRemainingTime.setText(getString(R.string.remaining_time_to_answer, "3 minutos"));
         mRemainingMinutesHandler.postDelayed(() -> {
-           if(SessionUtil.isCallInProgress()){
-               SessionUtil.finishCall();
-               Toast.makeText(App.getInstance(), getString(R.string.no_response), Toast.LENGTH_LONG).show();
-               getActivity().finish();
-           }
-        }, 60 * 1000);
+            if (SessionUtil.isCallPending()) {
+                SessionUtil.finishCall();
+                Toast.makeText(App.getInstance(), getString(R.string.no_response), Toast.LENGTH_LONG).show();
+                startActivity(MainActivity.getStartIntent(getActivity()));
+                getActivity().finish();
+            }
+        }, 30 * 1000);
+    }
+
+    private void startHideButtonsHandler() {
+        mHideButtonsHandler.removeCallbacksAndMessages(null);
+        mHideButtonsHandler.postDelayed(() -> {
+            showOutAnimation(vButtonContainer);
+        }, 3 * 1000);
+    }
+
+    private void showInAnimation(View view) {
+        view.setVisibility(View.VISIBLE);
+        TranslateAnimation animate = new TranslateAnimation(
+                0,                 // fromXDelta
+                0,                 // toXDelta
+                view.getHeight(),  // fromYDelta
+                0);                // toYDelta
+        animate.setDuration(500);
+        animate.setFillAfter(true);
+        view.startAnimation(animate);
+    }
+
+    private void showOutAnimation(View view) {
+        TranslateAnimation animate = new TranslateAnimation(
+                0,                 // fromXDelta
+                0,                 // toXDelta
+                0,                 // fromYDelta
+                view.getHeight()); // toYDelta
+        animate.setDuration(500);
+        animate.setFillAfter(true);
+        view.startAnimation(animate);
+        view.setVisibility(View.INVISIBLE);
+    }
+
+    private void resetView() {
+        vContainer.setVisibility(View.GONE);
+        vStartingContainer.setVisibility(View.GONE);
+        vIncomingContainer.setVisibility(View.GONE);
+        vContainer.setVisibility(View.GONE);
+        vHangoutButton.setVisibility(View.GONE);
+        vRankBackground.setVisibility(View.VISIBLE);
+        mRemainingMinutesHandler.removeCallbacksAndMessages(null);
+        mHideButtonsHandler.removeCallbacksAndMessages(null);
+    }
+
+    private void showSingleOptionDialog(String text) {
+        resetView();
+        new AlertDialog.Builder(getActivity())
+                .setMessage(text)
+                .setPositiveButton(getString(R.string.accept).toUpperCase(), (dialog, button) -> { startActivity(MainActivity.getStartIntent(getActivity())); getActivity().finish(); })
+                .show();
     }
 
     // region TWILIO
@@ -425,7 +482,6 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
     private Room room;
     private CameraCapturerCompat cameraCapturerCompat;
     private LocalParticipant localParticipant;
-    private boolean disconnectedFromOnDestroy;
     private int previousAudioMode;
     private boolean previousMicrophoneMute;
     private String remoteParticipantIdentity;
@@ -437,29 +493,36 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
             public void onConnected(Room room) {
                 localParticipant = room.getLocalParticipant();
 
-                for (RemoteParticipant remoteParticipant : room.getRemoteParticipants()) {
-                    addRemoteParticipant(remoteParticipant);
-                    break;
+                if(room.getRemoteParticipants().isEmpty()){
+                    showSingleOptionDialog(getString(R.string.videocall_not_available));
+                    SessionUtil.finishCall();
+                    room.disconnect();
+                } else {
+                    for (RemoteParticipant remoteParticipant : room.getRemoteParticipants()) {
+                        addRemoteParticipant(remoteParticipant);
+                        break;
+                    }
+                    onCallEstablished();
                 }
-                onCallEstablished();
             }
 
             @Override
             public void onConnectFailure(Room room, TwilioException e) {
+                SessionUtil.finishCall();
+                mAudioPlayer.stopRingtone();
                 configureAudio(false);
-                onCallEnded();
+                if (e.getCode() == TwilioException.ACCESS_TOKEN_EXPIRED_EXCEPTION) {
+                    showSingleOptionDialog(getString(R.string.videocall_not_available));
+                } else {
+                    showSingleOptionDialog(getString(R.string.error_starting_call));
+                }
             }
 
             @Override
             public void onDisconnected(Room room, TwilioException e) {
-                Log.e("RoomListener", "Disconnected call");
                 localParticipant = null;
                 NewCallFragment.this.room = null;
-                // Only reinitialize the UI if disconnect was not called from onDestroy()
-                if (!disconnectedFromOnDestroy) {
-                    configureAudio(false);
-                    onCallEnded();
-                }
+                configureAudio(false);
             }
 
             @Override
@@ -475,20 +538,12 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
 
             @Override
             public void onRecordingStarted(Room room) {
-                /*
-                 * Indicates when media shared to a Room is being recorded. Note that
-                 * recording is only available in our Group Rooms developer preview.
-                 */
-                Log.d(TAG, "onRecordingStarted");
             }
 
             @Override
             public void onRecordingStopped(Room room) {
-                /*
-                 * Indicates when media shared to a Room is no longer being recorded. Note that
-                 * recording is only available in our Group Rooms developer preview.
-                 */
-                Log.d(TAG, "onRecordingStopped");
+
+
             }
         };
     }
@@ -542,7 +597,7 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
         /*
          * If the local video track was released when the app was put in the background, recreate.
          */
-        if (localVideoTrack == null) {
+        if (room != null && localVideoTrack == null) {
             localVideoTrack = LocalVideoTrack.create(getContext(),
                     true,
                     cameraCapturerCompat.getVideoCapturer(),
@@ -555,7 +610,7 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
         }
     }
 
-    private void dismissVideoTrack(){
+    private void dismissVideoTrack() {
         /*
          * Release the local video track before going in the background. This ensures that the
          * camera can be used by other applications while this app is in the background.
@@ -575,14 +630,13 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
         }
     }
 
-    private void destroyVideoTracks(){
+    private void destroyVideoTracks() {
         /*
          * Always disconnect from the room before leaving the Activity to
          * ensure any memory allocated to the Room resource is freed.
          */
         if (room != null && room.getState() != RoomState.DISCONNECTED) {
             room.disconnect();
-            disconnectedFromOnDestroy = true;
         }
 
         /*
@@ -634,7 +688,8 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
                             .setAudioAttributes(playbackAttributes)
                             .setAcceptsDelayedFocusGain(true)
                             .setOnAudioFocusChangeListener(
-                                    i -> { })
+                                    i -> {
+                                    })
                             .build();
             audioManager.requestAudioFocus(focusRequest);
         } else {
@@ -647,14 +702,14 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
      * Called when remote participant joins the room
      */
     private void addRemoteParticipant(RemoteParticipant remoteParticipant) {
-        Log.e("RoomListener", "Added remote participant "+ remoteParticipant.getIdentity());
+        Log.e("RoomListener", "Added remote participant " + remoteParticipant.getIdentity());
         /*
          * This app only displays video for one additional participant per Room
          */
         if (remoteParticipantIdentity != null) {
-           //Se conecta el auditor
-           //Toast.makeText(getActivity(), "Multiple participants are not currently support in this UI", Toast.LENGTH_LONG).show();
-           return;
+            //Se conecta el auditor
+            //Toast.makeText(getActivity(), "Multiple participants are not currently support in this UI", Toast.LENGTH_LONG).show();
+            return;
         }
         remoteParticipantIdentity = remoteParticipant.getIdentity();
         /*
@@ -675,13 +730,14 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
         /*
          * Start listening for participant events
          */
-        remoteParticipant.setListener(remoteParticipantListener());
+        remoteParticipant.setListener(new RemoteParticipantListener(this));
     }
 
     /*
      * Set primary view as renderer for participant video track
      */
-    private void addRemoteParticipantVideo(VideoTrack videoTrack) {
+    @Override
+    public void addRemoteParticipantVideo(VideoTrack videoTrack) {
         Log.e("RoomListener", "Adding remote participant video");
         vFrame.setMirror(false);
         videoTrack.addRenderer(vFrame);
@@ -690,7 +746,7 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
     /*
      * Called when remote participant leaves the room
      */
-    private void removeRemoteParticipant(RemoteParticipant remoteParticipant) {
+    public void removeRemoteParticipant(RemoteParticipant remoteParticipant) {
         if (!remoteParticipant.getIdentity().equals(remoteParticipantIdentity)) {
             return;
         }
@@ -709,246 +765,15 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
                 removeParticipantVideo(remoteVideoTrackPublication.getRemoteVideoTrack());
             }
         }
-        if(room.getRemoteParticipants().size() == 0){
+        if (room.getRemoteParticipants().size() == 0) {
             onCallEnded();
         }
     }
 
-    private void removeParticipantVideo(VideoTrack videoTrack) {
+    @Override
+    public void removeParticipantVideo(VideoTrack videoTrack) {
         videoTrack.removeRenderer(vFrame);
     }
 
-    private RemoteParticipant.Listener remoteParticipantListener() {
-        return new RemoteParticipant.Listener() {
-            @Override
-            public void onAudioTrackPublished(RemoteParticipant remoteParticipant,
-                                              RemoteAudioTrackPublication remoteAudioTrackPublication) {
-                Log.i(TAG, String.format("onAudioTrackPublished: " +
-                                "[RemoteParticipant: identity=%s], " +
-                                "[RemoteAudioTrackPublication: sid=%s, enabled=%b, " +
-                                "subscribed=%b, name=%s]",
-                        remoteParticipant.getIdentity(),
-                        remoteAudioTrackPublication.getTrackSid(),
-                        remoteAudioTrackPublication.isTrackEnabled(),
-                        remoteAudioTrackPublication.isTrackSubscribed(),
-                        remoteAudioTrackPublication.getTrackName()));
-            }
-
-            @Override
-            public void onAudioTrackUnpublished(RemoteParticipant remoteParticipant,
-                                                RemoteAudioTrackPublication remoteAudioTrackPublication) {
-                Log.i(TAG, String.format("onAudioTrackUnpublished: " +
-                                "[RemoteParticipant: identity=%s], " +
-                                "[RemoteAudioTrackPublication: sid=%s, enabled=%b, " +
-                                "subscribed=%b, name=%s]",
-                        remoteParticipant.getIdentity(),
-                        remoteAudioTrackPublication.getTrackSid(),
-                        remoteAudioTrackPublication.isTrackEnabled(),
-                        remoteAudioTrackPublication.isTrackSubscribed(),
-                        remoteAudioTrackPublication.getTrackName()));
-            }
-
-            @Override
-            public void onDataTrackPublished(RemoteParticipant remoteParticipant,
-                                             RemoteDataTrackPublication remoteDataTrackPublication) {
-                Log.i(TAG, String.format("onDataTrackPublished: " +
-                                "[RemoteParticipant: identity=%s], " +
-                                "[RemoteDataTrackPublication: sid=%s, enabled=%b, " +
-                                "subscribed=%b, name=%s]",
-                        remoteParticipant.getIdentity(),
-                        remoteDataTrackPublication.getTrackSid(),
-                        remoteDataTrackPublication.isTrackEnabled(),
-                        remoteDataTrackPublication.isTrackSubscribed(),
-                        remoteDataTrackPublication.getTrackName()));
-            }
-
-            @Override
-            public void onDataTrackUnpublished(RemoteParticipant remoteParticipant,
-                                               RemoteDataTrackPublication remoteDataTrackPublication) {
-                Log.i(TAG, String.format("onDataTrackUnpublished: " +
-                                "[RemoteParticipant: identity=%s], " +
-                                "[RemoteDataTrackPublication: sid=%s, enabled=%b, " +
-                                "subscribed=%b, name=%s]",
-                        remoteParticipant.getIdentity(),
-                        remoteDataTrackPublication.getTrackSid(),
-                        remoteDataTrackPublication.isTrackEnabled(),
-                        remoteDataTrackPublication.isTrackSubscribed(),
-                        remoteDataTrackPublication.getTrackName()));
-            }
-
-            @Override
-            public void onVideoTrackPublished(RemoteParticipant remoteParticipant,
-                                              RemoteVideoTrackPublication remoteVideoTrackPublication) {
-                Log.i(TAG, String.format("onVideoTrackPublished: " +
-                                "[RemoteParticipant: identity=%s], " +
-                                "[RemoteVideoTrackPublication: sid=%s, enabled=%b, " +
-                                "subscribed=%b, name=%s]",
-                        remoteParticipant.getIdentity(),
-                        remoteVideoTrackPublication.getTrackSid(),
-                        remoteVideoTrackPublication.isTrackEnabled(),
-                        remoteVideoTrackPublication.isTrackSubscribed(),
-                        remoteVideoTrackPublication.getTrackName()));
-            }
-
-            @Override
-            public void onVideoTrackUnpublished(RemoteParticipant remoteParticipant,
-                                                RemoteVideoTrackPublication remoteVideoTrackPublication) {
-                Log.i(TAG, String.format("onVideoTrackUnpublished: " +
-                                "[RemoteParticipant: identity=%s], " +
-                                "[RemoteVideoTrackPublication: sid=%s, enabled=%b, " +
-                                "subscribed=%b, name=%s]",
-                        remoteParticipant.getIdentity(),
-                        remoteVideoTrackPublication.getTrackSid(),
-                        remoteVideoTrackPublication.isTrackEnabled(),
-                        remoteVideoTrackPublication.isTrackSubscribed(),
-                        remoteVideoTrackPublication.getTrackName()));
-            }
-
-            @Override
-            public void onAudioTrackSubscribed(RemoteParticipant remoteParticipant,
-                                               RemoteAudioTrackPublication remoteAudioTrackPublication,
-                                               RemoteAudioTrack remoteAudioTrack) {
-                Log.i(TAG, String.format("onAudioTrackSubscribed: " +
-                                "[RemoteParticipant: identity=%s], " +
-                                "[RemoteAudioTrack: enabled=%b, playbackEnabled=%b, name=%s]",
-                        remoteParticipant.getIdentity(),
-                        remoteAudioTrack.isEnabled(),
-                        remoteAudioTrack.isPlaybackEnabled(),
-                        remoteAudioTrack.getName()));
-            }
-
-            @Override
-            public void onAudioTrackUnsubscribed(RemoteParticipant remoteParticipant,
-                                                 RemoteAudioTrackPublication remoteAudioTrackPublication,
-                                                 RemoteAudioTrack remoteAudioTrack) {
-                Log.i(TAG, String.format("onAudioTrackUnsubscribed: " +
-                                "[RemoteParticipant: identity=%s], " +
-                                "[RemoteAudioTrack: enabled=%b, playbackEnabled=%b, name=%s]",
-                        remoteParticipant.getIdentity(),
-                        remoteAudioTrack.isEnabled(),
-                        remoteAudioTrack.isPlaybackEnabled(),
-                        remoteAudioTrack.getName()));
-            }
-
-            @Override
-            public void onAudioTrackSubscriptionFailed(RemoteParticipant remoteParticipant,
-                                                       RemoteAudioTrackPublication remoteAudioTrackPublication,
-                                                       TwilioException twilioException) {
-                Log.i(TAG, String.format("onAudioTrackSubscriptionFailed: " +
-                                "[RemoteParticipant: identity=%s], " +
-                                "[RemoteAudioTrackPublication: sid=%b, name=%s]" +
-                                "[TwilioException: code=%d, message=%s]",
-                        remoteParticipant.getIdentity(),
-                        remoteAudioTrackPublication.getTrackSid(),
-                        remoteAudioTrackPublication.getTrackName(),
-                        twilioException.getCode(),
-                        twilioException.getMessage()));
-            }
-
-            @Override
-            public void onDataTrackSubscribed(RemoteParticipant remoteParticipant,
-                                              RemoteDataTrackPublication remoteDataTrackPublication,
-                                              RemoteDataTrack remoteDataTrack) {
-                Log.i(TAG, String.format("onDataTrackSubscribed: " +
-                                "[RemoteParticipant: identity=%s], " +
-                                "[RemoteDataTrack: enabled=%b, name=%s]",
-                        remoteParticipant.getIdentity(),
-                        remoteDataTrack.isEnabled(),
-                        remoteDataTrack.getName()));
-            }
-
-            @Override
-            public void onDataTrackUnsubscribed(RemoteParticipant remoteParticipant,
-                                                RemoteDataTrackPublication remoteDataTrackPublication,
-                                                RemoteDataTrack remoteDataTrack) {
-                Log.i(TAG, String.format("onDataTrackUnsubscribed: " +
-                                "[RemoteParticipant: identity=%s], " +
-                                "[RemoteDataTrack: enabled=%b, name=%s]",
-                        remoteParticipant.getIdentity(),
-                        remoteDataTrack.isEnabled(),
-                        remoteDataTrack.getName()));
-            }
-
-            @Override
-            public void onDataTrackSubscriptionFailed(RemoteParticipant remoteParticipant,
-                                                      RemoteDataTrackPublication remoteDataTrackPublication,
-                                                      TwilioException twilioException) {
-                Log.i(TAG, String.format("onDataTrackSubscriptionFailed: " +
-                                "[RemoteParticipant: identity=%s], " +
-                                "[RemoteDataTrackPublication: sid=%b, name=%s]" +
-                                "[TwilioException: code=%d, message=%s]",
-                        remoteParticipant.getIdentity(),
-                        remoteDataTrackPublication.getTrackSid(),
-                        remoteDataTrackPublication.getTrackName(),
-                        twilioException.getCode(),
-                        twilioException.getMessage()));
-            }
-
-            @Override
-            public void onVideoTrackSubscribed(RemoteParticipant remoteParticipant,
-                                               RemoteVideoTrackPublication remoteVideoTrackPublication,
-                                               RemoteVideoTrack remoteVideoTrack) {
-                Log.i(TAG, String.format("onVideoTrackSubscribed: " +
-                                "[RemoteParticipant: identity=%s], " +
-                                "[RemoteVideoTrack: enabled=%b, name=%s]",
-                        remoteParticipant.getIdentity(),
-                        remoteVideoTrack.isEnabled(),
-                        remoteVideoTrack.getName()));
-                addRemoteParticipantVideo(remoteVideoTrack);
-            }
-
-            @Override
-            public void onVideoTrackUnsubscribed(RemoteParticipant remoteParticipant,
-                                                 RemoteVideoTrackPublication remoteVideoTrackPublication,
-                                                 RemoteVideoTrack remoteVideoTrack) {
-                Log.i(TAG, String.format("onVideoTrackUnsubscribed: " +
-                                "[RemoteParticipant: identity=%s], " +
-                                "[RemoteVideoTrack: enabled=%b, name=%s]",
-                        remoteParticipant.getIdentity(),
-                        remoteVideoTrack.isEnabled(),
-                        remoteVideoTrack.getName()));
-                removeParticipantVideo(remoteVideoTrack);
-            }
-
-            @Override
-            public void onVideoTrackSubscriptionFailed(RemoteParticipant remoteParticipant,
-                                                       RemoteVideoTrackPublication remoteVideoTrackPublication,
-                                                       TwilioException twilioException) {
-                Log.i(TAG, String.format("onVideoTrackSubscriptionFailed: " +
-                                "[RemoteParticipant: identity=%s], " +
-                                "[RemoteVideoTrackPublication: sid=%b, name=%s]" +
-                                "[TwilioException: code=%d, message=%s]",
-                        remoteParticipant.getIdentity(),
-                        remoteVideoTrackPublication.getTrackSid(),
-                        remoteVideoTrackPublication.getTrackName(),
-                        twilioException.getCode(),
-                        twilioException.getMessage()));
-            }
-
-            @Override
-            public void onAudioTrackEnabled(RemoteParticipant remoteParticipant,
-                                            RemoteAudioTrackPublication remoteAudioTrackPublication) {
-
-            }
-
-            @Override
-            public void onAudioTrackDisabled(RemoteParticipant remoteParticipant,
-                                             RemoteAudioTrackPublication remoteAudioTrackPublication) {
-
-            }
-
-            @Override
-            public void onVideoTrackEnabled(RemoteParticipant remoteParticipant,
-                                            RemoteVideoTrackPublication remoteVideoTrackPublication) {
-
-            }
-
-            @Override
-            public void onVideoTrackDisabled(RemoteParticipant remoteParticipant,
-                                             RemoteVideoTrackPublication remoteVideoTrackPublication) {
-
-            }
-        };
-    }
 
 }

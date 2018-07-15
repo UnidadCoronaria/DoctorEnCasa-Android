@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 
 import com.unidadcoronaria.doctorencasa.App;
 import com.unidadcoronaria.doctorencasa.R;
@@ -51,7 +52,12 @@ public class SettingsFragment extends BaseFragment<SettingsPresenter> implements
 
     @OnClick(R.id.fragment_settings_logout_button)
     public void logoutClick(){
-        logout();
+        new AlertDialog.Builder(getActivity())
+                .setMessage(getString(R.string.close_session_confirm))
+                .setPositiveButton(getString(R.string.yes), (dialog, button) ->  logout())
+                .setNegativeButton(getString(R.string.no), (dialog, button) -> {})
+                .show();
+
     }
 
     @OnClick(R.id.fragment_settings_change_pasword_button)
