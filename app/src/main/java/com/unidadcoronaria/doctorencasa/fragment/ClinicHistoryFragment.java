@@ -94,7 +94,6 @@ public class ClinicHistoryFragment extends BaseFragment<ClinicHistoryPresenter> 
         super.onActivityCreated(savedInstanceState);
         mPresenter.setView(this);
         vRefresh.setOnRefreshListener(() -> {
-            vRefresh.setRefreshing(true);
             mPresenter.init();
             vProgress.setVisibility(View.VISIBLE);
             vClinicHistoryList.setVisibility(View.GONE);

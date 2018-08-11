@@ -2,6 +2,7 @@ package com.unidadcoronaria.doctorencasa.fragment;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioAttributes;
@@ -240,7 +241,7 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
     protected void declineClicked() {
         SessionUtil.finishCall();
         mAudioPlayer.stopRingtone();
-        getActivity().finish();
+        finishWithError(Activity.RESULT_OK);
     }
 
     @OnClick(R.id.fragment_video_call_switch_video)
@@ -249,6 +250,7 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
             CameraCapturer.CameraSource cameraSource = cameraCapturerCompat.getCameraSource();
             cameraCapturerCompat.switchCamera();
             vSelfCamera.setMirror(cameraSource == CameraCapturer.CameraSource.BACK_CAMERA);
+            startHideButtonsHandler();
         }
     }
 
@@ -258,6 +260,7 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
             boolean enable = !localVideoTrack.isEnabled();
             localVideoTrack.enable(enable);
             vStopVideoButton.setSelected(enable);
+            startHideButtonsHandler();
         }
     }
 
@@ -267,6 +270,7 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
             boolean enable = !localAudioTrack.isEnabled();
             localAudioTrack.enable(enable);
             vMuteButton.setSelected(enable);
+            startHideButtonsHandler();
         }
     }
 
@@ -405,11 +409,15 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
         mRemainingMinutesHandler.postDelayed(() -> {
             if (SessionUtil.isCallPending()) {
                 SessionUtil.finishCall();
-                Toast.makeText(App.getInstance(), getString(R.string.no_response), Toast.LENGTH_LONG).show();
-                startActivity(MainActivity.getStartIntent(getActivity()));
-                getActivity().finish();
+                finishWithError(Activity.RESULT_FIRST_USER);
             }
         }, 30 * 1000);
+    }
+
+    private void finishWithError(int error) {
+        Intent returnIntent = new Intent();
+        getActivity().setResult(error, returnIntent);
+        getActivity().finish();
     }
 
     private void startHideButtonsHandler() {
@@ -458,7 +466,10 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
         resetView();
         new AlertDialog.Builder(getActivity())
                 .setMessage(text)
-                .setPositiveButton(getString(R.string.accept).toUpperCase(), (dialog, button) -> { startActivity(MainActivity.getStartIntent(getActivity())); getActivity().finish(); })
+                .setPositiveButton(getString(R.string.accept).toUpperCase(), (dialog, button) -> {
+                    startActivity(MainActivity.getStartIntent(getActivity()));
+                    getActivity().finish();
+                })
                 .show();
     }
 
@@ -492,13 +503,15 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
             @Override
             public void onConnected(Room room) {
                 localParticipant = room.getLocalParticipant();
-
-                if(room.getRemoteParticipants().isEmpty()){
+                Log.d("onConnected", "onConnected");
+                if (room.getRemoteParticipants().isEmpty()) {
+                    Log.d("onConnected", "No remote participants");
                     showSingleOptionDialog(getString(R.string.videocall_not_available));
                     SessionUtil.finishCall();
                     room.disconnect();
                 } else {
                     for (RemoteParticipant remoteParticipant : room.getRemoteParticipants()) {
+                        Log.d("onConnected", "Adding remote participant "+remoteParticipant.getIdentity());
                         addRemoteParticipant(remoteParticipant);
                         break;
                     }
@@ -508,18 +521,23 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
 
             @Override
             public void onConnectFailure(Room room, TwilioException e) {
+                Log.d("onConnectFailure", "onConnectFailure");
                 SessionUtil.finishCall();
                 mAudioPlayer.stopRingtone();
                 configureAudio(false);
                 if (e.getCode() == TwilioException.ACCESS_TOKEN_EXPIRED_EXCEPTION) {
+                    Log.d("onConnectFailure", "Token expired");
                     showSingleOptionDialog(getString(R.string.videocall_not_available));
                 } else {
+                    Log.d("onConnectFailure", "Unknown issue "+e.getCode());
                     showSingleOptionDialog(getString(R.string.error_starting_call));
                 }
             }
 
             @Override
             public void onDisconnected(Room room, TwilioException e) {
+                if(e != null)
+                Log.d("onDisconnected", "Disconnected "+e.getCode());
                 localParticipant = null;
                 NewCallFragment.this.room = null;
                 configureAudio(false);
@@ -533,6 +551,7 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
 
             @Override
             public void onParticipantDisconnected(Room room, RemoteParticipant remoteParticipant) {
+                Log.d("onParticipantDisco", "onParticipantDisconnected");
                 removeRemoteParticipant(remoteParticipant);
             }
 
@@ -635,6 +654,7 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
          * Always disconnect from the room before leaving the Activity to
          * ensure any memory allocated to the Room resource is freed.
          */
+        Log.d("destroyVideo", "destroyVideo");
         if (room != null && room.getState() != RoomState.DISCONNECTED) {
             room.disconnect();
         }
@@ -702,7 +722,7 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
      * Called when remote participant joins the room
      */
     private void addRemoteParticipant(RemoteParticipant remoteParticipant) {
-        Log.e("RoomListener", "Added remote participant " + remoteParticipant.getIdentity());
+        Log.d("RoomListener", "Added remote participant " + remoteParticipant.getIdentity());
         /*
          * This app only displays video for one additional participant per Room
          */
@@ -716,6 +736,7 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
          * Add remote participant renderer
          */
         if (remoteParticipant.getRemoteVideoTracks().size() > 0) {
+            Log.d("RoomListener", "getRemoteVideoTracks");
             RemoteVideoTrackPublication remoteVideoTrackPublication =
                     remoteParticipant.getRemoteVideoTracks().get(0);
 
@@ -723,6 +744,7 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
              * Only render video tracks that are subscribed to
              */
             if (remoteVideoTrackPublication.isTrackSubscribed()) {
+                Log.d("RoomListener", "addRemoteParticipantVideo");
                 addRemoteParticipantVideo(remoteVideoTrackPublication.getRemoteVideoTrack());
             }
         }
@@ -738,7 +760,7 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
      */
     @Override
     public void addRemoteParticipantVideo(VideoTrack videoTrack) {
-        Log.e("RoomListener", "Adding remote participant video");
+        Log.d("RoomListener", "Adding remote participant video");
         vFrame.setMirror(false);
         videoTrack.addRenderer(vFrame);
     }
@@ -747,6 +769,7 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
      * Called when remote participant leaves the room
      */
     public void removeRemoteParticipant(RemoteParticipant remoteParticipant) {
+        Log.d("RoomListener", "removeRemoteParticipant");
         if (!remoteParticipant.getIdentity().equals(remoteParticipantIdentity)) {
             return;
         }
@@ -766,6 +789,7 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
             }
         }
         if (room.getRemoteParticipants().size() == 0) {
+            Log.d("RoomListener", "onCallEnded");
             onCallEnded();
         }
     }

@@ -2,6 +2,7 @@ package com.unidadcoronaria.doctorencasa.activity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import com.unidadcoronaria.doctorencasa.di.component.DaggerSettingsComponent;
 import com.unidadcoronaria.doctorencasa.fragment.BaseFragment;
 import com.unidadcoronaria.doctorencasa.fragment.VideoCallFragment;
 import com.unidadcoronaria.doctorencasa.presenter.MainPresenter;
+import com.unidadcoronaria.doctorencasa.util.FragmentNavigationUtil;
 import com.unidadcoronaria.doctorencasa.util.SessionUtil;
 
 import javax.inject.Inject;
@@ -33,6 +35,7 @@ import permissions.dispatcher.RuntimePermissions;
  */
 @RuntimePermissions
 public class MainActivity extends BaseNavActivity implements MainView {
+
 
     @Inject
     MainPresenter mPresenter;
@@ -106,7 +109,10 @@ public class MainActivity extends BaseNavActivity implements MainView {
             Manifest.permission.READ_PHONE_STATE})
     protected void checkPermissions() {
         if(SessionUtil.isCallPending()){
-            startActivity(NewCallActivity.getStartIntent(this));
+            VideoCallFragment instance = (VideoCallFragment) FragmentNavigationUtil.getFragment(getSupportFragmentManager(), VideoCallFragment.TAG);
+            if(instance != null){
+                instance.startCallActivity();
+            }
         }
     }
 
@@ -143,5 +149,6 @@ public class MainActivity extends BaseNavActivity implements MainView {
         startActivity(intent);
         finish();
     }
+
 
 }

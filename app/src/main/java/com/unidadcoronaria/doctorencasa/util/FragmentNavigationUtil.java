@@ -1,6 +1,7 @@
 package com.unidadcoronaria.doctorencasa.util;
 
 
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
@@ -17,6 +18,10 @@ public class FragmentNavigationUtil {
     public static void addFragment(FragmentManager fragmentManager, int fragmentContainer, BaseFragment fragment){
         fragmentManager.beginTransaction()
                 .add(fragmentContainer, fragment, fragment.getFragmentTag()).commit();
+    }
+
+    public static Fragment getFragment(FragmentManager fragmentManager, String fragmentTag){
+        return fragmentManager.findFragmentByTag(fragmentTag);
     }
 
     public static void addAndHideFragment(String hideTag, FragmentManager fragmentManager, int fragmentContainer, BaseFragment fragment){

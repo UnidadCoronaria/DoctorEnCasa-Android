@@ -1,5 +1,7 @@
 package com.unidadcoronaria.doctorencasa.fragment;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -14,6 +16,8 @@ import android.widget.Toast;
 import com.unidadcoronaria.doctorencasa.App;
 import com.unidadcoronaria.doctorencasa.R;
 import com.unidadcoronaria.doctorencasa.VideoCallView;
+import com.unidadcoronaria.doctorencasa.activity.MainActivity;
+import com.unidadcoronaria.doctorencasa.activity.NewCallActivity;
 import com.unidadcoronaria.doctorencasa.di.component.DaggerVideoCallComponent;
 import com.unidadcoronaria.doctorencasa.domain.AffiliateCallHistory;
 import com.unidadcoronaria.doctorencasa.domain.Queue;
@@ -33,6 +37,7 @@ public class VideoCallFragment extends BaseFragment<VideoCallPresenter> implemen
 
 
     public static final String TAG = VideoCallFragment.class.getSimpleName();
+    public static final int CALL_RESULT = 111;
 
 
     @BindView(R.id.fragment_video_call_delay)
@@ -249,6 +254,35 @@ public class VideoCallFragment extends BaseFragment<VideoCallPresenter> implemen
         } else {
             Toast.makeText(getActivity(), "Hubo un error iniciando la consulta, por favor volvé a intentarlo.", Toast.LENGTH_LONG).show();
         }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // Check which request we're responding to
+        if (requestCode == CALL_RESULT) {
+            // Make sure the request was successful
+            if (resultCode == Activity.RESULT_OK){
+                new AlertDialog.Builder(getActivity())
+                        .setMessage(getString(R.string.call_rejectec))
+                        .setPositiveButton(getString(R.string.accept), (dialog, button) ->  mPresenter.getAffiliateHistory())
+                        .show();
+            } else {
+                if(resultCode == Activity.RESULT_FIRST_USER){
+                    new AlertDialog.Builder(getActivity())
+                            .setMessage(getString(R.string.no_response))
+                            .setPositiveButton(getString(R.string.accept), (dialog, button) ->  mPresenter.getAffiliateHistory())
+                            .show();
+                } else {
+                    mPresenter.getAffiliateHistory();
+                }
+            }
+        } else {
+            mPresenter.getAffiliateHistory();
+        }
+    }
+
+    public void startCallActivity(){
+        startActivityForResult(NewCallActivity.getStartIntent(getActivity()), CALL_RESULT);
     }
 
 }
