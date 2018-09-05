@@ -12,6 +12,7 @@ import com.unidadcoronaria.doctorencasa.R;
 import com.unidadcoronaria.doctorencasa.domain.ClinicHistory;
 import com.unidadcoronaria.doctorencasa.fragment.BaseFragment;
 import com.unidadcoronaria.doctorencasa.fragment.ClinicHistoryFragment;
+import com.unidadcoronaria.doctorencasa.fragment.NewsFragment;
 import com.unidadcoronaria.doctorencasa.fragment.SettingsFragment;
 import com.unidadcoronaria.doctorencasa.fragment.VideoCallFragment;
 
@@ -60,6 +61,9 @@ public abstract class BaseNavActivity extends BaseActivity implements NavBarView
                             case R.id.nav_videocall:
                                 showVideocallFragment();
                                 return true;
+                            case R.id.nav_news:
+                                showNewsFragment();
+                                return true;
                             default:
                                 return false;
                         }
@@ -90,6 +94,10 @@ public abstract class BaseNavActivity extends BaseActivity implements NavBarView
         showFilter(false);
     }
 
+    protected void showNewsFragment(){
+        showFragment(NewsFragment.newInstance());
+        showFilter(false);
+    }
     //region Abstract methods declarations
     @Override
     public void showFragment(BaseFragment fragment){

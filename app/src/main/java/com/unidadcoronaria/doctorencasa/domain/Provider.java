@@ -10,6 +10,7 @@ public class Provider implements Serializable {
 
     private int id;
     private String name;
+    private String zones;
 
 
     public int getId() {
@@ -26,5 +27,13 @@ public class Provider implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getZones() {
+        return zones;
+    }
+
+    public void setZones(String zones) {
+        this.zones = zones;
     }
 }

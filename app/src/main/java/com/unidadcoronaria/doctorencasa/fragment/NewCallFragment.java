@@ -51,6 +51,7 @@ import com.unidadcoronaria.doctorencasa.presenter.NewCallPresenter;
 import com.unidadcoronaria.doctorencasa.streaming.AudioPlayer;
 import com.unidadcoronaria.doctorencasa.streaming.RemoteParticipantListener;
 import com.unidadcoronaria.doctorencasa.util.CameraCapturerCompat;
+import com.unidadcoronaria.doctorencasa.util.ProviderUtil;
 import com.unidadcoronaria.doctorencasa.util.SessionUtil;
 import com.wang.avi.AVLoadingIndicatorView;
 
@@ -351,16 +352,8 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
 
     private void callToCentral() {
         Intent callIntent = new Intent(Intent.ACTION_CALL);
-        String tel = "tel:";
-        if (SessionUtil.getProvider() == 1) {
-            tel += "1142577777";
-        } else {
-            if (SessionUtil.getProvider() == 2) {
-                tel += "1157265166";
-            } else if (SessionUtil.getProvider() == 3) {
-                tel += "1147330043";
-            }
-        }
+        String tel = "tel:" + ProviderUtil.getTelephoneNumber();
+
         callIntent.setData(Uri.parse(tel));
         startActivity(callIntent);
         getActivity().finish();

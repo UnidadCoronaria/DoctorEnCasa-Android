@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.unidadcoronaria.doctorencasa.App;
 import com.unidadcoronaria.doctorencasa.R;
 import com.unidadcoronaria.doctorencasa.domain.Provider;
+import com.unidadcoronaria.doctorencasa.util.ProviderUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +45,10 @@ public class ProviderAdapter extends RecyclerView.Adapter<ProviderAdapter.Provid
         Provider mProvider = mList.get(position);
         holder.vName.setText(mProvider.getName());
         holder.vName.setOnClickListener(v -> selectItem(position));
+        holder.vIcon.setOnClickListener(v -> selectItem(position));
+        holder.vZone.setOnClickListener(v -> selectItem(position));
+        holder.vZone.setText(mProvider.getZones());
+        holder.vIcon.setImageDrawable(ContextCompat.getDrawable(App.getInstance(), ProviderUtil.getIcon(mProvider.getId())));
         holder.vContainer.setOnClickListener(v -> selectItem(position));
         holder.vContainer.setSelected(mSelectedProvider != null && mSelectedProvider.equals(mProvider));
     }
@@ -74,6 +79,12 @@ public class ProviderAdapter extends RecyclerView.Adapter<ProviderAdapter.Provid
 
         @BindView(R.id.item_provider_container)
         ViewGroup vContainer;
+
+        @BindView(R.id.item_provider_icon)
+        ImageView vIcon;
+
+        @BindView(R.id.item_provider_zone)
+        TextView vZone;
 
         public ProviderHolder(View itemView) {
             super(itemView);

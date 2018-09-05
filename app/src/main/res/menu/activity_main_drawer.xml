@@ -12,6 +12,11 @@
             android:icon="@drawable/ic_clinical_history"
             android:title="@string/nav_bar_clinic_history" />
         <item
+            android:id="@+id/nav_news"
+            android:enabled="true"
+            android:icon="@drawable/ic_clinical_history"
+            android:title="@string/nav_bar_news" />
+        <item
             android:id="@+id/nav_plan"
             android:enabled="true"
             android:icon="@drawable/ic_configuration"

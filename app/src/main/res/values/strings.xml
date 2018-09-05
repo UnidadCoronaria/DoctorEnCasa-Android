@@ -12,6 +12,7 @@
     <string name="create">CREAR</string>
     <string name="continue_to_next_screen">Continuar</string>
     <string name="nav_bar_clinic_history">Historia clinica</string>
+    <string name="nav_bar_news">Noticias</string>
     <string name="nav_bar_plan">Configuración</string>
     <string name="nav_bar_videocall">Videollamada</string>
     <string name="username">Mail</string>
