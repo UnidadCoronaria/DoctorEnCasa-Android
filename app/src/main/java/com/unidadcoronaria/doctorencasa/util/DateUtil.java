@@ -83,10 +83,11 @@ public class DateUtil {
         if(waitTime <= 60000){
             return context.getResources().getQuantityString(R.plurals.seconds, (int) TimeUnit.MILLISECONDS.toSeconds(waitTime), (int) TimeUnit.MILLISECONDS.toSeconds(waitTime));
         } else {
-            return context.getResources().getQuantityString(R.plurals.minutes, (int) TimeUnit.MILLISECONDS.toMinutes(waitTime), (int) TimeUnit.MILLISECONDS.toMinutes(waitTime)) + " " +
+            return context.getResources().getQuantityString(R.plurals.minutes, (int) TimeUnit.MILLISECONDS.toMinutes(waitTime), (int) TimeUnit.MILLISECONDS.toMinutes(waitTime))
+                    /*+ " " +
                     context.getResources().getQuantityString(R.plurals.seconds, (int) TimeUnit.MILLISECONDS.toSeconds(waitTime) -
                             (int) TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(waitTime)),(int) TimeUnit.MILLISECONDS.toSeconds(waitTime) -
-                            (int) TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(waitTime)));
+                            (int) TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(waitTime)))*/;
         }
     }
 }

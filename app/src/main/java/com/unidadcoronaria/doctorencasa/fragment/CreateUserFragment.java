@@ -164,6 +164,13 @@ public class CreateUserFragment extends BaseFragment<CreateUserPresenter> implem
         mCallback.setBackVisibilityInToolbar(true);
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        hideSoftKeyboard();
+    }
+
+
     @OnClick(R.id.fragment_create_user_cancel)
     public void onBackClick() {
         getFragmentManager().popBackStack();

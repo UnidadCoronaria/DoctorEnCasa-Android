@@ -1,5 +1,6 @@
 <resources>
-    <dimen name="common_spacing">20dp</dimen>
+    <dimen name="common_spacing">40dp</dimen>
+    <dimen name="create_account_margin">15dp</dimen>
     <dimen name="button_corner_radius">20dp</dimen>
     <dimen name="button_width">145dp</dimen>
     <dimen name="button_height">48dp</dimen>
@@ -7,6 +8,6 @@
     <dimen name="text_size_medium">16sp</dimen>
     <dimen name="text_size_large">18sp</dimen>
     <dimen name="text_size_large_title">26sp</dimen>
-    <dimen name="new_call_margin_top">20dp</dimen>
+    <dimen name="new_call_margin_top">10dp</dimen>
     <dimen name="new_call_error_margin_top">50dp</dimen>
 </resources>

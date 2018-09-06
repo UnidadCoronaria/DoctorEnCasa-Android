@@ -102,10 +102,6 @@ public class VideoCallFragment extends BaseFragment<VideoCallPresenter> implemen
     @OnClick(R.id.fragment_video_call_button)
     protected void onButtonClick() {
         mPresenter.initCall();
-        /*Log.d(TAG, "Incoming call");
-        Intent intent = new Intent(getActivity(), NewCallActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        getActivity().startActivity(intent);*/
     }
 
     @Override

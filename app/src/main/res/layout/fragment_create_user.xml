@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:fillViewport="true">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center_horizontal"
@@ -17,277 +17,289 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-
-        <LinearLayout
-            android:id="@+id/fragment_create_user_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="5dp"
-                android:src="@drawable/ic_step_filled" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_step_filled" />
-
-        </LinearLayout>
-
-        <com.unidadcoronaria.doctorencasa.view.CustomTextView
-            android:id="@+id/fragment_create_user_title"
+        <ScrollView
+            android:id="@+id/fragment_create_user_data_container_scroll"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/fragment_create_user_icon"
-            android:layout_marginBottom="20dp"
-            android:layout_marginLeft="24dp"
-            android:layout_marginRight="24dp"
-            android:layout_marginTop="20dp"
-            android:text="@string/create_account_title"
-            android:textColor="@color/red"
-            android:inputType="number"
-            android:textSize="20sp"
-            app:visual_font_name="light" />
-
-        <LinearLayout
-            android:id="@+id/fragment_create_user_search_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/fragment_create_user_title"
-            android:layout_marginTop="10dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp">
-
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/fragment_create_user_number_layout"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/fragment_create_user_list"
-                android:layout_weight="1"
-                app:errorTextAppearance="@style/AppTheme.EditTextError"
-                app:hintTextAppearance="@style/AppTheme.FloatingLabel">
-
-                <com.unidadcoronaria.doctorencasa.view.CustomFontTextInputEditText
-                    android:id="@+id/fragment_create_user_affiliate_number"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/affiliate_number"
-                    android:inputType="text"
-                    android:maxLines="1"
-                    android:textColor="@color/greyDark"
-                    android:theme="@style/FormEditText"
-                    app:visual_font_name="light" />
-
-            </android.support.design.widget.TextInputLayout>
+            android:layout_height="0dp"
+            android:layout_above="@+id/fragment_create_user_data_button_container"
+            android:layout_weight="1">
 
 
-        </LinearLayout>
-
-        <RelativeLayout
-            android:id="@+id/fragment_create_user_data_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/fragment_create_user_search_container"
-            android:orientation="vertical"
-            android:visibility="visible">
-
-
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/fragment_create_user_email_layout"
+            <RelativeLayout
+                android:id="@+id/fragment_create_user_data_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginTop="10dp"
-                app:errorTextAppearance="@style/AppTheme.EditTextError"
-                app:hintTextAppearance="@style/AppTheme.FloatingLabel">
+                android:layout_below="@+id/fragment_create_user_title"
+                android:orientation="vertical"
+                android:visibility="visible">
 
 
-                <com.unidadcoronaria.doctorencasa.view.CustomFontTextInputEditText
-                    android:id="@+id/fragment_create_user_email"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/email"
-                    android:inputType="text"
-                    android:maxLines="1"
-                    android:textColor="@color/greyDark"
-                    android:theme="@style/FormEditText"
-                    app:visual_font_name="light" />
-
-
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/fragment_create_user_password_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/fragment_create_user_email_layout"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginTop="10dp"
-                app:errorTextAppearance="@style/AppTheme.EditTextError"
-                app:hintTextAppearance="@style/AppTheme.FloatingLabel">
-
-                <com.unidadcoronaria.doctorencasa.view.CustomFontTextInputEditText
-                    android:id="@+id/fragment_create_user_password"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/password"
-                    android:imeOptions="actionNext"
-                    android:inputType="textPassword"
-                    android:maxLines="1"
-                    android:textColor="@color/greyDark"
-                    android:theme="@style/FormEditText"
-                    app:visual_font_name="light" />
-
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/fragment_create_user_password_repeat_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/fragment_create_user_password_layout"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginTop="10dp"
-                app:errorTextAppearance="@style/AppTheme.EditTextError"
-                app:hintTextAppearance="@style/AppTheme.FloatingLabel">
-
-                <com.unidadcoronaria.doctorencasa.view.CustomFontTextInputEditText
-                    android:id="@+id/fragment_create_user_password_repeat"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/password_repeat"
-                    android:imeOptions="actionDone"
-                    android:inputType="textPassword"
-                    android:maxLines="1"
-                    android:textColor="@color/greyDark"
-                    android:theme="@style/FormEditText"
-                    app:visual_font_name="light" />
-
-
-            </android.support.design.widget.TextInputLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/fragment_create_user_password_repeat_layout"
-                android:layout_marginLeft="14dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginTop="20dp"
-                android:orientation="horizontal">
-
-                <android.support.v7.widget.AppCompatCheckBox
-                    android:id="@+id/fragment_create_user_terms_check"
+                <LinearLayout
+                    android:id="@+id/fragment_create_user_icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/grey"
-                    android:textSize="16sp"
-                    android:layout_marginRight="5dp"
-                    />
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:src="@drawable/ic_step_filled" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_step_filled" />
+
+                </LinearLayout>
 
                 <com.unidadcoronaria.doctorencasa.view.CustomTextView
-                    android:id="@+id/fragment_create_user_terms_check_text"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/fragment_create_user_title"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/greyDark"
-                    android:textSize="16sp"
-                    app:visual_font_name="regular"
-                    />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:background="@color/red"
-                android:orientation="horizontal">
-
+                    android:layout_below="@+id/fragment_create_user_icon"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginRight="24dp"
+                    android:layout_marginTop="20dp"
+                    android:inputType="number"
+                    android:text="@string/create_account_title"
+                    android:textColor="@color/red"
+                    android:textSize="20sp"
+                    app:visual_font_name="light" />
 
                 <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="50dp"
-                    android:layout_weight="1"
-                    android:addStatesFromChildren="true"
-                    android:background="@drawable/selector_red_button"
-                    android:gravity="center"
+                    android:id="@+id/fragment_create_user_search_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/fragment_create_user_title"
+                    android:gravity="center_vertical"
                     android:orientation="horizontal"
-                    android:paddingRight="10dp">
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp">
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="30dp"
-                        android:src="@drawable/ic_arrow_left"
-                        android:tint="@color/selector_button_text" />
-
-                    <com.unidadcoronaria.doctorencasa.view.CustomTextView
-                        android:id="@+id/fragment_create_user_cancel"
-                        android:layout_width="0dp"
-                        android:layout_height="50dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/selector_red_button"
-                        android:gravity="center"
-                        android:text="@string/go_back"
-                        android:textAlignment="center"
-                        android:textColor="@color/white"
-                        android:textSize="20sp"
-                        app:visual_font_name="regular" />
-
-
-                </LinearLayout>
-
-
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:background="@color/white" />
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="50dp"
-                    android:layout_weight="1"
-                    android:addStatesFromChildren="true"
-                    android:background="@drawable/selector_red_button"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    android:paddingLeft="10dp">
-
-                    <com.unidadcoronaria.doctorencasa.view.CustomTextView
-                        android:id="@+id/fragment_create_user_continue"
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/fragment_create_user_number_layout"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_below="@+id/fragment_create_user_list"
                         android:layout_weight="1"
-                        android:background="@drawable/selector_red_button"
-                        android:text="@string/finalize"
-                        android:textAlignment="center"
-                        android:textColor="@color/selector_button_text"
-                        android:textSize="20sp"
-                        app:visual_font_name="regular" />
+                        app:errorTextAppearance="@style/AppTheme.EditTextError"
+                        app:hintTextAppearance="@style/AppTheme.FloatingLabel">
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginRight="30dp"
-                        android:src="@drawable/next_disable"
-                        android:tint="@color/white" />
+                        <com.unidadcoronaria.doctorencasa.view.CustomFontTextInputEditText
+                            android:id="@+id/fragment_create_user_affiliate_number"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/affiliate_number"
+                            android:inputType="text"
+                            android:maxLines="1"
+                            android:textColor="@color/greyDark"
+                            android:theme="@style/FormEditText"
+                            app:visual_font_name="light" />
+
+                    </android.support.design.widget.TextInputLayout>
+
 
                 </LinearLayout>
 
-            </LinearLayout>
-        </RelativeLayout>
 
-    </RelativeLayout>
-</ScrollView>
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/fragment_create_user_email_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/fragment_create_user_search_container"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="10dp"
+                    app:errorTextAppearance="@style/AppTheme.EditTextError"
+                    app:hintTextAppearance="@style/AppTheme.FloatingLabel">
+
+
+                    <com.unidadcoronaria.doctorencasa.view.CustomFontTextInputEditText
+                        android:id="@+id/fragment_create_user_email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/email"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:textColor="@color/greyDark"
+                        android:theme="@style/FormEditText"
+                        app:visual_font_name="light" />
+
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/fragment_create_user_password_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/fragment_create_user_email_layout"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="10dp"
+                    app:errorTextAppearance="@style/AppTheme.EditTextError"
+                    app:hintTextAppearance="@style/AppTheme.FloatingLabel">
+
+                    <com.unidadcoronaria.doctorencasa.view.CustomFontTextInputEditText
+                        android:id="@+id/fragment_create_user_password"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/password"
+                        android:imeOptions="actionNext"
+                        android:inputType="textPassword"
+                        android:maxLines="1"
+                        android:textColor="@color/greyDark"
+                        android:theme="@style/FormEditText"
+                        app:visual_font_name="light" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/fragment_create_user_password_repeat_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/fragment_create_user_password_layout"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="10dp"
+                    app:errorTextAppearance="@style/AppTheme.EditTextError"
+                    app:hintTextAppearance="@style/AppTheme.FloatingLabel">
+
+                    <com.unidadcoronaria.doctorencasa.view.CustomFontTextInputEditText
+                        android:id="@+id/fragment_create_user_password_repeat"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/password_repeat"
+                        android:imeOptions="actionDone"
+                        android:inputType="textPassword"
+                        android:maxLines="1"
+                        android:textColor="@color/greyDark"
+                        android:theme="@style/FormEditText"
+                        app:visual_font_name="light" />
+
+
+                </android.support.design.widget.TextInputLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/fragment_create_user_terms"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_below="@+id/fragment_create_user_password_repeat_layout"
+                    android:layout_marginLeft="14dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="20dp"
+                    android:orientation="horizontal"
+                   >
+
+                    <android.support.v7.widget.AppCompatCheckBox
+                        android:id="@+id/fragment_create_user_terms_check"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:textColor="@color/grey"
+                        android:textSize="16sp" />
+
+                    <com.unidadcoronaria.doctorencasa.view.CustomTextView
+                        android:id="@+id/fragment_create_user_terms_check_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/greyDark"
+                        android:textSize="16sp"
+                        app:visual_font_name="regular" />
+
+                </LinearLayout>
+
+
+            </RelativeLayout>
+
+        </ScrollView>
+
+        <LinearLayout
+            android:id="@+id/fragment_create_user_data_button_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@color/red"
+            android:orientation="horizontal">
+
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:addStatesFromChildren="true"
+                android:background="@drawable/selector_red_button"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingRight="10dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="30dp"
+                    android:src="@drawable/ic_arrow_left"
+                    android:tint="@color/white" />
+
+                <com.unidadcoronaria.doctorencasa.view.CustomTextView
+                    android:id="@+id/fragment_create_user_cancel"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/selector_red_button"
+                    android:gravity="center"
+                    android:text="@string/go_back"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    app:visual_font_name="regular" />
+
+
+            </LinearLayout>
+
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/white" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:addStatesFromChildren="true"
+                android:background="@drawable/selector_red_button"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingLeft="10dp">
+
+                <com.unidadcoronaria.doctorencasa.view.CustomTextView
+                    android:id="@+id/fragment_create_user_continue"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/selector_red_button"
+                    android:text="@string/finalize"
+                    android:textAlignment="center"
+                    android:textColor="@color/selector_button_text"
+                    android:textSize="20sp"
+                    app:visual_font_name="regular" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="30dp"
+                    android:src="@drawable/next_disable"
+                    android:tint="@color/white" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</FrameLayout>
