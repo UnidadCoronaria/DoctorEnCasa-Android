@@ -122,7 +122,8 @@ dependencies {
     annotationProcessor 'com.google.dagger:dagger-compiler:2.0'
     implementation 'com.facebook.stetho:stetho:1.5.0'
     implementation 'com.facebook.stetho:stetho-okhttp3:1.5.0'
-    implementation 'com.wang.avi:library:2.1.1'
+    //implementation 'com.wang.avi:library:2.1.1'
+    implementation 'com.skyfishjy.ripplebackground:library:1.0.1'
     implementation 'com.github.hotchemi:android-rate:1.0.1'
     implementation 'com.twilio:video-android:2.1.0'
 

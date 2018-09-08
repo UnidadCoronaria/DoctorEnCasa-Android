@@ -17,6 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/red"
+        tools:visibility="gone"
         android:visibility="visible"/>
 
 
@@ -69,7 +70,7 @@
         android:gravity="center_horizontal"
         android:orientation="vertical"
         android:visibility="visible"
-        tools:visibility="gone"
+        tools:visibility="visible"
         >
 
         <FrameLayout
@@ -80,34 +81,33 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="-10dp"
+                android:scaleType="fitXY"
                 android:src="@drawable/ic_incoming_call_doctor" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="0dp"
-                android:gravity="center_horizontal"
-                android:orientation="vertical"
-                android:padding="0dp">
 
-
-                <com.wang.avi.AVLoadingIndicatorView
+                <com.skyfishjy.library.RippleBackground
                     android:id="@+id/fragment_new_call_incoming_effect"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:visibility="visible"
-                    app:indicatorColor="@android:color/white"
-                    app:indicatorName="BallScaleMultipleIndicator" />
+                    android:layout_gravity="center"
+                    app:rb_color="@android:color/white"
+                    app:rb_radius="25dp"
+                    app:rb_rippleAmount="4"
+                    app:rb_duration="3000"
+                    android:gravity="center">
 
-            </LinearLayout>
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginBottom="10dp"
-                android:src="@drawable/ic_doctor_main" />
+                    <ImageView
+                        android:layout_width="170dp"
+                        android:layout_height="170dp"
+                        android:layout_gravity="center"
+                        android:scaleType="center"
+                        android:layout_centerInParent="true"
+
+                        android:src="@drawable/ic_doctor_main" />
+
+                </com.skyfishjy.library.RippleBackground>
 
 
         </FrameLayout>
@@ -192,7 +192,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"
-        tools:visibility="visible">
+        tools:visibility="gone">
 
         <com.twilio.video.VideoView
             android:id="@+id/call_self_camera"

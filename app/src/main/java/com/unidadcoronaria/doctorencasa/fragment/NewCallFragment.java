@@ -22,6 +22,7 @@ import android.view.animation.TranslateAnimation;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.skyfishjy.library.RippleBackground;
 import com.twilio.video.CameraCapturer;
 import com.twilio.video.ConnectOptions;
 import com.twilio.video.LocalAudioTrack;
@@ -53,7 +54,6 @@ import com.unidadcoronaria.doctorencasa.streaming.RemoteParticipantListener;
 import com.unidadcoronaria.doctorencasa.util.CameraCapturerCompat;
 import com.unidadcoronaria.doctorencasa.util.ProviderUtil;
 import com.unidadcoronaria.doctorencasa.util.SessionUtil;
-import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -111,7 +111,7 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
     protected View vMuteButton;
 
     @BindView(R.id.fragment_new_call_incoming_effect)
-    protected AVLoadingIndicatorView vIncomingCallEffect;
+    protected RippleBackground vIncomingCallEffect;
 
     @BindView(R.id.fragment_video_call_delay)
     protected TextView vCallRemainingTime;
@@ -151,6 +151,7 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mPresenter.setView(this);
+        vIncomingCallEffect.startRippleAnimation();
         vProgress.setVisibility(View.VISIBLE);
         audioManager = (AudioManager) App.getInstance().getSystemService(Context.AUDIO_SERVICE);
         audioManager.setMode(AudioManager.MODE_IN_CALL);
@@ -209,7 +210,6 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
         vIncomingContainer.setVisibility(View.VISIBLE);
         mAudioPlayer = new AudioPlayer(getActivity());
         mAudioPlayer.playRingtone();
-        vIncomingCallEffect.show();
         onCallProgressing();
     }
 
@@ -219,11 +219,13 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
         if (room != null) {
             room.disconnect();
         }
+        vIncomingCallEffect.stopRippleAnimation();
         onCallEnded();
     }
 
     @OnClick(R.id.fragment_video_call_answer_button)
     protected void onAnswerClick() {
+        vIncomingCallEffect.stopRippleAnimation();
         mAudioPlayer.stopRingtone();
         vMuteButton.setSelected(audioManager.isMicrophoneMute());
         connectToRoom(roomName);
