@@ -16,7 +16,6 @@ import android.widget.Toast;
 import com.unidadcoronaria.doctorencasa.App;
 import com.unidadcoronaria.doctorencasa.R;
 import com.unidadcoronaria.doctorencasa.VideoCallView;
-import com.unidadcoronaria.doctorencasa.activity.MainActivity;
 import com.unidadcoronaria.doctorencasa.activity.NewCallActivity;
 import com.unidadcoronaria.doctorencasa.di.component.DaggerVideoCallComponent;
 import com.unidadcoronaria.doctorencasa.domain.AffiliateCallHistory;
@@ -96,7 +95,7 @@ public class VideoCallFragment extends BaseFragment<VideoCallPresenter> implemen
             vContainer.setVisibility(View.GONE);
             mPresenter.getAffiliateHistory();
         });
-        vRefresh.setColorSchemeResources(R.color.red);
+        vRefresh.setColorSchemeResources(R.color.colorAccent);
     }
 
     @OnClick(R.id.fragment_video_call_button)
@@ -245,7 +244,7 @@ public class VideoCallFragment extends BaseFragment<VideoCallPresenter> implemen
                     }).setCancelable(false);
 
             AlertDialog alertDialog = dialogConfirmBuilder.create();
-            alertDialog.setOnShowListener(dialog -> alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.red)));
+            alertDialog.setOnShowListener(dialog -> alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.colorAccent)));
             alertDialog.show();
         } else {
             Toast.makeText(getActivity(), "Hubo un error iniciando la consulta, por favor volvé a intentarlo.", Toast.LENGTH_LONG).show();

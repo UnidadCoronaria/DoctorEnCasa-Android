@@ -7,7 +7,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowLightStatusBar" tools:targetApi="23">true</item>
-        <item name="android:textColorSecondary">@color/greyLight</item>
+        <item name="android:textColorSecondary">@color/colorTextLight</item>
     </style>
 
 
@@ -22,9 +22,9 @@
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="Theme.AppCompat">
-        <item name="android:textColorPrimary">@color/red</item>
-        <item name="android:textColorSecondary">@color/red</item>
-        <item name="actionMenuTextColor">@color/red</item>
+        <item name="android:textColorPrimary">@color/colorAccent</item>
+        <item name="android:textColorSecondary">@color/colorAccent</item>
+        <item name="actionMenuTextColor">@color/colorAccent</item>
     </style>
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
@@ -41,24 +41,24 @@
 
     <!--Etiqueta flotante de Text Input-->
     <style name="AppTheme.FloatingLabel" parent="@android:style/TextAppearance">
-        <item name="android:textColor">@color/greyDark</item>
+        <item name="android:textColor">@color/colorTextDark</item>
         <item name="android:textSize">@dimen/text_size_medium</item>
     </style>
 
     <!--Campo de texto-->
     <style name="FormEditText" parent="AppTheme">
         <!-- cursor y línea normal-->
-        <item name="colorControlNormal">@color/grey</item>
+        <item name="colorControlNormal">@color/colorText</item>
         <!-- cursor y línea con foco-->
-        <item name="colorControlActivated">@color/grey</item>
+        <item name="colorControlActivated">@color/colorText</item>
         <item name="android:textSize">@dimen/text_size_medium</item>
-        <item name="android:textColorHint">@color/greyDark</item>
-        <item name="android:textColor">@color/greyDark</item>
+        <item name="android:textColorHint">@color/colorTextDark</item>
+        <item name="android:textColor">@color/colorTextDark</item>
     </style>
 
     <!-- mensaje de error debajo del EditText-->
     <style name="AppTheme.EditTextError">
-        <item name="android:textColor">@color/redDark</item>
+        <item name="android:textColor">@color/colorAccentDark</item>
         <item name="android:textSize">@dimen/text_size_small</item>
     </style>
 
@@ -74,13 +74,13 @@
 
     <!-- Card Title -->
     <style name="CardTitleEditText" >
-        <item name="android:textColor">@color/greyDark</item>
+        <item name="android:textColor">@color/colorTextDark</item>
         <item name="android:textSize">@dimen/text_size_large</item>
         <item name="android:textAlignment">center</item>
     </style>
 
     <style name="CardTextEditText">
-        <item name="android:textColor">@color/greyDark</item>
+        <item name="android:textColor">@color/colorTextDark</item>
         <item name="android:textSize">@dimen/text_size_medium</item>
         <item name="android:layout_width">match_parent</item>
     </style>

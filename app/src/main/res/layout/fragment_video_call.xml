@@ -80,7 +80,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginTop="10dp"
-                    android:background="@color/greyLight" />
+                    android:background="@color/colorTextLight" />
 
                 <com.unidadcoronaria.doctorencasa.view.CustomTextView
                     android:id="@+id/fragment_video_call_delay"

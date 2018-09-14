@@ -9,6 +9,7 @@
     <ProgressBar
         style="@style/AppTheme.ProgressBar"
         android:layout_centerInParent="true"
+        android:indeterminateTintMode="src_in"
         android:indeterminateTint="@color/colorPrimary" />
 
 </RelativeLayout>

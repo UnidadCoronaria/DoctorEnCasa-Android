@@ -52,7 +52,7 @@
                 android:layout_marginRight="24dp"
                 android:layout_marginTop="20dp"
                 android:text="@string/select_provider"
-                android:textColor="@color/red"
+                android:textColor="@color/colorAccent"
                 android:textSize="20sp"
                 app:visual_font_name="light" />
 
@@ -61,7 +61,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_below="@+id/fragment_select_provider_title"
-                android:background="@color/greyLight" />
+                android:background="@color/colorTextLight" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/fragment_select_provider_list"
@@ -75,7 +75,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_alignParentBottom="true"
-                android:background="@color/red"
+                android:background="@color/colorAccent"
                 android:orientation="horizontal">
 
                 <com.unidadcoronaria.doctorencasa.view.CustomTextView

@@ -108,7 +108,7 @@ public class ForgotPasswordFragment extends BaseFragment<ForgotPasswordPresenter
                 (dialog, which) -> getActivity().finish() ).setCancelable(false);
 
         AlertDialog alertDialog = dialogConfirmBuilder.create();
-        alertDialog.setOnShowListener(dialog -> alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.red)));
+        alertDialog.setOnShowListener(dialog -> alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.colorAccent)));
         alertDialog.show();
     }
 

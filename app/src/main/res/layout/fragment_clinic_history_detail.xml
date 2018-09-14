@@ -20,7 +20,7 @@
         <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
-            android:background="@color/red" />
+            android:background="@color/colorAccent" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -35,7 +35,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:textColor="@color/greyDark"
+                android:textColor="@color/colorTextDark"
                 android:textSize="18sp"
                 app:visual_font_name="light"
                 tools:text="Última consulta de Agustin Bala" />
@@ -45,7 +45,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:textColor="@color/greyDark"
+                android:textColor="@color/colorTextDark"
                 android:textSize="16sp"
                 app:visual_font_name="light"
                 tools:text="23/02/2018" />
@@ -54,7 +54,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="10dp"
-                android:background="@color/greyLight" />
+                android:background="@color/colorTextLight" />
 
 
             <com.unidadcoronaria.doctorencasa.view.CustomTextView
@@ -62,7 +62,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="@string/reason"
-                android:textColor="@color/greyDark"
+                android:textColor="@color/colorTextDark"
                 android:textSize="18sp"
                 app:visual_font_name="light" />
 
@@ -71,7 +71,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:textColor="@color/greyDark"
+                android:textColor="@color/colorTextDark"
                 android:textSize="16sp"
                 app:visual_font_name="light"
                 tools:text="Accumsan ad commodo cras curabitur erat est facilisis feugiat iaculis ipsum lacinia litora lorem mollis nam nec netus nostra platea posuere rhoncus" />
@@ -80,7 +80,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="10dp"
-                android:background="@color/greyLight" />
+                android:background="@color/colorTextLight" />
 
 
             <com.unidadcoronaria.doctorencasa.view.CustomTextView
@@ -88,7 +88,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="@string/anamnesis"
-                android:textColor="@color/greyDark"
+                android:textColor="@color/colorTextDark"
                 android:textSize="18sp"
                 app:visual_font_name="light" />
 
@@ -97,7 +97,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:textColor="@color/greyDark"
+                android:textColor="@color/colorTextDark"
                 android:textSize="16sp"
                 app:visual_font_name="light"
                 tools:text="Accumsan ad commodo cras curabitur erat est facilisis feugiat iaculis ipsum lacinia litora lorem mollis nam nec netus nostra platea posuere rhoncus" />
@@ -107,14 +107,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="10dp"
-                android:background="@color/greyLight" />
+                android:background="@color/colorTextLight" />
 
             <com.unidadcoronaria.doctorencasa.view.CustomTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="@string/recommendation"
-                android:textColor="@color/greyDark"
+                android:textColor="@color/colorTextDark"
                 android:textSize="18sp"
                 app:visual_font_name="light" />
 
@@ -123,7 +123,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:textColor="@color/greyDark"
+                android:textColor="@color/colorTextDark"
                 android:textSize="16sp"
                 app:visual_font_name="light"
                 tools:text="Accumsan ad commodo cras curabitur erat est facilisis feugiat iaculis ipsum lacinia litora lorem mollis nam nec netus nostra platea posuere rhoncus" />
@@ -132,14 +132,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="10dp"
-                android:background="@color/greyLight" />
+                android:background="@color/colorTextLight" />
 
             <com.unidadcoronaria.doctorencasa.view.CustomTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="@string/attended_by"
-                android:textColor="@color/greyDark"
+                android:textColor="@color/colorTextDark"
                 android:textSize="18sp"
                 app:visual_font_name="light" />
 
@@ -179,7 +179,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginTop="10dp"
                     android:layout_toRightOf="@+id/fragment_clinic_history_detail_doctor_image"
-                    android:textColor="@color/greyDark"
+                    android:textColor="@color/colorTextDark"
                     android:textSize="16sp"
                     app:visual_font_name="light"
                     tools:text="Dr Juan Perez" />

@@ -2,15 +2,11 @@ package com.unidadcoronaria.doctorencasa.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.CallSuper;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.unidadcoronaria.doctorencasa.App;
@@ -118,7 +114,7 @@ public class SelectProviderFragment extends BaseFragment<SelectProviderPresenter
                 (dialog, which) -> getActivity().finish() ).setCancelable(false);
 
         AlertDialog alertDialog = dialogConfirmBuilder.create();
-        alertDialog.setOnShowListener(dialog -> alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.red)));
+        alertDialog.setOnShowListener(dialog -> alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.colorAccent)));
         alertDialog.show();
     }
 

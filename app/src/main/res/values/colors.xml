@@ -3,18 +3,39 @@
     <color name="colorPrimary">@color/white</color>
     <color name="colorPrimaryDark">@color/white</color>
     <color name="colorAccent">@color/red</color>
+    <color name="colorAccentDark">@color/redDark</color>
+    <color name="colorAccentLight">@color/redLight</color>
+
+    <color name="gradientStart">@color/colorAccent</color>
+    <color name="gradientEnd">#f54a57</color>
+    <color name="greenGradientStart">#73c49b</color>
+    <color name="greenGradientEnd">#72d49b</color>
+
+    <color name="lightBackground">@color/pastel</color>
+
+    <color name="colorText">@color/grey</color>
+    <color name="colorTextLight">@color/greyLight</color>
+    <color name="colorTextDark">@color/greyDark</color>
+
+    <color name="white">#ffffff</color>
+    <color name="whiteDark">#fdfaf6</color>
+
+    <!-- Current version -->
     <color name="red">#f57a7e</color>
     <color name="redDark">#d3727a</color>
     <color name="redLight">#FFF7EFF0</color>
     <color name="grey">#bcbec2</color>
     <color name="greyLight">#ebebec</color>
     <color name="greyDark">#5a5d67</color>
-    <color name="white">#ffffff</color>
-    <color name="whiteDark">#fdfaf6</color>
-    <color name="gradientStart">#f57a7e</color>
-    <color name="gradientEnd">#f54a57</color>
-    <color name="greenGradientStart">#73c49b</color>
-    <color name="greenGradientEnd">#72d49b</color>
     <color name="pastel">#fff3e6</color>
+
+    <!-- New version -->
+    <color name="redGAM">#DA291C</color>
+    <color name="redDarkGAM">#c4122f</color>
+    <color name="blueGAM">#0060AA</color>
+    <color name="blueDarkGAM">#002E60</color>
+    <color name="blueLightGAM">#0087CB</color>
+    <color name="greyDarkGAM">#58585A</color>
+    <color name="greyGAM">#C6C7C9</color>
 
 </resources>

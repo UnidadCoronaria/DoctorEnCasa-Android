@@ -32,7 +32,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginRight="10dp"
-                    android:textColor="@color/greyDark"
+                    android:textColor="@color/colorTextDark"
                     android:textSize="18sp"
                     app:visual_font_name="regular"
                     tools:text="15/06/2017" />
@@ -41,7 +41,7 @@
                     android:id="@+id/item_clinic_history_doctor"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:textColor="@color/grey"
+                    android:textColor="@color/colorText"
                     android:textSize="16sp"
                     app:visual_font_name="light"
                     tools:text="Dr. Lorem ipsum" />
@@ -53,7 +53,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginTop="10dp"
-                android:textColor="@color/grey"
+                android:textColor="@color/colorText"
                 android:textSize="16sp"
                 app:visual_font_name="light"
                 tools:text="Dr. Lorem ipsum" />
@@ -64,7 +64,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginTop="10dp"
-                android:textColor="@color/grey"
+                android:textColor="@color/colorText"
                 android:textSize="16sp"
                 android:visibility="gone"
                 app:visual_font_name="light"
@@ -88,6 +88,6 @@
         android:layout_marginBottom="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginLeft="16dp"
-        android:background="@color/greyLight" />
+        android:background="@color/colorTextLight" />
 
 </LinearLayout>

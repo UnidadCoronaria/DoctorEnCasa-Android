@@ -45,12 +45,10 @@ android {
         minSdkVersion 17
         targetSdkVersion 27
         multiDexEnabled true
-        versionCode 20
-        versionName "0.0.1"
+        versionCode 23
+        versionName "0.0.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         buildConfigField "String", "BASE_URL", "\"https://dec.ucmq.com:60630/doctorencasaapi/\""
-        buildConfigField "String", "TWILIO_API_SID", "\"SKf0808a68404bb2f8a6fb41cc31badb66\""
-        buildConfigField "String", "TWILIO_API_SECRET", "\"e2s3ClOYu9mcNTR00KkmXrdkdYbwbN5h\""
     }
 
     dexOptions {

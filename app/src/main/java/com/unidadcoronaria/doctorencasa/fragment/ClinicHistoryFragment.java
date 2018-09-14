@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.unidadcoronaria.doctorencasa.App;
 import com.unidadcoronaria.doctorencasa.ClinicHistoryView;
@@ -22,10 +21,8 @@ import com.unidadcoronaria.doctorencasa.activity.ClinicHistoryDetailActivity;
 import com.unidadcoronaria.doctorencasa.adapter.ClinicHistoryAdapter;
 import com.unidadcoronaria.doctorencasa.di.component.DaggerClinicHistoryComponent;
 import com.unidadcoronaria.doctorencasa.dialog.SelectAffiliateDialog;
-import com.unidadcoronaria.doctorencasa.domain.Affiliate;
 import com.unidadcoronaria.doctorencasa.domain.ClinicHistory;
 import com.unidadcoronaria.doctorencasa.domain.GamAffiliate;
-import com.unidadcoronaria.doctorencasa.domain.VideoCall;
 import com.unidadcoronaria.doctorencasa.presenter.ClinicHistoryPresenter;
 
 import java.util.ArrayList;
@@ -102,7 +99,7 @@ public class ClinicHistoryFragment extends BaseFragment<ClinicHistoryPresenter> 
             vEmptyText.setVisibility(View.GONE);
             vEmptyImage.setVisibility(View.GONE);
         });
-        vRefresh.setColorSchemeResources(R.color.red);
+        vRefresh.setColorSchemeResources(R.color.colorAccent);
         vProgress.setVisibility(View.VISIBLE);
         mPresenter.init();
     }
@@ -165,7 +162,7 @@ public class ClinicHistoryFragment extends BaseFragment<ClinicHistoryPresenter> 
                         (dialog, which) -> dialog.dismiss() ).setCancelable(false);
 
                 AlertDialog alertDialog = dialogConfirmBuilder.create();
-                alertDialog.setOnShowListener(dialog -> alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.red)));
+                alertDialog.setOnShowListener(dialog -> alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.colorAccent)));
                 alertDialog.show();
             }
         }

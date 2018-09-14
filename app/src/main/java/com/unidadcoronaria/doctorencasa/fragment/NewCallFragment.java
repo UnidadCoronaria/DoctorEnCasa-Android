@@ -14,7 +14,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
@@ -28,12 +27,7 @@ import com.twilio.video.ConnectOptions;
 import com.twilio.video.LocalAudioTrack;
 import com.twilio.video.LocalParticipant;
 import com.twilio.video.LocalVideoTrack;
-import com.twilio.video.RemoteAudioTrack;
-import com.twilio.video.RemoteAudioTrackPublication;
-import com.twilio.video.RemoteDataTrack;
-import com.twilio.video.RemoteDataTrackPublication;
 import com.twilio.video.RemoteParticipant;
-import com.twilio.video.RemoteVideoTrack;
 import com.twilio.video.RemoteVideoTrackPublication;
 import com.twilio.video.Room;
 import com.twilio.video.RoomState;
@@ -55,7 +49,6 @@ import com.unidadcoronaria.doctorencasa.util.CameraCapturerCompat;
 import com.unidadcoronaria.doctorencasa.util.ProviderUtil;
 import com.unidadcoronaria.doctorencasa.util.SessionUtil;
 
-import java.util.Arrays;
 import java.util.Collections;
 
 import butterknife.BindView;
@@ -344,8 +337,8 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
 
             AlertDialog alertDialog = dialogConfirmBuilder.create();
             alertDialog.setOnShowListener(dialog -> {
-                alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.red));
-                alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.red));
+                alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.colorAccent));
+                alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.colorAccent));
             });
             alertDialog.show();
         }
@@ -783,10 +776,7 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
                 removeParticipantVideo(remoteVideoTrackPublication.getRemoteVideoTrack());
             }
         }
-        if (room.getRemoteParticipants().size() == 0) {
-            Log.d("RoomListener", "onCallEnded");
-            onCallEnded();
-        }
+        onCallEnded();
     }
 
     @Override

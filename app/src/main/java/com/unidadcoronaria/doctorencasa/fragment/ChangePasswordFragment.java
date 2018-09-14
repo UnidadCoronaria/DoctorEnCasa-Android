@@ -6,13 +6,11 @@ import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.unidadcoronaria.doctorencasa.App;
 import com.unidadcoronaria.doctorencasa.ChangePasswordView;
-import com.unidadcoronaria.doctorencasa.CreateAccountView;
 import com.unidadcoronaria.doctorencasa.LoadableActivity;
 import com.unidadcoronaria.doctorencasa.R;
 import com.unidadcoronaria.doctorencasa.activity.ChangePasswordActivity;
@@ -153,7 +151,7 @@ public class ChangePasswordFragment extends BaseFragment<ChangePasswordPresenter
                 }).setCancelable(false);
 
         AlertDialog alertDialog = dialogConfirmBuilder.create();
-        alertDialog.setOnShowListener(dialog -> alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.red)));
+        alertDialog.setOnShowListener(dialog -> alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.colorAccent)));
         alertDialog.show();
 
 

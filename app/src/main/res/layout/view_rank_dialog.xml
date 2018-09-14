@@ -15,7 +15,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:textSize="16sp"
-        android:textColor="@color/greyDark"
+        android:textColor="@color/colorTextDark"
         android:text="@string/rank_call" />
 
 
@@ -44,7 +44,7 @@
         app:visual_font_name="regular"
         android:layout_alignParentLeft="true"
         android:textSize="16sp"
-        android:textColor="@color/greyDark"
+        android:textColor="@color/colorTextDark"
         android:text="@string/add_comments" />
 
     <com.unidadcoronaria.doctorencasa.view.CustomFontEditText
@@ -71,7 +71,7 @@
             android:layout_weight="1"
             android:layout_width="0dp"
             android:textSize="16sp"
-            android:textColor="@color/greyDark"
+            android:textColor="@color/colorTextDark"
             android:text="@string/skip" />
 
         <Button
@@ -81,7 +81,7 @@
             android:layout_weight="1"
             android:layout_width="0dp"
             android:textSize="16sp"
-            android:textColor="@color/red"
+            android:textColor="@color/colorAccent"
             android:text="@string/send" />
 
     </LinearLayout>

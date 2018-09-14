@@ -1,7 +1,9 @@
 package com.unidadcoronaria.doctorencasa.fragment;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.view.View;
 import android.webkit.WebView;
 
 import com.unidadcoronaria.doctorencasa.App;
@@ -23,6 +25,9 @@ public class NewsFragment extends BaseFragment<NewsPresenter> {
     @BindView(R.id.webview)
     WebView webView;
 
+    @BindView(R.id.rl_progress)
+    View progress;
+
     @Override
     protected int makeContentViewResourceId() {
         return R.layout.fragment_news;
@@ -41,8 +46,15 @@ public class NewsFragment extends BaseFragment<NewsPresenter> {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        progress.setVisibility(View.VISIBLE);
         webView.loadUrl("http://www.ayudamedica.net/category/noticias/");
         webView.getSettings().setJavaScriptEnabled(true);
+        new Handler().postDelayed(() -> {
+            if(progress != null && webView != null){
+                progress.setVisibility(View.GONE);
+                webView.setVisibility(View.VISIBLE);
+            }
+        },5000);
     }
 
     public static NewsFragment newInstance() {

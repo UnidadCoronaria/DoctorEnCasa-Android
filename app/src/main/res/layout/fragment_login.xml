@@ -44,7 +44,7 @@
                 android:imeOptions="actionNext"
                 android:inputType="text"
                 android:maxLines="1"
-                android:textColor="@color/greyDark"
+                android:textColor="@color/colorTextDark"
                 android:theme="@style/FormEditText"
                 app:visual_font_name="light" />
 
@@ -69,7 +69,7 @@
                 android:inputType="textPassword"
                 android:maxLines="1"
                 app:visual_font_name="light"
-                android:textColor="@color/greyDark"
+                android:textColor="@color/colorTextDark"
                 android:theme="@style/FormEditText" />
 
         </android.support.design.widget.TextInputLayout>
@@ -91,7 +91,7 @@
             android:text="@string/forgot_password"
             app:visual_font_name="light"
             android:textSize="@dimen/text_size_small"
-            android:textColor="@color/greyDark" />
+            android:textColor="@color/colorTextDark" />
 
 
         <com.unidadcoronaria.doctorencasa.view.CustomTextView
@@ -102,7 +102,7 @@
             android:layout_centerHorizontal="true"
             android:textAlignment="center"
             android:text="@string/not_account_yet"
-            android:textColor="@color/redDark"
+            android:textColor="@color/colorAccentDark"
             android:layout_marginBottom="@dimen/create_account_margin"
             android:layout_marginTop="@dimen/create_account_margin"
             app:visual_font_name="light"

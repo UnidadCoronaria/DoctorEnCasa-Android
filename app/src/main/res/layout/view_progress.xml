@@ -10,6 +10,7 @@ android:visibility="gone">
     style="@style/AppTheme.ProgressBar"
     android:layout_centerInParent="true"
     android:clickable="true"
-    android:indeterminateTint="@color/red"/>
+    android:indeterminateTintMode="src_in"
+    android:indeterminateTint="@color/colorAccent"/>
 
 </RelativeLayout>

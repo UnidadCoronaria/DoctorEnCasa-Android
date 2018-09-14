@@ -28,7 +28,7 @@
                 android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:text="@string/change_password"
-                android:textColor="@color/greyDark"
+                android:textColor="@color/colorTextDark"
                 android:textSize="18sp"
                 app:visual_font_name="light" />
 
@@ -44,7 +44,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/greyLight" />
+            android:background="@color/colorTextLight" />
 
         <LinearLayout
             android:id="@+id/fragment_settings_terms_button"
@@ -62,7 +62,7 @@
                 android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:text="@string/terms"
-                android:textColor="@color/greyDark"
+                android:textColor="@color/colorTextDark"
                 android:textSize="18sp"
                 app:visual_font_name="light" />
 
@@ -77,7 +77,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/greyLight" />
+            android:background="@color/colorTextLight" />
 
         <LinearLayout
             android:id="@+id/fragment_settings_rate_app_button"
@@ -95,7 +95,7 @@
                 android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:text="@string/rate_app"
-                android:textColor="@color/greyDark"
+                android:textColor="@color/colorTextDark"
                 android:textSize="18sp"
                 app:visual_font_name="light" />
 
@@ -110,7 +110,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/greyLight" />
+            android:background="@color/colorTextLight" />
 
 
         <LinearLayout
@@ -129,7 +129,7 @@
                 android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:text="@string/logout"
-                android:textColor="@color/greyDark"
+                android:textColor="@color/colorTextDark"
                 android:textSize="18sp"
                 app:visual_font_name="light" />
 
@@ -144,7 +144,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/greyLight" />
+            android:background="@color/colorTextLight" />
 
 
     </LinearLayout>

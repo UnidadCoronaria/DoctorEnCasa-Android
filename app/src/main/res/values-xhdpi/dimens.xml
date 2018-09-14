@@ -1,6 +1,7 @@
 <resources>
     <dimen name="common_spacing">40dp</dimen>
     <dimen name="create_account_margin">15dp</dimen>
+    <dimen name="calling_effect_margin_top">30dp</dimen>
     <dimen name="button_corner_radius">20dp</dimen>
     <dimen name="button_width">145dp</dimen>
     <dimen name="button_height">48dp</dimen>

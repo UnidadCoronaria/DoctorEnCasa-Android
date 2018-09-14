@@ -2,15 +2,15 @@
     android:id="@+id/rl_progress"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#40000000"
+    android:background="@android:color/transparent"
     android:clickable="true"
     android:visibility="gone">
 
     <ProgressBar
         style="@style/AppTheme.ProgressBar"
         android:layout_centerInParent="true"
-        android:indeterminateTintMode="src_in"
         android:background="@android:color/transparent"
+        android:indeterminateTintMode="src_in"
         android:indeterminateTint="@color/colorAccent" />
 
 </RelativeLayout>

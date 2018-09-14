@@ -30,7 +30,7 @@ public class NotificationHelper {
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, callId)
                 .setSmallIcon(R.drawable.notification_icon)
-                .setContentTitle(context.getString(R.string.app_name)).setColor(ResourcesCompat.getColor(App.getInstance().getResources(), R.color.red, null))
+                .setContentTitle(context.getString(R.string.app_name)).setColor(ResourcesCompat.getColor(App.getInstance().getResources(), R.color.colorAccent, null))
                 .setAutoCancel(true).setContentText(text);
 
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
