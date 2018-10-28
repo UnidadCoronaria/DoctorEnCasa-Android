@@ -29,7 +29,7 @@ public abstract class BaseNavActivity extends BaseActivity implements NavBarView
     @BindView(R.id.bottom_navigation)
     BottomNavigationView vNavigationView;
 
-    private int currentTab = R.id.nav_videocall;
+    protected int currentTab = R.id.nav_videocall;
     private ClinicHistoryFragment clinicHistoryFragment;
 
     //region BaseActivity implementation

@@ -1,5 +1,6 @@
 package com.unidadcoronaria.doctorencasa.fragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -124,25 +125,18 @@ public class CreateUserFragment extends BaseFragment<CreateUserPresenter> implem
             mProvider = (Provider) getArguments().get(PROVIDER_KEY);
         }
         vTerms.setText(Html.fromHtml(getString(R.string.terms_accept)));
-        vAffiliateNumber.addTextChangedListener(new TextWatcher() {
+        vEmail.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length() > 4 && !s.toString().equals(mPreviousNumberValue)) {
-                    mPreviousNumberValue = s.toString();
-                    mPresenter.getAffiliateGroupData(vAffiliateNumber.getText().toString().split(" - ")[0], mProvider.getId());
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (hasFocus) {
+                    if (vAffiliateNumber.getText().length() > 1 && !vAffiliateNumber.getText().toString().equals(mPreviousNumberValue)) {
+                        mPreviousNumberValue = vAffiliateNumber.getText().toString();
+                        mPresenter.getAffiliateGroupData(vAffiliateNumber.getText().toString().split(" - ")[0], mProvider.getId());
+                    }
                 }
             }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
         });
+
     }
 
     @Override
@@ -234,8 +228,8 @@ public class CreateUserFragment extends BaseFragment<CreateUserPresenter> implem
     @Override
     public void onCreateUserSuccess() {
         Intent intent = MainActivity.getStartIntent(getActivity());
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
+        getActivity().setResult(Activity.RESULT_OK, intent);
         getActivity().finish();
     }
 

@@ -1,9 +1,13 @@
 package com.unidadcoronaria.doctorencasa.fragment;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
+import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,7 +34,7 @@ import butterknife.OnClick;
 public class LoginFragment extends BaseFragment<LoginPresenter> implements LoginView {
 
     public static final String TAG = "LoginFragment";
-
+    public static final int CALL_RESULT = 222;
 
     @BindView(R.id.fragment_login_username)
     protected TextView vUsername;
@@ -80,7 +84,7 @@ public class LoginFragment extends BaseFragment<LoginPresenter> implements Login
 
     @OnClick(R.id.fragment_login_create_account)
     public void createAccount(){
-        startActivity(CreateAccountActivity.getStartIntent(getActivity()));
+        startActivityForResult(CreateAccountActivity.getStartIntent(getActivity()), CALL_RESULT);
     }
 
     @Override
@@ -152,4 +156,11 @@ public class LoginFragment extends BaseFragment<LoginPresenter> implements Login
         vPassword.setText("");
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // Check which request we're responding to
+        if (requestCode == CALL_RESULT && resultCode == Activity.RESULT_OK) {
+            getActivity().finish();
+        }
+    }
 }

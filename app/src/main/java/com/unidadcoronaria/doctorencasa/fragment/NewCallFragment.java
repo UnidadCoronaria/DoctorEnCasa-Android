@@ -149,7 +149,7 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
         audioManager = (AudioManager) App.getInstance().getSystemService(Context.AUDIO_SERVICE);
         audioManager.setMode(AudioManager.MODE_IN_CALL);
         audioManager.setSpeakerphoneOn(true);
-        vMuteButton.setSelected(audioManager.isMicrophoneMute());
+        vMuteButton.setSelected(!audioManager.isMicrophoneMute());
         if (SessionUtil.isCallPending()) {
             roomName = SessionUtil.getRoomName();
             token = SessionUtil.getTwilioToken();
@@ -220,7 +220,7 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
     protected void onAnswerClick() {
         vIncomingCallEffect.stopRippleAnimation();
         mAudioPlayer.stopRingtone();
-        vMuteButton.setSelected(audioManager.isMicrophoneMute());
+        vMuteButton.setSelected(!audioManager.isMicrophoneMute());
         connectToRoom(roomName);
         SessionUtil.finishCall();
     }
@@ -346,7 +346,7 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
     }
 
     private void callToCentral() {
-        Intent callIntent = new Intent(Intent.ACTION_CALL);
+        Intent callIntent = new Intent(Intent.ACTION_DIAL);
         String tel = "tel:" + ProviderUtil.getTelephoneNumber();
 
         callIntent.setData(Uri.parse(tel));

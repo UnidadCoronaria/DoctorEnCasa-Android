@@ -2,7 +2,6 @@ package com.unidadcoronaria.doctorencasa.activity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -43,8 +42,7 @@ public class MainActivity extends BaseNavActivity implements MainView {
 
     public static Intent getStartIntent(Context context){
         Intent intent = new Intent(context, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         return intent;
     }
 
@@ -66,7 +64,7 @@ public class MainActivity extends BaseNavActivity implements MainView {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(!SessionUtil.isAuthenticated()){
+        if (!SessionUtil.isAuthenticated()) {
             logout();
         }
         setBackVisibilityInToolbar(false);
@@ -88,9 +86,9 @@ public class MainActivity extends BaseNavActivity implements MainView {
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
-        if(!SessionUtil.isCallPending()){
+        if (!SessionUtil.isCallPending()) {
             checkRateApp();
         }
         MainActivityPermissionsDispatcher.checkPermissionsWithPermissionCheck(this);
@@ -108,9 +106,9 @@ public class MainActivity extends BaseNavActivity implements MainView {
     @NeedsPermission({Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO, Manifest.permission.MODIFY_AUDIO_SETTINGS,
             Manifest.permission.READ_PHONE_STATE})
     protected void checkPermissions() {
-        if(SessionUtil.isCallPending()){
+        if (SessionUtil.isCallPending()) {
             VideoCallFragment instance = (VideoCallFragment) FragmentNavigationUtil.getFragment(getSupportFragmentManager(), VideoCallFragment.TAG);
-            if(instance != null){
+            if (instance != null) {
                 instance.startCallActivity();
             }
         }

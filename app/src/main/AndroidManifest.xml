@@ -49,7 +49,7 @@
         <activity android:name=".activity.LoginActivity"
             android:screenOrientation="portrait"/>
 
-        <activity android:name=".activity.MainActivity" android:launchMode="singleInstance" android:showOnLockScreen="true"
+        <activity android:name=".activity.MainActivity"  android:showOnLockScreen="true"
             android:screenOrientation="portrait"/>
 
         <activity android:name=".activity.ForgotPasswordActivity"
@@ -58,7 +58,7 @@
         <activity android:name=".activity.ChangePasswordActivity"
             android:screenOrientation="portrait"/>
 
-        <activity android:name=".activity.NewCallActivity" android:noHistory="true"
+        <activity android:name=".activity.NewCallActivity"
             android:theme="@style/AppTheme.NoActionBar.FullScreen"
             android:hardwareAccelerated="false"
             android:screenOrientation="portrait"/>

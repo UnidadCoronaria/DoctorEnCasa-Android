@@ -1,5 +1,5 @@
 <resources>
-    <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
+    <string name="default_notification_channel_id" translatable="false">channel_not_dec</string>
     <string name="app_name">Doctor en casa</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="i_am_affiliated">Soy Afiliado</string>
@@ -73,7 +73,7 @@
     <string name="new_consult">Sacá un turno para ser atendido por uno de nuestro doctores.</string>
     <string name="already_in_queue"><![CDATA[<b>¡Ya te encuentras en lista de espera!</b>\n Te llamaremos cuando haya un doctor disponible]]></string>
     <string name="there_is_a_doctor_for_you"><![CDATA[¡Ya hay un médico disponible para vos!\n¡Te va a estar llamando en cualquier momento!]]></string>
-    <string name="there_is_a_call_in_progress">Ya tenés una consulta en progreso!</string>
+    <string name="there_is_a_call_in_progress">¡Ya tenés una consulta en progreso!</string>
     <string name="clinic_history">VER MI HISTORIA CLINICA</string>
     <string name="use_your_device_meanwhile">Cuando sea tu turno, te vamos a avisar. Mientras tanto, podes seguir usando tu celular.</string>
     <string name="available_doctor">Hay doctores disponibles para atenderte ahora!</string>
