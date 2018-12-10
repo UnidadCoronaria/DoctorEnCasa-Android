@@ -1,20 +1,15 @@
 package com.unidadcoronaria.doctorencasa.service;
 
-import android.content.ComponentName;
-import android.content.Intent;
-import android.content.ServiceConnection;
-import android.os.IBinder;
 import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.unidadcoronaria.doctorencasa.App;
 import com.unidadcoronaria.doctorencasa.activity.MainActivity;
-import com.unidadcoronaria.doctorencasa.activity.NewCallActivity;
 import com.unidadcoronaria.doctorencasa.util.NotificationHelper;
 import com.unidadcoronaria.doctorencasa.util.SessionUtil;
 
-import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
+import java.util.Date;
 
 /**
  * Created by AGUSTIN.BALA on 11/11/2016.
@@ -23,7 +18,6 @@ import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 public class NotificationService extends FirebaseMessagingService {
 
     private static final String TAG = "NotificationService";
-    private RemoteMessage remoteMessage;
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
@@ -42,14 +36,15 @@ public class NotificationService extends FirebaseMessagingService {
 
         // Also if you intend on generating your own notifications as a result of a received FCM
         // message, here is where that should be initiated. See sendNotification method below.
-        this.remoteMessage = remoteMessage;
-        if (remoteMessage.getData().get("token") != null &&
+        if (remoteMessage.getData().get("type") != null && remoteMessage.getData().get("type").equals("nextInQueue")) {
+            NotificationHelper.showNotification(App.getInstance(), remoteMessage.getData().get("videocallId"), "Sos el siguiente en la fila, estate atento!");
+        } else if (remoteMessage.getData().get("token") != null &&
                 remoteMessage.getData().get("roomName") != null) {
             SessionUtil.saveRoomName(remoteMessage.getData().get("roomName"));
             SessionUtil.saveTwilioToken(remoteMessage.getData().get("token"));
             App.getInstance().startActivity(MainActivity.getStartIntent(App.getInstance()));
-        } else {
-            NotificationHelper.showNotification(App.getInstance(), remoteMessage.getData().get("videocallId").toString());
+        } else if (remoteMessage.getData().get("videocallId") != null) {
+            NotificationHelper.showNotification(App.getInstance(), remoteMessage.getData().get("videocallId"), "Es tu turno! El doctor te va a llamar en un instante.");
         }
 
     }

@@ -17,7 +17,7 @@ repositories {
     maven { url 'https://maven.fabric.io/public' }
     maven { url 'https://maven.google.com' }
     maven { url 'https://jitpack.io' }
-    maven { url 'https://oss.sonatype.org/content/repositories/snapshots/'}
+    maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
 }
 
 
@@ -43,39 +43,40 @@ android {
     defaultConfig {
         applicationId "com.unidadcoronaria.doctorencasa"
         minSdkVersion 17
-        targetSdkVersion 27
+        targetSdkVersion 28
         multiDexEnabled true
-        versionCode 26
-        versionName "0.0.3"
+        versionCode 30
+        versionName "0.0.6"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        buildConfigField "String", "BASE_URL", "\"https://dec.ucmq.com:60630/doctorencasaapi/\""
+
     }
 
     dexOptions {
         javaMaxHeapSize '4096m'
     }
 
-   compileOptions {
+    compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
     buildTypes {
-        buildTypes {
-            debug {
-                debuggable true
-                minifyEnabled false
-                ext.betaDistributionGroupAliases = "ucmq"
-                proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-                signingConfig signingConfigs.debug
-            }
-            release {
-                minifyEnabled false
-                proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-                signingConfig signingConfigs.release
-            }
+        debug {
+            buildConfigField "String", "BASE_URL", "\"https://decprueba.ucmq.com:60030/doctorencasaapi/\""
+            debuggable true
+            minifyEnabled false
+            ext.betaDistributionGroupAliases = "ucmq"
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
+        }
+        release {
+            buildConfigField "String", "BASE_URL", "\"https://dec.ucmq.com:60630/doctorencasaapi/\""
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
+
 }
 
 
@@ -101,13 +102,13 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.4.0-SNAPSHOT'
     implementation "com.squareup.retrofit2:adapter-rxjava2:2.4.0-SNAPSHOT"
     implementation 'com.squareup.okhttp3:logging-interceptor:3.6.0'
-    implementation ("com.github.ashokslsk:SquareRatingView:1.2"){
+    implementation("com.github.ashokslsk:SquareRatingView:1.2") {
         // if you don't use android.app.Fragment you can exclude support for them
         exclude module: "appcompat-v7"
     }
     implementation 'com.android.support:multidex:1.0.0'
     testImplementation 'junit:junit:4.12'
-    implementation("com.github.hotchemi:permissionsdispatcher:3.0.1"){
+    implementation("com.github.hotchemi:permissionsdispatcher:3.0.1") {
         // if you don't use android.app.Fragment you can exclude support for them
         exclude module: "support-v13"
     }

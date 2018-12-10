@@ -23,10 +23,9 @@ import com.unidadcoronaria.doctorencasa.activity.MainActivity;
 public class NotificationHelper {
 
 
-    public static void showNotification(Context context, String callId) {
+    public static void showNotification(Context context, String callId, String text) {
 
 
-        String text = "Es tu turno! El doctor te va a llamar en un instante.";
         NotificationManager mNotificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, callId)

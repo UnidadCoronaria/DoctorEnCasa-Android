@@ -90,7 +90,6 @@ public class CreateUserFragment extends BaseFragment<CreateUserPresenter> implem
     private Provider mProvider;
     private int mAffiliateGroupId;
     private CreateAccountView mCallback;
-    private String mPreviousNumberValue;
     private LoadableActivity mLoadableCallback;
 
 
@@ -125,14 +124,10 @@ public class CreateUserFragment extends BaseFragment<CreateUserPresenter> implem
             mProvider = (Provider) getArguments().get(PROVIDER_KEY);
         }
         vTerms.setText(Html.fromHtml(getString(R.string.terms_accept)));
-        vEmail.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean hasFocus) {
-                if (hasFocus) {
-                    if (vAffiliateNumber.getText().length() > 1 && !vAffiliateNumber.getText().toString().equals(mPreviousNumberValue)) {
-                        mPreviousNumberValue = vAffiliateNumber.getText().toString();
-                        mPresenter.getAffiliateGroupData(vAffiliateNumber.getText().toString().split(" - ")[0], mProvider.getId());
-                    }
+        vEmail.setOnFocusChangeListener((view, hasFocus) -> {
+            if (hasFocus) {
+                if (vAffiliateNumber.getText().length() > 1) {
+                    mPresenter.getAffiliateGroupData(vAffiliateNumber.getText().toString().split(" - ")[0], mProvider.getId());
                 }
             }
         });

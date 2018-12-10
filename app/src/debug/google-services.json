@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "574738011615",
+    "firebase_url": "https://doctorencasa-test.firebaseio.com",
+    "project_id": "doctorencasa-test",
+    "storage_bucket": "doctorencasa-test.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:574738011615:android:1c2369213112a123",
+        "android_client_info": {
+          "package_name": "com.unidadcoronaria.doctorencasa"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "574738011615-odpugpnt4a61vlvrdl4pn4rif09bca3k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyChVirJOazYOmn_6wdGB40CTg67vZTpVxY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
