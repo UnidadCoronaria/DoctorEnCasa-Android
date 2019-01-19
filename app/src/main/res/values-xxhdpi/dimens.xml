@@ -3,6 +3,7 @@
     <dimen name="create_account_margin">20dp</dimen>
     <dimen name="button_corner_radius">20dp</dimen>
     <dimen name="button_width">145dp</dimen>
+    <dimen name="button_large_width">165dp</dimen>
     <dimen name="button_height">48dp</dimen>
     <dimen name="text_size_small">14sp</dimen>
     <dimen name="text_size_medium">16sp</dimen>

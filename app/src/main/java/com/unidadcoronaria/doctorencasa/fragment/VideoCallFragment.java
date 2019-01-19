@@ -1,6 +1,7 @@
 package com.unidadcoronaria.doctorencasa.fragment;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -51,6 +52,9 @@ public class VideoCallFragment extends BaseFragment<VideoCallPresenter> implemen
     @BindView(R.id.fragment_video_call_button)
     protected Button vButton;
 
+    @BindView(R.id.fragment_video_cancel_button)
+    protected Button vCancelButton;
+
     @BindView(R.id.fragment_video_call_refresh)
     SwipeRefreshLayout vRefresh;
 
@@ -62,6 +66,8 @@ public class VideoCallFragment extends BaseFragment<VideoCallPresenter> implemen
 
     @BindView(R.id.fragment_video_call_separator)
     View vSeparator;
+
+    private Integer mVideocallId;
 
     @Override
     protected int makeContentViewResourceId() {
@@ -103,6 +109,23 @@ public class VideoCallFragment extends BaseFragment<VideoCallPresenter> implemen
         mPresenter.initCall();
     }
 
+    @OnClick(R.id.fragment_video_cancel_button)
+    protected void onCancelButtonClick() {
+        AlertDialog.Builder dialogConfirmBuilder = new AlertDialog.Builder(getActivity()).setMessage(R.string.cancel_call_confirm)
+                    .setPositiveButton(R.string.yes,
+                (dialog, which) -> {
+                    mPresenter.cancelCall(mVideocallId);
+                    dialog.dismiss();
+                }).setNegativeButton(R.string.no, (dialogInterface, i) -> dialogInterface.dismiss()).setCancelable(false);
+
+        AlertDialog alertDialog = dialogConfirmBuilder.create();
+        alertDialog.setOnShowListener(dialog ->  {
+            alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.colorAccent));
+            alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.colorAccent));
+        });
+        alertDialog.show();
+    }
+
     @Override
     public void onGetAffiliateCallHistorySuccess(AffiliateCallHistory affiliateCallHistory) {
         vProgress.setVisibility(View.GONE);
@@ -118,8 +141,11 @@ public class VideoCallFragment extends BaseFragment<VideoCallPresenter> implemen
                     || VideoCallStatus.CANCELADA.equals(affiliateCallHistory.getLastVideocall().getStatus())) {
                 vText.setText(getString(R.string.new_consult));
                 vButton.setVisibility(View.VISIBLE);
+                vCancelButton.setVisibility(View.GONE);
+                mVideocallId = null;
             } else {
                 vButton.setVisibility(View.GONE);
+                mVideocallId = affiliateCallHistory.getLastVideocall().getId();
                 if(VideoCallStatus.EN_COLA.equals(affiliateCallHistory.getLastVideocall().getStatus())){
                     //Si hay call activa y esta en cola
                     callInQueueView();
@@ -156,6 +182,7 @@ public class VideoCallFragment extends BaseFragment<VideoCallPresenter> implemen
         }
         vContainer.setVisibility(View.VISIBLE);
         vButton.setVisibility(View.GONE);
+        vCancelButton.setVisibility(View.VISIBLE);
         vText.setText(Html.fromHtml(getString(R.string.already_in_queue)));
     }
 
@@ -164,6 +191,7 @@ public class VideoCallFragment extends BaseFragment<VideoCallPresenter> implemen
             vProgress.setVisibility(View.GONE);
         }
         vContainer.setVisibility(View.VISIBLE);
+        vCancelButton.setVisibility(View.GONE);
         vText.setText(getString(R.string.there_is_a_doctor_for_you));
     }
 
@@ -172,6 +200,7 @@ public class VideoCallFragment extends BaseFragment<VideoCallPresenter> implemen
             vProgress.setVisibility(View.GONE);
         }
         vContainer.setVisibility(View.VISIBLE);
+        vCancelButton.setVisibility(View.GONE);
         vText.setText(getString(R.string.there_is_a_call_in_progress));
     }
 
@@ -185,6 +214,7 @@ public class VideoCallFragment extends BaseFragment<VideoCallPresenter> implemen
         vErrorText.setVisibility(View.VISIBLE);
         vSeparator.setVisibility(View.GONE);
         vButton.setVisibility(View.GONE);
+        vCancelButton.setVisibility(View.GONE);
         vInQueueDelay.setVisibility(View.GONE);
         vMainImage.setImageResource(R.drawable.no_connection);
         if (vRefresh.isRefreshing()){
@@ -214,7 +244,6 @@ public class VideoCallFragment extends BaseFragment<VideoCallPresenter> implemen
         vProgress.setVisibility(View.GONE);
         vContainer.setVisibility(View.VISIBLE);
         vInQueueDelay.setVisibility(View.GONE);
-
     }
 
     @Override
@@ -226,6 +255,7 @@ public class VideoCallFragment extends BaseFragment<VideoCallPresenter> implemen
     @Override
     public void onInitCallSuccess(VideoCall videoCall) {
         vProgress.setVisibility(View.GONE);
+        mVideocallId = videoCall.getId();
         callInQueueView();
     }
 
@@ -249,6 +279,27 @@ public class VideoCallFragment extends BaseFragment<VideoCallPresenter> implemen
         } else {
             Toast.makeText(getActivity(), "Hubo un error iniciando la consulta, por favor volvé a intentarlo.", Toast.LENGTH_LONG).show();
         }
+    }
+
+    @Override
+    public void onCancelSuccess() {
+        vProgress.setVisibility(View.GONE);
+        vContainer.setVisibility(View.VISIBLE);
+        mPresenter.getAffiliateHistory();
+    }
+
+    @Override
+    public void onCancelError() {
+        vProgress.setVisibility(View.GONE);
+        vContainer.setVisibility(View.VISIBLE);
+        AlertDialog.Builder dialogConfirmBuilder = new AlertDialog.Builder(getActivity()).setMessage(R.string.error_cancelling).setPositiveButton(R.string.ok,
+                (dialog, which) -> {
+                  dialog.dismiss();
+                }).setCancelable(false);
+
+        AlertDialog alertDialog = dialogConfirmBuilder.create();
+        alertDialog.setOnShowListener(dialog -> alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.colorAccent)));
+        alertDialog.show();
     }
 
     @Override

@@ -45,6 +45,8 @@
     <string name="new_password">Contraseña nueva</string>
     <string name="videocall_service_disabled">No tenés contratado el servicio de videollamadas. Comunicate con nuestro servicio de atención al cliente para contratar este servicio.</string>
     <string name="repeat_new_password">Volvé a ingresar la contraseña nueva</string>
+    <string name="error_cancelling">Hubo un error cancelando el turno, intentelo nuevamente más tarde.</string>
+    <string name="cancel_call_confirm">¿Estás seguro de cancelar el turno?</string>
     <string name="updated_password">La contraseña fue actualizada correctamente. Usá la contraseña seleccionada la próxima vez que ingreses a la aplicación.</string>
     <string name="permissions_need_acepted">Es necesario que aceptes todos los permisos para poder realizar la videollamada</string>
     <string name="videocall_not_available">La consulta ya no está disponible, por favor volvé a sacar turno para ser atendido.</string>
@@ -66,6 +68,7 @@
     <string name="calls_quantity">Realizaste %1$d consultas en los últimos 30 días</string>
     <string name="queue_delay">Existe una demora de %1$s para ser atendido</string>
     <string name="init_call">SACAR TURNO</string>
+    <string name="cancel_call">CANCELAR TURNO</string>
     <string name="in_queue_no_delay">¡Hay médicos disponibles para atenderte en este momento!</string>
     <string name="in_queue_no_doctor">¡Hay una espera estimada de 10 minutos!</string>
     <string name="in_queue_delay"><![CDATA[La demora estimada para que el doctor te atienda es de <b>%1$s.</b>]]></string>

@@ -194,6 +194,15 @@
         android:visibility="gone"
         tools:visibility="gone">
 
+
+
+        <com.twilio.video.VideoView
+            android:id="@+id/call_frame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:orientation="vertical" />
+
         <com.twilio.video.VideoView
             android:id="@+id/call_self_camera"
             android:layout_width="90dp"
@@ -201,13 +210,6 @@
             android:layout_marginTop="10dp"
             android:layout_marginRight="10dp"
             android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:orientation="vertical" />
-
-        <com.twilio.video.VideoView
-            android:id="@+id/call_frame"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
             android:layout_alignParentTop="true"
             android:orientation="vertical" />
 

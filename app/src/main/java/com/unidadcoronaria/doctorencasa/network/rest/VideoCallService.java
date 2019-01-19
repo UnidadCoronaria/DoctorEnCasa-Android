@@ -38,6 +38,9 @@ public interface VideoCallService {
 
     @GET("videocall/{videocallId}")
     Single<VideoCall> getVideocall(@Path("videocallId") int mVideocallId);
+
+    @POST("videocall/cancel")
+    Single<VideoCall> cancel(@Body VideoCallDTO videoCallDTO);
 }
 
 

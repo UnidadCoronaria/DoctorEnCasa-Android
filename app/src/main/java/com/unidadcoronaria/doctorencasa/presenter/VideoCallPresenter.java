@@ -7,6 +7,8 @@ import com.unidadcoronaria.doctorencasa.VideoCallView;
 import com.unidadcoronaria.doctorencasa.domain.AffiliateCallHistory;
 import com.unidadcoronaria.doctorencasa.domain.Queue;
 import com.unidadcoronaria.doctorencasa.domain.VideoCall;
+import com.unidadcoronaria.doctorencasa.dto.VideoCallDTO;
+import com.unidadcoronaria.doctorencasa.usecase.network.CancelCallUseCase;
 import com.unidadcoronaria.doctorencasa.usecase.network.CreateCallUseCase;
 import com.unidadcoronaria.doctorencasa.usecase.network.GetAffiliateCallHistoryUseCase;
 import com.unidadcoronaria.doctorencasa.usecase.network.GetQueueStatusUseCase;
@@ -16,6 +18,8 @@ import com.unidadcoronaria.doctorencasa.util.ErrorUtil;
 import com.unidadcoronaria.doctorencasa.util.SessionUtil;
 
 import javax.inject.Inject;
+
+import io.reactivex.functions.Consumer;
 
 /**
  * Created by AGUSTIN.BALA on 5/21/2017.
@@ -29,6 +33,7 @@ public class VideoCallPresenter extends BasePresenter<VideoCallView> {
     private CreateCallUseCase mCreateCallUseCase;
     private UpdateFCMTokenUseCase mUpdateFCMTokenUseCase;
     private RankCallUseCase mRankCallUseCase;
+    private CancelCallUseCase mCancelCallUseCase;
 
     final Handler handler = new Handler();
     private Boolean isListeningUpdates = Boolean.FALSE;
@@ -38,12 +43,14 @@ public class VideoCallPresenter extends BasePresenter<VideoCallView> {
                               GetQueueStatusUseCase mGetQueueStatusUseCase,
                               CreateCallUseCase mCreateCallUseCase,
                               UpdateFCMTokenUseCase mUpdateFCMTokenUseCase,
-                              RankCallUseCase mRankCallUseCase) {
+                              RankCallUseCase mRankCallUseCase,
+                              CancelCallUseCase cancelCallUseCase) {
         this.mGetAffiliateCallHistoryUseCase = mGetAffiliateCallHistoryUseCase;
         this.mGetQueueStatusUseCase = mGetQueueStatusUseCase;
         this.mCreateCallUseCase = mCreateCallUseCase;
         this.mUpdateFCMTokenUseCase = mUpdateFCMTokenUseCase;
         this.mRankCallUseCase = mRankCallUseCase;
+        this.mCancelCallUseCase = cancelCallUseCase;
     }
 
 
@@ -75,6 +82,7 @@ public class VideoCallPresenter extends BasePresenter<VideoCallView> {
         mGetAffiliateCallHistoryUseCase.unsubscribe();
         mUpdateFCMTokenUseCase.unsubscribe();
         mRankCallUseCase.unsubscribe();
+        mCancelCallUseCase.unsubscribe();
     }
 
     public void listenQueueUpdates() {
@@ -135,4 +143,15 @@ public class VideoCallPresenter extends BasePresenter<VideoCallView> {
         });
     }
 
+    public void cancelCall(Integer mVideocallId) {
+        view.onGetDataStart();
+        VideoCallDTO dto = new VideoCallDTO();
+        dto.setVideocallId(mVideocallId);
+        mCancelCallUseCase.setCurrentVideocall(dto);
+        mCancelCallUseCase.execute(o ->
+                        view.onCancelSuccess()
+                , throwable ->
+                    view.onCancelError()
+                );
+    }
 }

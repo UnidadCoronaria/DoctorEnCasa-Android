@@ -26,4 +26,8 @@ public interface VideoCallView extends BaseView {
     void onInitCallError(GenericResponseDTO response);
 
     void logout();
+
+    void onCancelSuccess();
+
+    void onCancelError();
 }

@@ -52,4 +52,8 @@ public class VideoCallRepository {
     public Single<VideoCall> getVideocall(int mVideocallId) {
         return mVideoCallService.getVideocall(mVideocallId);
     }
+
+    public Single<VideoCall> cancel(VideoCallDTO dto) {
+        return mVideoCallService.cancel(dto);
+    }
 }

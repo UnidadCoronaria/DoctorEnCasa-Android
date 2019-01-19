@@ -67,6 +67,16 @@
                     android:layout_marginTop="@dimen/new_call_margin_top"
                     android:text="@string/init_call" />
 
+                <Button
+                    android:id="@+id/fragment_video_cancel_button"
+                    style="@style/FormButton"
+                    android:layout_gravity="center"
+                    android:visibility="gone"
+                    android:layout_width="@dimen/button_large_width"
+                    android:layout_height="@dimen/button_height"
+                    android:layout_marginTop="@dimen/new_call_margin_top"
+                    android:text="@string/cancel_call" />
+
 
                 <View
                     android:layout_width="match_parent"
