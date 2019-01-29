@@ -209,11 +209,14 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
 
     @OnClick(R.id.fragment_video_call_hangup_button)
     protected void onHangoutClick() {
-        if (room != null) {
-            room.disconnect();
+        if (vButtonContainer.getVisibility() != View.GONE){
+            if (room != null) {
+                room.disconnect();
+            }
+            vIncomingCallEffect.stopRippleAnimation();
+            onCallEnded();
         }
-        vIncomingCallEffect.stopRippleAnimation();
-        onCallEnded();
+
     }
 
     @OnClick(R.id.fragment_video_call_answer_button)
@@ -227,7 +230,7 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
 
     @OnClick(R.id.call_frame)
     protected void onVideoClick() {
-        if (vButtonContainer.getVisibility() == View.INVISIBLE) {
+        if (vButtonContainer.getVisibility() == View.GONE) {
             showInAnimation(vButtonContainer);
         }
         startHideButtonsHandler();
@@ -242,7 +245,7 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
 
     @OnClick(R.id.fragment_video_call_switch_video)
     protected void onSwitchCamera() {
-        if (cameraCapturerCompat != null) {
+        if (vButtonContainer.getVisibility() != View.GONE && cameraCapturerCompat != null) {
             CameraCapturer.CameraSource cameraSource = cameraCapturerCompat.getCameraSource();
             cameraCapturerCompat.switchCamera();
             vSelfCamera.setMirror(cameraSource == CameraCapturer.CameraSource.BACK_CAMERA);
@@ -252,17 +255,24 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
 
     @OnClick(R.id.fragment_video_call_stop_video)
     protected void onStopVideo() {
-        if (localVideoTrack != null) {
-            boolean enable = !localVideoTrack.isEnabled();
-            localVideoTrack.enable(enable);
-            vStopVideoButton.setSelected(enable);
-            startHideButtonsHandler();
+        if (vButtonContainer.getVisibility() != View.GONE) {
+            if (localVideoTrack != null) {
+                boolean enable = !localVideoTrack.isEnabled();
+                localVideoTrack.enable(enable);
+                if (enable) {
+                    vSelfCamera.setVisibility(View.VISIBLE);
+                } else{
+                    vSelfCamera.setVisibility(View.GONE);
+                }
+                vStopVideoButton.setSelected(enable);
+                startHideButtonsHandler();
+            }
         }
     }
 
     @OnClick(R.id.fragment_video_call_mute)
     protected void onMuteClick() {
-        if (localAudioTrack != null) {
+        if (vButtonContainer.getVisibility() != View.GONE && localAudioTrack != null) {
             boolean enable = !localAudioTrack.isEnabled();
             localAudioTrack.enable(enable);
             vMuteButton.setSelected(enable);
@@ -436,7 +446,7 @@ public class NewCallFragment extends BaseFragment<NewCallPresenter> implements N
         animate.setDuration(500);
         animate.setFillAfter(true);
         view.startAnimation(animate);
-        view.setVisibility(View.INVISIBLE);
+        view.setVisibility(View.GONE);
     }
 
     private void resetView() {
