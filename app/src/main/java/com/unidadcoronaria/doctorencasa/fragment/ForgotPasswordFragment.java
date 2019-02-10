@@ -95,9 +95,9 @@ public class ForgotPasswordFragment extends BaseFragment<ForgotPasswordPresenter
     public void onForgotPasswordError(GenericResponseDTO errorResponse) {
         mCallback.hideProgress();
         if(errorResponse.getCode() == 1004){
-            Toast.makeText(getActivity(), "El mail ingresado no tiene una cuenta asociada.", Toast.LENGTH_LONG).show();
+            showDialog("El mail ingresado no tiene una cuenta asociada.");
         } else {
-            Toast.makeText(getActivity(), "Hubo un error intentando recuperar la contraseña. Por favor, intentelo nuevamente.", Toast.LENGTH_LONG).show();
+            showDialog("Hubo un error intentando recuperar la contraseña. Por favor, intentelo nuevamente.");
         }
     }
 
@@ -118,6 +118,15 @@ public class ForgotPasswordFragment extends BaseFragment<ForgotPasswordPresenter
             InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
+    }
+
+    private void showDialog(String message){
+        AlertDialog.Builder dialogConfirmBuilder = new AlertDialog.Builder(getActivity()).setMessage(message).setPositiveButton(R.string.ok,
+                (dialog, which) -> {}).setCancelable(false);
+
+        AlertDialog alertDialog = dialogConfirmBuilder.create();
+        alertDialog.setOnShowListener(dialog -> alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.colorAccent)));
+        alertDialog.show();
     }
 
 }

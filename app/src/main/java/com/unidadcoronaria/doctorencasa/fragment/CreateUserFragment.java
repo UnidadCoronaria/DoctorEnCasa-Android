@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.design.widget.TextInputLayout;
+import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
@@ -22,6 +23,7 @@ import com.unidadcoronaria.doctorencasa.CreateAccountView;
 import com.unidadcoronaria.doctorencasa.LoadableActivity;
 import com.unidadcoronaria.doctorencasa.R;
 import com.unidadcoronaria.doctorencasa.AffiliateDataView;
+import com.unidadcoronaria.doctorencasa.activity.ChangePasswordActivity;
 import com.unidadcoronaria.doctorencasa.activity.MainActivity;
 import com.unidadcoronaria.doctorencasa.activity.TermsAndConditionsActivity;
 import com.unidadcoronaria.doctorencasa.di.component.DaggerCreateAccountComponent;
@@ -29,6 +31,7 @@ import com.unidadcoronaria.doctorencasa.domain.Affiliate;
 import com.unidadcoronaria.doctorencasa.domain.Provider;
 import com.unidadcoronaria.doctorencasa.dto.GenericResponseDTO;
 import com.unidadcoronaria.doctorencasa.presenter.CreateUserPresenter;
+import com.unidadcoronaria.doctorencasa.util.SessionUtil;
 
 import java.util.List;
 
@@ -172,7 +175,7 @@ public class CreateUserFragment extends BaseFragment<CreateUserPresenter> implem
             mPresenter.createAccount(mAffiliateGroupId, mProvider.getId(),
                     vEmail.getText().toString(), vPassword.getText().toString(), vPasswordRepeat.getText().toString(), vEmail.getText().toString(), vCheckTerms.isChecked());
         } else {
-            Toast.makeText(getActivity(), "El número de socio no existe para la empresa seleccionada.", Toast.LENGTH_LONG).show();
+            showDialog("El número de socio no existe para la empresa seleccionada.");
         }
     }
 
@@ -232,11 +235,11 @@ public class CreateUserFragment extends BaseFragment<CreateUserPresenter> implem
     public void onCreateUserError(GenericResponseDTO errorResponse) {
         mLoadableCallback.hideProgress();
         if (errorResponse.getCode() == 1000 || errorResponse.getCode() == 1001) {
-            Toast.makeText(getActivity(), "El mail ya se encuentra registrado.", Toast.LENGTH_LONG).show();
+            showDialog("El mail ya se encuentra registrado.");
         } else if (errorResponse.getCode() == 1002) {
-            Toast.makeText(getActivity(), "El afiliado ya tiene una cuenta asociada.", Toast.LENGTH_LONG).show();
+            showDialog("El afiliado ya tiene una cuenta asociada.");
         } else {
-            Toast.makeText(getActivity(), "Hubo un error guardando la información del usuario. Por favor, intentelo nuevamente.", Toast.LENGTH_LONG).show();
+            showDialog("Hubo un error guardando la información del usuario. Por favor, intentelo nuevamente.");
         }
 
     }
@@ -273,7 +276,7 @@ public class CreateUserFragment extends BaseFragment<CreateUserPresenter> implem
 
     @Override
     public void notAcceptedTerms() {
-        Toast.makeText(getActivity(), "No te olvides de aceptar los términos y condiciones", Toast.LENGTH_LONG).show();
+        showDialog("No te olvides de aceptar los términos y condiciones");
     }
 
     private void setEmptyErrorMessage(int viewId) {
@@ -309,6 +312,15 @@ public class CreateUserFragment extends BaseFragment<CreateUserPresenter> implem
             InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
+    }
+
+    private void showDialog(String message){
+        AlertDialog.Builder dialogConfirmBuilder = new AlertDialog.Builder(getActivity()).setMessage(message).setPositiveButton(R.string.ok,
+                (dialog, which) -> {}).setCancelable(false);
+
+        AlertDialog alertDialog = dialogConfirmBuilder.create();
+        alertDialog.setOnShowListener(dialog -> alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.colorAccent)));
+        alertDialog.show();
     }
 
 }

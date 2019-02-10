@@ -161,9 +161,9 @@ public class ChangePasswordFragment extends BaseFragment<ChangePasswordPresenter
     public void onChangePasswordError(GenericResponseDTO errorResponse) {
         mCallback.hideProgress();
         if(errorResponse.getCode() == 1003){
-            Toast.makeText(getActivity(), "La contraseña ingresada es incorrecta.", Toast.LENGTH_LONG).show();
+            showDialog("La contraseña ingresada es incorrecta.");
         } else {
-            Toast.makeText(getActivity(), "Hubo un error actualizando la información del usuario. Por favor, intentelo nuevamente.", Toast.LENGTH_LONG).show();
+            showDialog("Hubo un error actualizando la información del usuario. Por favor, intentelo nuevamente.");
         }
     }
 
@@ -197,6 +197,15 @@ public class ChangePasswordFragment extends BaseFragment<ChangePasswordPresenter
             view.setErrorEnabled(false);
             view.setError(null);
         });
+    }
+
+    private void showDialog(String message){
+        AlertDialog.Builder dialogConfirmBuilder = new AlertDialog.Builder(getActivity()).setMessage(message).setPositiveButton(R.string.ok,
+                (dialog, which) -> {}).setCancelable(false);
+
+        AlertDialog alertDialog = dialogConfirmBuilder.create();
+        alertDialog.setOnShowListener(dialog -> alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.colorAccent)));
+        alertDialog.show();
     }
 
 }
